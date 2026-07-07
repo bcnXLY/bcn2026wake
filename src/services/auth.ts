@@ -57,7 +57,7 @@ let pendingChannel: OtpChannel = 'email';
 export async function getLoginChannels(id: string): Promise<LoginChannels> {
   const res = await fetch(`${config.apiBaseUrl}/login/channels?id=${encodeURIComponent(id)}`);
   if (res.status === 404) throw new AuthError('unknownId');
-  if (!res.ok) throw new AuthError('generic');
+  if (!res.ok) throw new AuthError('genericError');
   return res.json();
 }
 
@@ -91,7 +91,7 @@ export function startLogin(id: string, channel: OtpChannel): Promise<void> {
         } else if (err?.code === 'UserNotFoundException') {
           reject(new AuthError('unknownId'));
         } else {
-          reject(new AuthError('generic', err?.message));
+          reject(new AuthError('genericError', err?.message));
         }
       },
     });
@@ -104,7 +104,7 @@ export function startLogin(id: string, channel: OtpChannel): Promise<void> {
  * re-presents the challenge (Cognito allows a few tries) → AuthError('invalidCode').
  */
 export function submitOtp(code: string): Promise<CognitoUserSession> {
-  if (!pendingUser) return Promise.reject(new AuthError('generic'));
+  if (!pendingUser) return Promise.reject(new AuthError('genericError'));
   const user = pendingUser;
   return new Promise((resolve, reject) => {
     user.sendCustomChallengeAnswer(
@@ -152,7 +152,6 @@ export function profileFromSession(session: CognitoUserSession): UserProfile {
       const arr = JSON.parse(raw);
       return Array.isArray(arr) ? arr.map(String) : [];
     } catch {
-      // Tolerate a plain delimited string too.
       return raw.split(/[;,]/).map((s) => s.trim()).filter(Boolean);
     }
   };
