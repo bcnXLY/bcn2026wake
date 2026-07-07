@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "BCN 2026 Wake",
+    "tagline": "您的活动助手"
+  },
+  "login": {
+    "title": "登录",
+    "idLabel": "参会者 ID",
+    "idPlaceholder": "例如 BCN-001",
+    "passwordLabel": "密码",
+    "passwordPlaceholder": "您的密码",
+    "continue": "继续",
+    "signIn": "登录",
+    "verifyLogin": "验证并登录",
+    "firstTimeHint": "输入您的参会者 ID，我们将发送一次性验证码。",
+    "otpLabel": "一次性验证码",
+    "otpPlaceholder": "6 位验证码",
+    "otpSentEmail": "验证码已发送至您注册的邮箱。",
+    "otpSentSms": "验证码已发送至您注册的手机。",
+    "newPasswordLabel": "设置密码",
+    "confirmPasswordLabel": "确认密码",
+    "setPassword": "设置密码并进入",
+    "verify": "验证",
+    "resendCode": "重新发送验证码",
+    "resendIn": "{{seconds}} 秒后可重新发送",
+    "chooseChannel": "您希望通过哪种方式接收一次性验证码？",
+    "channelEmail": "邮箱",
+    "channelSms": "短信（SMS）",
+    "cooldown": "请稍候再申请新的验证码。",
+    "passwordMismatch": "两次输入的密码不一致。",
+    "passwordWeak": "至少 8 位，包含数字和字母。",
+    "invalidCredentials": "ID 或密码错误。",
+    "unknownId": "名单中没有该 ID。",
+    "invalidCode": "验证码无效或已过期。",
+    "genericError": "出现问题，请重试。"
+  },
+  "nav": {
+    "profile": "个人",
+    "schedule": "日程",
+    "gallery": "相册",
+    "contacts": "联系"
+  },
+  "header": {
+    "team": "团队",
+    "language": "语言",
+    "signOut": "退出登录"
+  },
+  "profile": {
+    "title": "个人信息",
+    "name": "姓名",
+    "id": "参会者 ID",
+    "email": "邮箱",
+    "phone": "电话",
+    "team": "团队",
+    "links": "我的链接"
+  },
+  "schedule": {
+    "title": "日程",
+    "now": "进行中",
+    "upcoming": "即将开始",
+    "past": "已结束",
+    "empty": "暂无安排的活动。"
+  },
+  "gallery": {
+    "title": "相册",
+    "albums": "相册集",
+    "empty": "暂无照片 — 请稍后再来。",
+    "loadError": "无法加载照片。",
+    "openDrive": "在 Google 云端硬盘中打开"
+  },
+  "contacts": {
+    "title": "紧急联系人",
+    "call": "拨打",
+    "empty": "暂无联系人。"
+  },
+  "push": {
+    "enable": "开启活动提醒",
+    "enabled": "提醒已开启",
+    "prompt": "接收实时更新与日程变更通知。"
+  },
+  "common": {
+    "loading": "加载中…",
+    "retry": "重试"
+  }
+}

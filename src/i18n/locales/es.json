@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "BCN 2026 Wake",
+    "tagline": "Tu compañero del evento"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "idLabel": "ID de asistente",
+    "idPlaceholder": "ej. BCN-001",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "Tu contraseña",
+    "continue": "Continuar",
+    "signIn": "Entrar",
+    "verifyLogin": "Verificar y entrar",
+    "firstTimeHint": "Ingresa tu ID de asistente y te enviaremos un código de un solo uso.",
+    "otpLabel": "Código de un solo uso",
+    "otpPlaceholder": "Código de 6 dígitos",
+    "otpSentEmail": "Enviamos un código a tu correo registrado.",
+    "otpSentSms": "Enviamos un código a tu teléfono registrado.",
+    "newPasswordLabel": "Crear contraseña",
+    "confirmPasswordLabel": "Confirmar contraseña",
+    "setPassword": "Guardar contraseña y entrar",
+    "verify": "Verificar",
+    "resendCode": "Reenviar código",
+    "resendIn": "Reenviar en {{seconds}}s",
+    "chooseChannel": "¿Cómo quieres recibir tu código de un solo uso?",
+    "channelEmail": "Correo electrónico",
+    "channelSms": "Mensaje de texto (SMS)",
+    "cooldown": "Espera antes de solicitar otro código.",
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "passwordWeak": "Usa al menos 8 caracteres, con un número y una letra.",
+    "invalidCredentials": "ID o contraseña incorrectos.",
+    "unknownId": "Ese ID no está en la lista.",
+    "invalidCode": "Ese código es inválido o expiró.",
+    "genericError": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "nav": {
+    "profile": "Perfil",
+    "schedule": "Agenda",
+    "gallery": "Galería",
+    "contacts": "Contactos"
+  },
+  "header": {
+    "team": "Equipo",
+    "language": "Idioma",
+    "signOut": "Cerrar sesión"
+  },
+  "profile": {
+    "title": "Información personal",
+    "name": "Nombre",
+    "id": "ID de asistente",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "team": "Equipo",
+    "links": "Mis enlaces"
+  },
+  "schedule": {
+    "title": "Agenda",
+    "now": "AHORA",
+    "upcoming": "Próximo",
+    "past": "Hecho",
+    "empty": "Aún no hay actividades programadas."
+  },
+  "gallery": {
+    "title": "Galería",
+    "albums": "Álbumes",
+    "empty": "Aún no hay fotos — vuelve pronto.",
+    "loadError": "No se pudieron cargar las fotos.",
+    "openDrive": "Abrir en Google Drive"
+  },
+  "contacts": {
+    "title": "Contactos de emergencia",
+    "call": "Llamar",
+    "empty": "No hay contactos disponibles."
+  },
+  "push": {
+    "enable": "Activar alertas del evento",
+    "enabled": "Alertas activadas",
+    "prompt": "Recibe avisos sobre novedades y cambios de agenda."
+  },
+  "common": {
+    "loading": "Cargando…",
+    "retry": "Reintentar"
+  }
+}

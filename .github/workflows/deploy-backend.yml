@@ -1,0 +1,53 @@
+name: Deploy Backend (SAM)
+
+# Deploys the Cognito pool, DynamoDB OTP table, and Lambda API.
+# Run manually — infrastructure rarely changes during a 1-week event.
+on:
+  workflow_dispatch:
+    inputs:
+      ses_from_address:
+        description: Verified SES sender address for OTP emails
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install AWS SAM CLI
+        run: pip install aws-sam-cli
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: SAM build
+        working-directory: infra
+        run: sam build
+
+      - name: SAM deploy
+        working-directory: infra
+        run: |
+          sam deploy \
+            --stack-name bcn2026-backend \
+            --resolve-s3 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides SesFromAddress="${{ github.event.inputs.ses_from_address }}"
+
+      - name: Show outputs
+        run: |
+          aws cloudformation describe-stacks \
+            --stack-name bcn2026-backend \
+            --query "Stacks[0].Outputs" --output table

@@ -1,0 +1,5 @@
+id,name,email,phone,team_name,links
+BCN-001,Alex Rivera,alex.rivera@example.com,+34600111001,Team Aurora,"[{""label"":""LinkedIn"",""url"":""https://linkedin.com/in/alexrivera""}]"
+BCN-002,Mei Chen,mei.chen@example.com,+34600111002,Team Aurora,"[]"
+BCN-003,Carlos Gómez,carlos.gomez@example.com,+34600111003,Team Nebula,"[{""label"":""Portfolio"",""url"":""https://carlos.dev""}]"
+BCN-004,Priya Patel,priya.patel@example.com,+34600111004,Team Nebula,"[]"

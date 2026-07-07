@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "BCN 2026 Wake",
+    "tagline": "Your event companion"
+  },
+  "login": {
+    "title": "Sign in",
+    "idLabel": "Attendee ID",
+    "idPlaceholder": "e.g. BCN-001",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Your password",
+    "continue": "Continue",
+    "signIn": "Sign in",
+    "verifyLogin": "Verify & sign in",
+    "firstTimeHint": "Enter your attendee ID and we'll send you a one-time code.",
+    "otpLabel": "One-time code",
+    "otpPlaceholder": "6-digit code",
+    "otpSentEmail": "We sent a code to your registered email.",
+    "otpSentSms": "We sent a code to your registered phone.",
+    "newPasswordLabel": "Create password",
+    "confirmPasswordLabel": "Confirm password",
+    "setPassword": "Set password & enter",
+    "verify": "Verify",
+    "resendCode": "Resend code",
+    "resendIn": "Resend in {{seconds}}s",
+    "chooseChannel": "How would you like to receive your one-time code?",
+    "channelEmail": "Email",
+    "channelSms": "Text message (SMS)",
+    "cooldown": "Please wait before requesting another code.",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordWeak": "Use at least 8 characters, with a number and a letter.",
+    "invalidCredentials": "Incorrect ID or password.",
+    "unknownId": "That ID is not on the roster.",
+    "invalidCode": "That code is invalid or expired.",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "nav": {
+    "profile": "Profile",
+    "schedule": "Schedule",
+    "gallery": "Gallery",
+    "contacts": "Contacts"
+  },
+  "header": {
+    "team": "Team",
+    "language": "Language",
+    "signOut": "Sign out"
+  },
+  "profile": {
+    "title": "Personal information",
+    "name": "Name",
+    "id": "Attendee ID",
+    "email": "Email",
+    "phone": "Phone",
+    "team": "Team",
+    "links": "My links"
+  },
+  "schedule": {
+    "title": "Schedule",
+    "now": "NOW",
+    "upcoming": "Upcoming",
+    "past": "Done",
+    "empty": "No activities scheduled yet."
+  },
+  "gallery": {
+    "title": "Gallery",
+    "albums": "Albums",
+    "empty": "No photos yet — check back soon.",
+    "loadError": "Could not load photos.",
+    "openDrive": "Open in Google Drive"
+  },
+  "contacts": {
+    "title": "Emergency contacts",
+    "call": "Call",
+    "empty": "No contacts available."
+  },
+  "push": {
+    "enable": "Enable event alerts",
+    "enabled": "Alerts enabled",
+    "prompt": "Get notified about live updates and schedule changes."
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Retry"
+  }
+}
