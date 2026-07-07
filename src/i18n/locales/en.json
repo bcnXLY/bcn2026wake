@@ -51,8 +51,15 @@
     "id": "Attendee ID",
     "email": "Email",
     "phone": "Phone",
+    "church": "Church",
     "team": "Team",
-    "links": "My links"
+    "teamCode": "Team code",
+    "room": "Room",
+    "leaders": "Leaders",
+    "roommates": "Roommates",
+    "role": "Role",
+    "leader": "Leader",
+    "maintainer": "Maintainer"
   },
   "schedule": {
     "title": "Schedule",

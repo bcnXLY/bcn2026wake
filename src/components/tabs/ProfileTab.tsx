@@ -9,6 +9,7 @@ export default function ProfileTab() {
   return (
     <section role="tabpanel">
       <h2 className="tab-title">{t('profile.title')}</h2>
+
       <div className="card">
         <div className="row">
           <span className="label">{t('profile.name')}</span>
@@ -18,10 +19,15 @@ export default function ProfileTab() {
           <span className="label">{t('profile.id')}</span>
           <span className="value">{profile.id}</span>
         </div>
-        <div className="row">
-          <span className="label">{t('profile.team')}</span>
-          <span className="value">{profile.teamName}</span>
-        </div>
+        {(profile.isLeader || profile.isMaintainer) && (
+          <div className="row">
+            <span className="label">{t('profile.role')}</span>
+            <span className="value">
+              {profile.isLeader && <span className="badge">{t('profile.leader')}</span>}
+              {profile.isMaintainer && <span className="badge">{t('profile.maintainer')}</span>}
+            </span>
+          </div>
+        )}
         <div className="row">
           <span className="label">{t('profile.email')}</span>
           <span className="value">{profile.email}</span>
@@ -34,21 +40,47 @@ export default function ProfileTab() {
         </div>
       </div>
 
-      {profile.links && profile.links.length > 0 && (
-        <div className="card">
+      <div className="card">
+        {profile.churchName && (
           <div className="row">
-            <span className="label">{t('profile.links')}</span>
+            <span className="label">{t('profile.church')}</span>
+            <span className="value">{profile.churchName}</span>
           </div>
-          {profile.links.map((link) => (
-            <div className="row" key={link.url}>
-              <span className="label">{link.label}</span>
-              <span className="value">
-                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                  {link.url.replace(/^https?:\/\//, '')}
-                </a>
-              </span>
+        )}
+        {profile.teamName && (
+          <div className="row">
+            <span className="label">{t('profile.team')}</span>
+            <span className="value">{profile.teamName}</span>
+          </div>
+        )}
+        {profile.teamCode && (
+          <div className="row">
+            <span className="label">{t('profile.teamCode')}</span>
+            <span className="value">{profile.teamCode}</span>
+          </div>
+        )}
+        {profile.roomNumber && (
+          <div className="row">
+            <span className="label">{t('profile.room')}</span>
+            <span className="value">{profile.roomNumber}</span>
+          </div>
+        )}
+      </div>
+
+      {(profile.leadersId.length > 0 || profile.roommatesId.length > 0) && (
+        <div className="card">
+          {profile.leadersId.length > 0 && (
+            <div className="row">
+              <span className="label">{t('profile.leaders')}</span>
+              <span className="value">{profile.leadersId.join(', ')}</span>
             </div>
-          ))}
+          )}
+          {profile.roommatesId.length > 0 && (
+            <div className="row">
+              <span className="label">{t('profile.roommates')}</span>
+              <span className="value">{profile.roommatesId.join(', ')}</span>
+            </div>
+          )}
         </div>
       )}
     </section>

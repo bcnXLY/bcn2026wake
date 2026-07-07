@@ -1,5 +1,5 @@
-id,name,email,phone,team_name,links
-BCN-001,Alex Rivera,alex.rivera@example.com,+34600111001,Team Aurora,"[{""label"":""LinkedIn"",""url"":""https://linkedin.com/in/alexrivera""}]"
-BCN-002,Mei Chen,mei.chen@example.com,+34600111002,Team Aurora,"[]"
-BCN-003,Carlos Gómez,carlos.gomez@example.com,+34600111003,Team Nebula,"[{""label"":""Portfolio"",""url"":""https://carlos.dev""}]"
-BCN-004,Priya Patel,priya.patel@example.com,+34600111004,Team Nebula,"[]"
+id,name,email,phone,church_name,team_code,team_name,room_number,leaders_id,roommates_id,is_leader,is_maintainer
+BCN-001,Alex Rivera,alex.rivera@example.com,+34600111001,Grace Barcelona,AUR,Team Aurora,204,BCN-003,BCN-002,false,false
+BCN-002,Mei Chen,mei.chen@example.com,+34600111002,Grace Barcelona,AUR,Team Aurora,204,BCN-003,BCN-001,false,true
+BCN-003,Carlos Gómez,carlos.gomez@example.com,+34600111003,Hope Madrid,NEB,Team Nebula,311,,BCN-004,true,false
+BCN-004,Priya Patel,priya.patel@example.com,+34600111004,Hope Madrid,NEB,Team Nebula,311,BCN-003,BCN-003,false,false

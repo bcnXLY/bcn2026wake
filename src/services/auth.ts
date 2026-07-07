@@ -145,22 +145,31 @@ export function signOut(): void {
 /** Extracts the attendee profile from the ID token claims (populated by seed). */
 export function profileFromSession(session: CognitoUserSession): UserProfile {
   const c = session.getIdToken().decodePayload() as Record<string, unknown>;
-  const rawLinks = c['custom:links'];
-  let links: UserProfile['links'] = [];
-  if (typeof rawLinks === 'string' && rawLinks.trim()) {
+
+  const parseList = (raw: unknown): string[] => {
+    if (typeof raw !== 'string' || !raw.trim()) return [];
     try {
-      links = JSON.parse(rawLinks);
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr.map(String) : [];
     } catch {
-      links = [];
+      // Tolerate a plain delimited string too.
+      return raw.split(/[;,]/).map((s) => s.trim()).filter(Boolean);
     }
-  }
+  };
+
   return {
     id: String(c['cognito:username'] ?? c['sub'] ?? ''),
     name: String(c['name'] ?? ''),
     email: String(c['email'] ?? ''),
     phone: String(c['phone_number'] ?? ''),
+    churchName: String(c['custom:church_name'] ?? ''),
+    teamCode: String(c['custom:team_code'] ?? ''),
     teamName: String(c['custom:team_name'] ?? ''),
-    links,
+    roomNumber: String(c['custom:room_number'] ?? ''),
+    leadersId: parseList(c['custom:leaders_id']),
+    roommatesId: parseList(c['custom:roommates_id']),
+    isLeader: c['custom:is_leader'] === 'true',
+    isMaintainer: c['custom:is_maintainer'] === 'true',
   };
 }
 

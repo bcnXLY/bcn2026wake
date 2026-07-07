@@ -51,8 +51,15 @@
     "id": "参会者 ID",
     "email": "邮箱",
     "phone": "电话",
+    "church": "教会",
     "team": "团队",
-    "links": "我的链接"
+    "teamCode": "团队代码",
+    "room": "房间",
+    "leaders": "领队",
+    "roommates": "室友",
+    "role": "角色",
+    "leader": "领队",
+    "maintainer": "后勤"
   },
   "schedule": {
     "title": "日程",

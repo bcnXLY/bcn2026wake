@@ -28,8 +28,14 @@ const DEMO_PROFILE: UserProfile = {
   name: 'Alex Rivera',
   email: 'alex.rivera@example.com',
   phone: '+34600111001',
+  churchName: 'Grace Barcelona',
+  teamCode: 'AUR',
   teamName: 'Team Aurora',
-  links: [{ label: 'LinkedIn', url: 'https://linkedin.com/in/alexrivera' }],
+  roomNumber: '204',
+  leadersId: ['BCN-003'],
+  roommatesId: ['BCN-002'],
+  isLeader: false,
+  isMaintainer: true,
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);

@@ -64,6 +64,31 @@ Resources:
         - Name: team_name
           AttributeDataType: String
           Mutable: true
+        - Name: church_name
+          AttributeDataType: String
+          Mutable: true
+        - Name: team_code
+          AttributeDataType: String
+          Mutable: true
+        - Name: room_number
+          AttributeDataType: String
+          Mutable: true
+        # Lists are stored as JSON-array strings (Cognito has no list type).
+        - Name: leaders_id
+          AttributeDataType: String
+          Mutable: true
+        - Name: roommates_id
+          AttributeDataType: String
+          Mutable: true
+        # Booleans are stored as the strings "true" / "false".
+        - Name: is_leader
+          AttributeDataType: String
+          Mutable: true
+        - Name: is_maintainer
+          AttributeDataType: String
+          Mutable: true
+        # --- legacy (unused by the passwordless flow); kept so the pool is not
+        # replaced. Removing a schema attribute forces a full pool recreation.
         - Name: links
           AttributeDataType: String
           Mutable: true
@@ -92,8 +117,13 @@ Resources:
         - email
         - phone_number
         - custom:team_name
-        - custom:links
-        - custom:activated
+        - custom:church_name
+        - custom:team_code
+        - custom:room_number
+        - custom:leaders_id
+        - custom:roommates_id
+        - custom:is_leader
+        - custom:is_maintainer
 
   # ---------- OTP store ----------
   OtpTable:
@@ -110,6 +140,55 @@ Resources:
       TimeToLiveSpecification:
         AttributeName: expiresAt
         Enabled: true
+
+  # ---------- Roster (queryable mirror of the Cognito attendees) ----------
+  # DynamoDB is the query layer Cognito can't provide: look up attendees by
+  # team, room or church. Populated by infra/seed/seedUsers.mjs. GSIs are sparse
+  # — items missing a key attribute simply aren't indexed there.
+  AttendeesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: bcn2026-attendees
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: team_code
+          AttributeType: S
+        - AttributeName: room_number
+          AttributeType: S
+        - AttributeName: church_name
+          AttributeType: S
+        - AttributeName: name
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: byTeam
+          KeySchema:
+            - AttributeName: team_code
+              KeyType: HASH
+            - AttributeName: name
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: byRoom
+          KeySchema:
+            - AttributeName: room_number
+              KeyType: HASH
+            - AttributeName: id
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: byChurch
+          KeySchema:
+            - AttributeName: church_name
+              KeyType: HASH
+            - AttributeName: name
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
 
   # ---------- API ----------
   Api:
@@ -200,3 +279,5 @@ Outputs:
     Value: !Ref UserPoolClient
   ApiBaseUrl:
     Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod'
+  AttendeesTable:
+    Value: !Ref AttendeesTable

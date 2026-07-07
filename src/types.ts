@@ -3,9 +3,15 @@ export interface UserProfile {
   name: string;
   email: string;
   phone: string;
+  churchName: string;
+  teamCode: string;
   teamName: string;
-  /** Optional custom links shown on the profile tab. */
-  links?: { label: string; url: string }[];
+  roomNumber: string;
+  /** Attendee IDs — parsed from the JSON-array custom attributes. */
+  leadersId: string[];
+  roommatesId: string[];
+  isLeader: boolean;
+  isMaintainer: boolean;
 }
 
 export interface ScheduleItem {

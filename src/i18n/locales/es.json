@@ -51,8 +51,15 @@
     "id": "ID de asistente",
     "email": "Correo",
     "phone": "Teléfono",
+    "church": "Iglesia",
     "team": "Equipo",
-    "links": "Mis enlaces"
+    "teamCode": "Código de equipo",
+    "room": "Habitación",
+    "leaders": "Líderes",
+    "roommates": "Compañeros de habitación",
+    "role": "Rol",
+    "leader": "Líder",
+    "maintainer": "Encargado"
   },
   "schedule": {
     "title": "Agenda",
