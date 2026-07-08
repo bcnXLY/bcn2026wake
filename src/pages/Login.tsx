@@ -136,7 +136,7 @@ export default function Login() {
           <button className="btn" disabled={busy || !id.trim()}>
             {busy ? t('common.loading') : t('login.continue')}
           </button>
-          {config.demoMode && (
+          {config.enableTestLoginButton && (
             <button type="button" className="btn ghost" onClick={enterDemo}>
               Enter demo
             </button>

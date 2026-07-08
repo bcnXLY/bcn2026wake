@@ -18,4 +18,6 @@ export const config = {
   oneSignalAppId: import.meta.env.VITE_ONESIGNAL_APP_ID,
   // Offline preview: bypasses Cognito/Drive with mock data. Never true in prod.
   demoMode: import.meta.env.VITE_DEMO_MODE === 'true',
+  // Temporary escape hatch: defaults to enabled unless explicitly set to false.
+  enableTestLoginButton: import.meta.env.VITE_ENABLE_TEST_LOGIN_BUTTON !== 'false',
 } as const;
