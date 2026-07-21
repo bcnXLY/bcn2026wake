@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EMERGENCY_CONTACTS } from '../../data/eventData';
 import { useAuth } from '../../context/AuthContext';
 import { fetchContactsDirectory } from '../../services/contacts';
 import type { ContactsDirectory, DirectoryPerson } from '../../types';
@@ -23,17 +22,15 @@ function CallButton({ phone, label }: { phone: string; label: string }) {
 
 function PersonRow({ person, subtitle }: { person: DirectoryPerson; subtitle?: string }) {
   const { t } = useTranslation();
-  // Prefer the numeric role code (translatable per locale); fall back to the
-  // legacy leader/maintainer flags used by the demo directory.
   const tags =
     person.role != null
       ? person.role !== 0
         ? [t(`contacts.roles.${person.role}`)]
         : []
       : [
-          person.isLeader ? t('contacts.tags.leader') : null,
-          person.isMaintainer ? t('contacts.tags.maintainer') : null,
-        ].filter(Boolean);
+        person.isLeader ? t('contacts.tags.leader') : null,
+        person.isMaintainer ? t('contacts.tags.maintainer') : null,
+      ].filter(Boolean);
 
   return (
     <div className="card">
@@ -96,7 +93,7 @@ export default function ContactsTab() {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const load = useCallback(() => {
-    if (!profile) return () => {};
+    if (!profile) return () => { };
     let active = true;
     setLoading(true);
     setError(false);
@@ -118,28 +115,15 @@ export default function ContactsTab() {
 
   const groups = useMemo<Group[]>(() => {
     const list: Group[] = [];
-
-    // Emergency contacts — static, everyone sees these.
-    list.push({
-      id: 'emergency',
-      title: t('contacts.title'),
-      count: EMERGENCY_CONTACTS.length,
-      render: () =>
-        EMERGENCY_CONTACTS.map((c) => (
-          <div className="card" key={c.id}>
-            <div className="row">
-              <div>
-                <strong>{t(c.nameKey)}</strong>
-                {c.roleKey && <div className="hint-text">{t(c.roleKey)}</div>}
-                <div className="hint-text">{c.phone}</div>
-              </div>
-              <CallButton phone={c.phone} label={t(c.nameKey)} />
-            </div>
-          </div>
-        )),
-    });
-
-    // Roommates — everyone with a roommates_id.
+    const emergencyContacts = directory?.emergencyContacts ?? [];
+    if (emergencyContacts.length > 0) {
+      list.push({
+        id: 'emergency',
+        title: t('contacts.title'),
+        count: emergencyContacts.length,
+        render: () => emergencyContacts.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
+      });
+    }
     const roommates = directory?.roommates ?? [];
     if (roommates.length > 0) {
       list.push({
@@ -150,7 +134,6 @@ export default function ContactsTab() {
       });
     }
 
-    // Role-based directory.
     if (directory) {
       if (directory.role === 'maintainer') {
         for (const g of directory.groups ?? []) {
@@ -191,8 +174,6 @@ export default function ContactsTab() {
     return list;
   }, [directory, roomOf, t]);
 
-  // Accordion: keep exactly one group open. Default to the first group, and if
-  // the currently-open group disappears (e.g. after a reload) fall back to it.
   useEffect(() => {
     if (groups.length === 0) return;
     setOpenId((current) =>

@@ -46,10 +46,6 @@ export default function ProfileTab() {
           </div>
         )}
         <div className="row">
-          <span className="label">{t('profile.email')}</span>
-          <span className="value">{profile.email}</span>
-        </div>
-        <div className="row">
           <span className="label">{t('profile.phone')}</span>
           <span className="value">
             <a href={`tel:${profile.phone}`}>{profile.phone}</a>

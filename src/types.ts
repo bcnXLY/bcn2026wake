@@ -1,7 +1,6 @@
 export interface UserProfile {
   id: string; // attendee ID (roster / participant ID)
   name: string;
-  email: string;
   phone: string;
   churchName: string;
   teamCode: string;
@@ -70,6 +69,8 @@ export interface ContactsDirectory {
   maintainers?: DirectoryPerson[];
   /** everyone → the caller's room-mates (from roommates_id). */
   roommates?: DirectoryPerson[];
+  /** everyone → the emergency contacts (role 6). */
+  emergencyContacts?: DirectoryPerson[];
 }
 
 export interface GalleryImage {

@@ -37,6 +37,7 @@ def lambda_handler(event, context):
 
         response_data = dict(view)
         response_data['roommates'] = roommates
+        response_data['emergencyContacts'] = fetch_emergency_contacts()
         
         return json_response(200, response_data)
     except Exception as err:
@@ -70,16 +71,10 @@ def has_real_room(p):
     room_id = p.get('room_id')
     return bool(room_id) and room_id not in UNASSIGNED
 
-def label(id_str):
+def extract_numbers(id_str):
     if not id_str:
         return ''
-    parts = id_str.split('_')
-    prefix = parts[0]
-    rest = parts[1:]
-    suffix = '_'.join(rest)
-    if not suffix:
-        return id_str
-    return f"{prefix.capitalize()} {suffix}"
+    return ''.join(c for c in id_str if c.isdigit())
 
 def to_person(item):
     phone = item.get('phone')
@@ -95,7 +90,7 @@ def to_person(item):
         'isMaintainer': is_maintainer_role(role),
     }
     if has_real_room(item):
-        person['roomNumber'] = label(item.get('room_id'))
+        person['roomNumber'] = extract_numbers(item.get('room_id'))
     return person
 
 def by_name(item):
@@ -113,6 +108,12 @@ def fetch_roommates(me):
     roommates = [to_person(item) for item in items if item.get('id') != me.get('id')]
     roommates.sort(key=by_name)
     return roommates
+
+def fetch_emergency_contacts():
+    items = query_index('byRole', 'role', 6)
+    contacts = [to_person(item) for item in items]
+    contacts.sort(key=by_name)
+    return contacts
 
 def member_view(me):
     if not has_real_team(me):
@@ -139,7 +140,7 @@ def maintainer_view():
             continue
         code = item.get('team_id')
         if code not in groups:
-            groups[code] = {'teamCode': code, 'teamName': label(code), 'members': []}
+            groups[code] = {'teamCode': code, 'teamName': extract_numbers(code), 'members': []}
         groups[code]['members'].append(to_person(item))
         
     group_list = list(groups.values())
@@ -157,7 +158,7 @@ def maintainer_view():
             person = to_person(item)
             if has_real_team(item):
                 person['teamCode'] = item.get('team_id')
-                person['teamName'] = label(item.get('team_id'))
+                person['teamName'] = extract_numbers(item.get('team_id'))
             maintainers.append(person)
     maintainers.sort(key=by_name)
     
