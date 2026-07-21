@@ -5,9 +5,9 @@ name: Deploy Backend (SAM)
 on:
   push:
     branches: [main]
-    paths-ignore:
+    paths:
       - 'infra/**'
-      - '**/*.md'
+      - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
 
 concurrency:

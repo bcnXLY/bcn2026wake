@@ -68,12 +68,30 @@
     "past": "已结束",
     "empty": "暂无安排的活动。",
     "items": {
-      "s1": { "title": "登记", "location": "主厅" },
-      "s2": { "title": "开幕", "location": "大堂" },
-      "s3": { "title": "小组时间", "location": "*" },
-      "s4": { "title": "午餐", "location": "餐厅" },
-      "s5": { "title": "工作坊 A", "location": "房间 A" },
-      "s6": { "title": "晚餐", "location": "餐厅" }
+      "s1": {
+        "title": "登记",
+        "location": "主厅"
+      },
+      "s2": {
+        "title": "开幕",
+        "location": "大堂"
+      },
+      "s3": {
+        "title": "小组时间",
+        "location": "*"
+      },
+      "s4": {
+        "title": "午餐",
+        "location": "餐厅"
+      },
+      "s5": {
+        "title": "工作坊 A",
+        "location": "房间 A"
+      },
+      "s6": {
+        "title": "晚餐",
+        "location": "餐厅"
+      }
     }
   },
   "gallery": {
@@ -89,34 +107,29 @@
     "call": "拨打",
     "empty": "暂无联系人。",
     "loadError": "无法加载联系人。",
-    "items": {
-      "c1": { "name": "活动控制室", "role": "综合协助" },
-      "c2": { "name": "医疗 / 急救", "role": "现场医护" },
-      "c5": { "name": "当地紧急服务", "role": "警察 / 救护车" }
-    },
     "directory": {
-      "title": "你的联系人",
-      "leaders": "你的领队",
-      "group": "你的团队",
-      "maintainers": "后勤人员",
-      "roommates": "你的室友",
+      "title": "联系人",
+      "leaders": "辅导",
+      "group": "团队",
+      "maintainers": "策划",
+      "roommates": "室友",
       "empty": "暂无联系人。"
     },
     "tags": {
-      "leader": "领队",
-      "maintainer": "后勤"
+      "leader": "辅导",
+      "maintainer": "策划"
     },
     "roles": {
       "0": "组员",
       "1": "辅导",
       "2": "同工",
-      "3": "祷告组",
+      "3": "祷告",
       "4": "小卖部",
       "5": "营服",
-      "6": "医疗组",
-      "7": "摄影组",
-      "8": "策划组",
-      "9": "行政组",
+      "6": "医疗",
+      "7": "摄影",
+      "8": "策划",
+      "9": "行政",
       "10": "大会主席"
     }
   },

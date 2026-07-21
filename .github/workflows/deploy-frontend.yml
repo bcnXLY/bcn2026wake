@@ -4,9 +4,15 @@ name: Deploy Frontend
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'infra/**'
-      - '**/*.md'
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
 concurrency:

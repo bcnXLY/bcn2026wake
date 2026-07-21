@@ -68,12 +68,30 @@
     "past": "Hecho",
     "empty": "Aún no hay actividades programadas.",
     "items": {
-      "s1": { "title": "Registro", "location": "Vestíbulo principal" },
-      "s2": { "title": "Inauguración", "location": "Auditorio" },
-      "s3": { "title": "Sesiones de grupos", "location": "*" },
-      "s4": { "title": "Almuerzo", "location": "Comedor" },
-      "s5": { "title": "Talleres", "location": "Sala A" },
-      "s6": { "title": "Cena", "location": "Comedor" }
+      "s1": {
+        "title": "Registro",
+        "location": "Vestíbulo principal"
+      },
+      "s2": {
+        "title": "Inauguración",
+        "location": "Auditorio"
+      },
+      "s3": {
+        "title": "Sesiones de grupos",
+        "location": "*"
+      },
+      "s4": {
+        "title": "Almuerzo",
+        "location": "Comedor"
+      },
+      "s5": {
+        "title": "Talleres",
+        "location": "Sala A"
+      },
+      "s6": {
+        "title": "Cena",
+        "location": "Comedor"
+      }
     }
   },
   "gallery": {
@@ -89,29 +107,24 @@
     "call": "Llamar",
     "empty": "No hay contactos disponibles.",
     "loadError": "No se pudieron cargar los contactos.",
-    "items": {
-      "c1": { "name": "Sala de control del evento", "role": "Asistencia general" },
-      "c2": { "name": "Médico / Primeros auxilios", "role": "Médico en el lugar" },
-      "c5": { "name": "Servicios de emergencia locales", "role": "Policía / Ambulancia" }
-    },
     "directory": {
-      "title": "Tus contactos",
-      "leaders": "Tus líderes",
-      "group": "Tu equipo",
-      "maintainers": "Encargados",
-      "roommates": "Tus compañeros de habitación",
+      "title": "Contactos",
+      "leaders": "Líderes",
+      "group": "Equipo",
+      "maintainers": "Administración",
+      "roommates": "Compañeros de habitación",
       "empty": "Aún no hay contactos."
     },
     "tags": {
       "leader": "Líder",
-      "maintainer": "Encargado"
+      "maintainer": "Administración"
     },
     "roles": {
       "0": "Miembro",
       "1": "Líder",
       "2": "Colaborador",
       "3": "Equipo de oración",
-      "4": "Tienda",
+      "4": "Mini Tienda",
       "5": "Servicios del campamento",
       "6": "Equipo médico",
       "7": "Fotografía",

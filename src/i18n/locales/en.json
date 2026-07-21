@@ -68,12 +68,30 @@
     "past": "Done",
     "empty": "No activities scheduled yet.",
     "items": {
-      "s1": { "title": "Check-in", "location": "Main Lobby" },
-      "s2": { "title": "Opening", "location": "Auditorium" },
-      "s3": { "title": "Team Breakout Sessions", "location": "*" },
-      "s4": { "title": "Lunch", "location": "Dining Hall" },
-      "s5": { "title": "Workshops", "location": "Room A" },
-      "s6": { "title": "Dinner", "location": "Dining Hall" }
+      "s1": {
+        "title": "Check-in",
+        "location": "Main Lobby"
+      },
+      "s2": {
+        "title": "Opening",
+        "location": "Auditorium"
+      },
+      "s3": {
+        "title": "Team Breakout Sessions",
+        "location": "*"
+      },
+      "s4": {
+        "title": "Lunch",
+        "location": "Dining Hall"
+      },
+      "s5": {
+        "title": "Workshops",
+        "location": "Room A"
+      },
+      "s6": {
+        "title": "Dinner",
+        "location": "Dining Hall"
+      }
     }
   },
   "gallery": {
@@ -89,17 +107,12 @@
     "call": "Call",
     "empty": "No contacts available.",
     "loadError": "Could not load contacts.",
-    "items": {
-      "c1": { "name": "Event Control Room", "role": "General assistance" },
-      "c2": { "name": "Medical / First Aid", "role": "On-site medic" },
-      "c5": { "name": "Local Emergency Services", "role": "Police / Ambulance" }
-    },
     "directory": {
-      "title": "Your contacts",
-      "leaders": "Your leaders",
-      "group": "Your group",
+      "title": "Contacts",
+      "leaders": "Leaders",
+      "group": "Group",
       "maintainers": "Maintainers",
-      "roommates": "Your roommates",
+      "roommates": "Roommates",
       "empty": "No contacts yet."
     },
     "tags": {
@@ -111,7 +124,7 @@
       "1": "Leader",
       "2": "Staff",
       "3": "Prayer Team",
-      "4": "Store",
+      "4": "Mini Store",
       "5": "Camp Services",
       "6": "Medical Team",
       "7": "Photography",

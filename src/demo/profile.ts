@@ -13,7 +13,6 @@ const team = demoData.camp.teams.find((t) => t.code === person.teamCode);
 export const DEMO_PROFILE: UserProfile = {
   id: person.id,
   name: person.name,
-  email: person.email,
   phone: person.phone,
   churchName: person.churchName,
   teamCode: person.teamCode,
