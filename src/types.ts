@@ -40,6 +40,8 @@ export interface DirectoryPerson {
   name: string;
   phone: string;
   roomNumber?: string;
+  /** Numeric role code (0 = member, 1 = leader, 2+ = staff) for i18n display. */
+  role?: number;
   isLeader?: boolean;
   isMaintainer?: boolean;
   /** Set on the maintainer roster so each entry shows its group. */

@@ -21,6 +21,7 @@ export interface ChannelInfo {
 }
 
 export interface LoginChannels {
+  profile: UserProfile;
   channels: Record<OtpChannel, ChannelInfo>;
 }
 

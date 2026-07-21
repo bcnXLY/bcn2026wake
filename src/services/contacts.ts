@@ -1,5 +1,4 @@
 import { config, isDemoMode } from '../config';
-import { getCurrentIdToken } from './auth';
 import { demoDirectory } from '../demo';
 import type { ContactsDirectory, DirectoryPerson, UserProfile } from '../types';
 
@@ -9,12 +8,7 @@ export async function fetchContactsDirectory(
 ): Promise<ContactsDirectory> {
   if (isDemoMode()) return demoDirectory(profile);
 
-  const token = await getCurrentIdToken();
-  if (!token) throw new Error('Not authenticated');
-
-  const res = await fetch(`${config.apiBaseUrl}/contacts`, {
-    headers: { Authorization: token },
-  });
+  const res = await fetch(`${config.apiBaseUrl}/contacts?id=${encodeURIComponent(profile.id)}`);
   if (!res.ok) throw new Error(`Contacts API error: ${res.status}`);
   return res.json();
 }

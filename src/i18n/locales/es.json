@@ -105,6 +105,19 @@
     "tags": {
       "leader": "Líder",
       "maintainer": "Encargado"
+    },
+    "roles": {
+      "0": "Miembro",
+      "1": "Líder",
+      "2": "Colaborador",
+      "3": "Equipo de oración",
+      "4": "Tienda",
+      "5": "Servicios del campamento",
+      "6": "Equipo médico",
+      "7": "Fotografía",
+      "8": "Equipo de planificación",
+      "9": "Administración",
+      "10": "Presidente"
     }
   },
   "push": {

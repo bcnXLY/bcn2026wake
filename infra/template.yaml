@@ -141,52 +141,44 @@ Resources:
         AttributeName: expiresAt
         Enabled: true
 
-  # ---------- Roster (queryable mirror of the Cognito attendees) ----------
-  # DynamoDB is the query layer Cognito can't provide: look up attendees by
-  # team, room or church. Populated by infra/seed/seedUsers.mjs. GSIs are sparse
-  # — items missing a key attribute simply aren't indexed there.
-  AttendeesTable:
+  # ---------- Roster (queryable participant directory) ----------
+  # DynamoDB is the query layer: look up participants by team, room or role.
+  # Populated by infra/seed/upload_participants.py. GSIs are sparse — items
+  # missing a key attribute simply aren't indexed there.
+  ParticipantsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: bcn2026-attendees
+      TableName: Participants
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
-        - AttributeName: team_code
+        - AttributeName: team_id
           AttributeType: S
-        - AttributeName: room_number
+        - AttributeName: room_id
           AttributeType: S
-        - AttributeName: church_name
-          AttributeType: S
-        - AttributeName: name
-          AttributeType: S
+        - AttributeName: role
+          AttributeType: N
       KeySchema:
         - AttributeName: id
           KeyType: HASH
       GlobalSecondaryIndexes:
         - IndexName: byTeam
           KeySchema:
-            - AttributeName: team_code
+            - AttributeName: team_id
               KeyType: HASH
-            - AttributeName: name
-              KeyType: RANGE
           Projection:
             ProjectionType: ALL
         - IndexName: byRoom
           KeySchema:
-            - AttributeName: room_number
+            - AttributeName: room_id
               KeyType: HASH
-            - AttributeName: id
-              KeyType: RANGE
           Projection:
             ProjectionType: ALL
-        - IndexName: byChurch
+        - IndexName: byRole
           KeySchema:
-            - AttributeName: church_name
+            - AttributeName: role
               KeyType: HASH
-            - AttributeName: name
-              KeyType: RANGE
           Projection:
             ProjectionType: ALL
 
@@ -233,7 +225,7 @@ Resources:
       CodeUri: lambda/
       Environment:
         Variables:
-          ATTENDEES_TABLE: !Ref AttendeesTable
+          ATTENDEES_TABLE: !Ref ParticipantsTable
       Policies:
         - Statement:
             - Effect: Allow
@@ -243,8 +235,8 @@ Resources:
                 - dynamodb:Query
                 - dynamodb:Scan
               Resource:
-                - !GetAtt AttendeesTable.Arn
-                - !Sub '${AttendeesTable.Arn}/index/*'
+                - !GetAtt ParticipantsTable.Arn
+                - !Sub '${ParticipantsTable.Arn}/index/*'
       Events:
         Contacts:
           Type: Api
@@ -252,8 +244,6 @@ Resources:
             RestApiId: !Ref Api
             Path: /contacts
             Method: get
-            Auth:
-              Authorizer: CognitoAuth
 
   # ---------- Passwordless custom-auth triggers (invoked by Cognito) ----------
   DefineAuthChallengeFn:
@@ -313,5 +303,5 @@ Outputs:
     Value: !Ref UserPoolClient
   ApiBaseUrl:
     Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod'
-  AttendeesTable:
-    Value: !Ref AttendeesTable
+  ParticipantsTable:
+    Value: !Ref ParticipantsTable

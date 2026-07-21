@@ -105,6 +105,19 @@
     "tags": {
       "leader": "Leader",
       "maintainer": "Maintainer"
+    },
+    "roles": {
+      "0": "Member",
+      "1": "Leader",
+      "2": "Staff",
+      "3": "Prayer Team",
+      "4": "Store",
+      "5": "Camp Services",
+      "6": "Medical Team",
+      "7": "Photography",
+      "8": "Planning Team",
+      "9": "Administration",
+      "10": "Chairperson"
     }
   },
   "push": {

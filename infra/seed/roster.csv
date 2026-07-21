@@ -1,5 +1,0 @@
-id,name,email,phone,church_name,team_code,team_name,room_number,leaders_id,roommates_id,is_leader,is_maintainer
-X0000000T,Alex Rivera,alex.rivera@example.com,+34600111001,Grace Barcelona,AUR,Team Aurora,204,Y0000002N,X0000001M,false,false
-X0000001M,Mei Chen,mei.chen@example.com,+34600111002,Grace Barcelona,AUR,Team Aurora,204,Y0000002N,X0000000T,false,true
-Y0000002N,Carlos Gómez,carlos.gomez@example.com,+34600111003,Hope Madrid,NEB,Team Nebula,311,,Y0000002N,true,false
-00000003J,Priya Patel,priya.patel@example.com,+34600111004,Hope Madrid,NEB,Team Nebula,311,Y0000002N,Y0000002N,false,false

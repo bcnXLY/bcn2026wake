@@ -23,10 +23,17 @@ function CallButton({ phone, label }: { phone: string; label: string }) {
 
 function PersonRow({ person, subtitle }: { person: DirectoryPerson; subtitle?: string }) {
   const { t } = useTranslation();
-  const tags = [
-    person.isLeader ? t('contacts.tags.leader') : null,
-    person.isMaintainer ? t('contacts.tags.maintainer') : null,
-  ].filter(Boolean);
+  // Prefer the numeric role code (translatable per locale); fall back to the
+  // legacy leader/maintainer flags used by the demo directory.
+  const tags =
+    person.role != null
+      ? person.role !== 0
+        ? [t(`contacts.roles.${person.role}`)]
+        : []
+      : [
+          person.isLeader ? t('contacts.tags.leader') : null,
+          person.isMaintainer ? t('contacts.tags.maintainer') : null,
+        ].filter(Boolean);
 
   return (
     <div className="card">

@@ -16,7 +16,7 @@ type Step = 'id' | 'choose' | 'otp';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { setSession, enterDemo } = useAuth();
+  const { setSession, enterWithProfile, enterDemo } = useAuth();
 
   const [step, setStep] = useState<Step>('id');
   const [busy, setBusy] = useState(false);
@@ -51,9 +51,8 @@ export default function Login() {
     setBusy(true);
     setError(null);
     try {
-      const { channels: ch } = await getLoginChannels(id.trim());
-      setChannels(ch);
-      setStep('choose');
+      const { profile } = await getLoginChannels(id.trim());
+      enterWithProfile(profile);
     } catch (err) {
       setError(err instanceof AuthError ? err.code : 'genericError');
     } finally {

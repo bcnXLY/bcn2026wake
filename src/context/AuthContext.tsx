@@ -21,11 +21,13 @@ interface AuthContextValue {
   profile: UserProfile | null;
   loading: boolean;
   setSession: (session: CognitoUserSession) => void;
+  enterWithProfile: (profile: UserProfile) => void;
   enterDemo: () => void;
   signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const ID_ONLY_PROFILE_KEY = 'bcn2026-id-only-profile';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -38,6 +40,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    const savedProfile = localStorage.getItem(ID_ONLY_PROFILE_KEY);
+    if (savedProfile) {
+      try {
+        const profile = JSON.parse(savedProfile) as UserProfile;
+        if (profile.id) {
+          setProfile(profile);
+          identifyPushUser(profile.id);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        localStorage.removeItem(ID_ONLY_PROFILE_KEY);
+      }
+    }
     getCurrentSession()
       .then((session) => {
         if (session) applySession(session);
@@ -50,12 +66,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       profile,
       loading,
       setSession: (session) => applySession(session),
+      enterWithProfile: (profile) => {
+        localStorage.setItem(ID_ONLY_PROFILE_KEY, JSON.stringify(profile));
+        setProfile(profile);
+        identifyPushUser(profile.id);
+      },
       enterDemo: () => {
         enableDemoMode();
         setProfile(DEMO_PROFILE);
       },
       signOut: () => {
         svcSignOut();
+        localStorage.removeItem(ID_ONLY_PROFILE_KEY);
         logoutPush();
         setProfile(null);
       },
