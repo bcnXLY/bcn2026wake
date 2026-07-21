@@ -1,13 +1,14 @@
 name: Deploy Backend (SAM)
 
-# Deploys the Cognito pool, DynamoDB OTP table, and Lambda API.
-# Run manually — infrastructure rarely changes during a 1-week event.
+# Deploys the DynamoDB and Lambda API.
+
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'infra/**'
+      - '**/*.md'
   workflow_dispatch:
-    inputs:
-      ses_from_address:
-        description: Verified SES sender address for OTP emails
-        required: true
 
 concurrency:
   group: deploy-backend
@@ -47,8 +48,7 @@ jobs:
             --s3-bucket "${{ vars.SAM_ARTIFACT_BUCKET }}" \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
-            --no-fail-on-empty-changeset \
-            --parameter-overrides SesFromAddress="${{ github.event.inputs.ses_from_address }}"
+            --no-fail-on-empty-changeset
 
       - name: Show outputs
         run: |

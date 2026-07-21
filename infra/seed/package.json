@@ -4,12 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "seed": "node seedUsers.mjs ./roster.csv",
     "broadcast": "node broadcast.mjs"
-  },
-  "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.600.0",
-    "@aws-sdk/client-dynamodb": "^3.600.0",
-    "@aws-sdk/lib-dynamodb": "^3.600.0"
   }
 }

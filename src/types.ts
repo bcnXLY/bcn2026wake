@@ -1,5 +1,5 @@
 export interface UserProfile {
-  id: string; // attendee ID (Cognito username)
+  id: string; // attendee ID (roster / participant ID)
   name: string;
   email: string;
   phone: string;
@@ -7,7 +7,7 @@ export interface UserProfile {
   teamCode: string;
   teamName: string;
   roomNumber: string;
-  /** Attendee IDs — parsed from the JSON-array custom attributes. */
+  /** Attendee IDs of this attendee's group leaders / room-mates. */
   leadersId: string[];
   roommatesId: string[];
   isLeader: boolean;
@@ -58,7 +58,7 @@ export interface DirectoryGroup {
 
 /**
  * Role-based contact directory returned by GET /contacts. The caller's role is
- * derived server-side from the verified Cognito token — never from the client.
+ * derived server-side from their roster record — never trusted from the client.
  */
 export interface ContactsDirectory {
   role: 'member' | 'leader' | 'maintainer';

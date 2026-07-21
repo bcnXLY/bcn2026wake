@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "type": "module",
   "private": true,
-  "description": "OTP first-login handlers. AWS SDK v3 is provided by the nodejs20.x runtime, so no dependencies need to be bundled."
+  "description": "REST handlers (login + contacts). AWS SDK v3 is provided by the nodejs20.x runtime, so no dependencies need to be bundled."
 }

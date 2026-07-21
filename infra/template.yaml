@@ -1,10 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  BCN 2026 Wake — serverless backend. Cognito user pool (pre-provisioned
-  attendees), DynamoDB OTP store with TTL, and Lambda handlers for the
-  first-time-login OTP flow. Designed to sit comfortably inside the AWS
-  free tier for a 1-week, 400-500 user event.
+  BCN 2026 Wake — serverless backend. A DynamoDB participant roster and Lambda
+  handlers for ID-based login and the role-based contact directory. Designed to
+  sit comfortably inside the AWS free tier for a 1-week, 400-500 user event.
 
 Globals:
   Function:
@@ -12,139 +11,8 @@ Globals:
     Timeout: 10
     MemorySize: 256
     Architectures: [arm64]
-    Environment:
-      Variables:
-        # NOTE: USER_POOL_ID is intentionally NOT global — the Cognito trigger
-        # Lambdas must not reference the pool, or CloudFormation deadlocks on a
-        # circular dependency (pool -> trigger -> pool).
-        OTP_TABLE: !Ref OtpTable
-        OTP_TTL_SECONDS: '600'
-        OTP_RESEND_COOLDOWN_SECONDS: '60'
-        SES_FROM_ADDRESS: !Ref SesFromAddress
-
-Parameters:
-  SesFromAddress:
-    Type: String
-    Description: A verified SES sender address for OTP emails.
-    Default: no-reply@example.com
 
 Resources:
-  # ---------- Cognito ----------
-  UserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      UserPoolName: bcn2026-attendees
-      # No public sign-up — accounts are created only by the seed script (admin).
-      AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: true
-      UsernameAttributes: []
-      AutoVerifiedAttributes: []
-      # Passwordless: OTP delivered + verified by the custom-auth triggers.
-      LambdaConfig:
-        DefineAuthChallenge: !GetAtt DefineAuthChallengeFn.Arn
-        CreateAuthChallenge: !GetAtt CreateAuthChallengeFn.Arn
-        VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallengeFn.Arn
-      Policies:
-        PasswordPolicy:
-          MinimumLength: 8
-          RequireLowercase: false
-          RequireUppercase: false
-          RequireNumbers: true
-          RequireSymbols: false
-      Schema:
-        - Name: name
-          AttributeDataType: String
-          Mutable: true
-        - Name: email
-          AttributeDataType: String
-          Mutable: true
-        - Name: phone_number
-          AttributeDataType: String
-          Mutable: true
-        - Name: team_name
-          AttributeDataType: String
-          Mutable: true
-        - Name: church_name
-          AttributeDataType: String
-          Mutable: true
-        - Name: team_code
-          AttributeDataType: String
-          Mutable: true
-        - Name: room_number
-          AttributeDataType: String
-          Mutable: true
-        # Lists are stored as JSON-array strings (Cognito has no list type).
-        - Name: leaders_id
-          AttributeDataType: String
-          Mutable: true
-        - Name: roommates_id
-          AttributeDataType: String
-          Mutable: true
-        # Booleans are stored as the strings "true" / "false".
-        - Name: is_leader
-          AttributeDataType: String
-          Mutable: true
-        - Name: is_maintainer
-          AttributeDataType: String
-          Mutable: true
-        # --- legacy (unused by the passwordless flow); kept so the pool is not
-        # replaced. Removing a schema attribute forces a full pool recreation.
-        - Name: links
-          AttributeDataType: String
-          Mutable: true
-        - Name: activated
-          AttributeDataType: String
-          Mutable: true
-
-  UserPoolClient:
-    Type: AWS::Cognito::UserPoolClient
-    Properties:
-      UserPoolId: !Ref UserPool
-      ClientName: bcn2026-web
-      GenerateSecret: false
-      ExplicitAuthFlows:
-        - ALLOW_CUSTOM_AUTH
-        - ALLOW_REFRESH_TOKEN_AUTH
-      AccessTokenValidity: 8
-      IdTokenValidity: 8
-      RefreshTokenValidity: 7
-      TokenValidityUnits:
-        AccessToken: hours
-        IdToken: hours
-        RefreshToken: days
-      ReadAttributes:
-        - name
-        - email
-        - phone_number
-        - custom:team_name
-        - custom:church_name
-        - custom:team_code
-        - custom:room_number
-        - custom:leaders_id
-        - custom:roommates_id
-        - custom:is_leader
-        - custom:is_maintainer
-
-  # ---------- OTP store ----------
-  OtpTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: bcn2026-otp
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      TimeToLiveSpecification:
-        AttributeName: expiresAt
-        Enabled: true
-
-  # ---------- Roster (queryable participant directory) ----------
-  # DynamoDB is the query layer: look up participants by team, room or role.
-  # Populated by infra/seed/upload_participants.py. GSIs are sparse — items
-  # missing a key attribute simply aren't indexed there.
   ParticipantsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -182,7 +50,6 @@ Resources:
           Projection:
             ProjectionType: ALL
 
-  # ---------- API ----------
   Api:
     Type: AWS::Serverless::Api
     Properties:
@@ -191,32 +58,27 @@ Resources:
         AllowMethods: "'POST,GET,OPTIONS'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowOrigin: "'*'"
-      Auth:
-        Authorizers:
-          CognitoAuth:
-            UserPoolArn: !GetAtt UserPool.Arn
 
-  LoginChannelsFn:
+  LoginFn:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: loginChannels.handler
+      Handler: login.handler
       CodeUri: lambda/
       Environment:
         Variables:
-          USER_POOL_ID: !Ref UserPool
+          ATTENDEES_TABLE: !Ref ParticipantsTable
       Policies:
         - Statement:
             - Effect: Allow
-              Action: [cognito-idp:AdminGetUser]
-              Resource: !GetAtt UserPool.Arn
+              Action: [dynamodb:GetItem]
+              Resource: !GetAtt ParticipantsTable.Arn
       Events:
-        Channels:
+        Login:
           Type: Api
           Properties:
             RestApiId: !Ref Api
-            Path: /login/channels
+            Path: /login
             Method: get
-
 
   ContactsFn:
     Type: AWS::Serverless::Function
@@ -245,62 +107,7 @@ Resources:
             Path: /contacts
             Method: get
 
-  # ---------- Passwordless custom-auth triggers (invoked by Cognito) ----------
-  DefineAuthChallengeFn:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: defineAuthChallenge.handler
-      CodeUri: lambda/
-
-  CreateAuthChallengeFn:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: createAuthChallenge.handler
-      CodeUri: lambda/
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref OtpTable
-        - Statement:
-            - Effect: Allow
-              Action: [ses:SendEmail, sns:Publish]
-              Resource: '*'
-
-  VerifyAuthChallengeFn:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: verifyAuthChallenge.handler
-      CodeUri: lambda/
-
-  # Allow Cognito to invoke each trigger (created after the pool to avoid a cycle).
-  DefineAuthChallengePermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref DefineAuthChallengeFn
-      Principal: cognito-idp.amazonaws.com
-      SourceArn: !GetAtt UserPool.Arn
-
-  CreateAuthChallengePermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref CreateAuthChallengeFn
-      Principal: cognito-idp.amazonaws.com
-      SourceArn: !GetAtt UserPool.Arn
-
-  VerifyAuthChallengePermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref VerifyAuthChallengeFn
-      Principal: cognito-idp.amazonaws.com
-      SourceArn: !GetAtt UserPool.Arn
-
 Outputs:
-  UserPoolId:
-    Value: !Ref UserPool
-  UserPoolClientId:
-    Value: !Ref UserPoolClient
   ApiBaseUrl:
     Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod'
   ParticipantsTable:

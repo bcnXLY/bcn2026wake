@@ -5,7 +5,7 @@ import math
 # 1. Configuration
 TABLE_NAME = 'Participants'
 CSV_FILE = 'participants.csv'
-REGION_NAME = 'eu-west-1'  # Change to your AWS region (e.g., us-east-1)
+REGION_NAME = 'eu-west-3'  # Deployed region for the Participants table.
 
 # Initialize DynamoDB resource
 dynamodb = boto3.resource('dynamodb', region_name=REGION_NAME)

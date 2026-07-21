@@ -6,12 +6,6 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { CognitoUserSession } from 'amazon-cognito-identity-js';
-import {
-  getCurrentSession,
-  profileFromSession,
-  signOut as svcSignOut,
-} from '../services/auth';
 import { identifyPushUser, logoutPush } from '../services/push';
 import { enableDemoMode } from '../config';
 import { DEMO_PROFILE } from '../demo';
@@ -20,54 +14,40 @@ import type { UserProfile } from '../types';
 interface AuthContextValue {
   profile: UserProfile | null;
   loading: boolean;
-  setSession: (session: CognitoUserSession) => void;
   enterWithProfile: (profile: UserProfile) => void;
   enterDemo: () => void;
   signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
-const ID_ONLY_PROFILE_KEY = 'bcn2026-id-only-profile';
+const PROFILE_KEY = 'bcn2026-profile';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const applySession = (session: CognitoUserSession) => {
-    const p = profileFromSession(session);
-    setProfile(p);
-    identifyPushUser(p.id);
-  };
-
   useEffect(() => {
-    const savedProfile = localStorage.getItem(ID_ONLY_PROFILE_KEY);
+    const savedProfile = localStorage.getItem(PROFILE_KEY);
     if (savedProfile) {
       try {
-        const profile = JSON.parse(savedProfile) as UserProfile;
-        if (profile.id) {
-          setProfile(profile);
-          identifyPushUser(profile.id);
-          setLoading(false);
-          return;
+        const parsed = JSON.parse(savedProfile) as UserProfile;
+        if (parsed.id) {
+          setProfile(parsed);
+          identifyPushUser(parsed.id);
         }
       } catch {
-        localStorage.removeItem(ID_ONLY_PROFILE_KEY);
+        localStorage.removeItem(PROFILE_KEY);
       }
     }
-    getCurrentSession()
-      .then((session) => {
-        if (session) applySession(session);
-      })
-      .finally(() => setLoading(false));
+    setLoading(false);
   }, []);
 
   const value = useMemo<AuthContextValue>(
     () => ({
       profile,
       loading,
-      setSession: (session) => applySession(session),
       enterWithProfile: (profile) => {
-        localStorage.setItem(ID_ONLY_PROFILE_KEY, JSON.stringify(profile));
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
         setProfile(profile);
         identifyPushUser(profile.id);
       },
@@ -76,8 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProfile(DEMO_PROFILE);
       },
       signOut: () => {
-        svcSignOut();
-        localStorage.removeItem(ID_ONLY_PROFILE_KEY);
+        localStorage.removeItem(PROFILE_KEY);
         logoutPush();
         setProfile(null);
       },

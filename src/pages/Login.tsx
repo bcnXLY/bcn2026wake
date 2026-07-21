@@ -1,100 +1,29 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../components/LanguageSelector';
 import { useAuth } from '../context/AuthContext';
 import { config, isDemoMode } from '../config';
-import {
-  AuthError,
-  getLoginChannels,
-  startLogin,
-  submitOtp,
-  type ChannelInfo,
-  type OtpChannel,
-} from '../services/auth';
-
-type Step = 'id' | 'choose' | 'otp';
+import { AuthError, login } from '../services/auth';
+import { useState } from 'react';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { setSession, enterWithProfile, enterDemo } = useAuth();
+  const { enterWithProfile, enterDemo } = useAuth();
 
-  const [step, setStep] = useState<Step>('id');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const [id, setId] = useState('');
-  const [code, setCode] = useState('');
-  const [channel, setChannel] = useState<OtpChannel>('email');
-  const [channels, setChannels] = useState<Record<OtpChannel, ChannelInfo> | null>(null);
-  const [cooldown, setCooldown] = useState(0);
-
-  // Tick down the resend cooldown once per second.
-  useEffect(() => {
-    if (cooldown <= 0) return;
-    const timer = setTimeout(() => setCooldown((s) => s - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [cooldown]);
 
   const errText = (key: string | null) => (key ? t(`login.${key}`) : null);
 
   const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!id.trim()) return;
-    if (isDemoMode()) {
-      setChannels({
-        email: { available: true, hint: 'a***@gmail.com' },
-        sms: { available: true, hint: '•••••••01' },
-      });
-      setStep('choose');
-      return;
-    }
-    setBusy(true);
-    setError(null);
-    try {
-      const { profile } = await getLoginChannels(id.trim());
-      enterWithProfile(profile);
-    } catch (err) {
-      setError(err instanceof AuthError ? err.code : 'genericError');
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const sendOtp = async (ch: OtpChannel) => {
-    if (cooldown > 0) return;
-    setChannel(ch);
-    if (isDemoMode()) {
-      setCooldown(30);
-      setStep('otp');
-      return;
-    }
-    setBusy(true);
-    setError(null);
-    try {
-      await startLogin(id.trim(), ch);
-      setCooldown(30);
-      setStep('otp');
-    } catch (err) {
-      if (err instanceof AuthError && err.code === 'cooldown') {
-        setCooldown(err.retryAfter ?? 30);
-        setStep('otp');
-        setError('cooldown');
-      } else {
-        setError(err instanceof AuthError ? err.code : 'genericError');
-      }
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
     if (isDemoMode()) return enterDemo();
     setBusy(true);
     setError(null);
     try {
-      const session = await submitOtp(code.trim());
-      setSession(session);
+      const profile = await login(id.trim());
+      enterWithProfile(profile);
     } catch (err) {
       setError(err instanceof AuthError ? err.code : 'genericError');
     } finally {
@@ -117,99 +46,29 @@ export default function Login() {
       </div>
 
       <div className="login-card">
-        {step === 'id' && (
-          <form onSubmit={handleContinue}>
-            <div className="field">
-              <label htmlFor="id">{t('login.idLabel')}</label>
-              <input
-                id="id"
-                autoComplete="username"
-                inputMode="text"
-                placeholder={t('login.idPlaceholder')}
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-              />
-            </div>
-            <p className="hint-text">{t('login.firstTimeHint')}</p>
-            {error && <p className="error-text">{errText(error) ?? t('login.genericError')}</p>}
-            <button className="btn" disabled={busy || !id.trim()}>
-              {busy ? t('common.loading') : t('login.continue')}
-            </button>
-            {config.enableTestLoginButton && (
-              <button type="button" className="btn ghost" onClick={enterDemo}>
-                Enter demo
-              </button>
-            )}
-          </form>
-        )}
-
-        {step === 'choose' && channels && (
-          <div>
-            <p className="hint-text">{t('login.chooseChannel')}</p>
-            <div className="channel-list">
-              {(['email', 'sms'] as OtpChannel[]).map((ch) =>
-                channels[ch].available ? (
-                  <button
-                    key={ch}
-                    type="button"
-                    className="channel-option"
-                    disabled={busy}
-                    onClick={() => sendOtp(ch)}
-                  >
-                    <span className="channel-icon" aria-hidden="true">
-                      {ch === 'email' ? '✉' : '📱'}
-                    </span>
-                    <span className="channel-text">
-                      <strong>{ch === 'email' ? t('login.channelEmail') : t('login.channelSms')}</strong>
-                      {channels[ch].hint && <small>{channels[ch].hint}</small>}
-                    </span>
-                    <span className="channel-chevron" aria-hidden="true">
-                      ›
-                    </span>
-                  </button>
-                ) : null,
-              )}
-            </div>
-            {error && <p className="error-text">{errText(error) ?? t('login.genericError')}</p>}
-            <button type="button" className="btn ghost" onClick={() => setStep('id')}>
-              ←
-            </button>
+        <form onSubmit={handleContinue}>
+          <div className="field">
+            <label htmlFor="id">{t('login.idLabel')}</label>
+            <input
+              id="id"
+              autoComplete="username"
+              inputMode="text"
+              placeholder={t('login.idPlaceholder')}
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+            />
           </div>
-        )}
-
-        {step === 'otp' && (
-          <form onSubmit={handleVerify}>
-            <p className="hint-text">
-              {channel === 'email' ? t('login.otpSentEmail') : t('login.otpSentSms')}
-              {channels?.[channel]?.hint ? ` ${channels[channel].hint}` : ''}
-            </p>
-            <div className="field">
-              <label htmlFor="otp">{t('login.otpLabel')}</label>
-              <input
-                id="otp"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                placeholder={t('login.otpPlaceholder')}
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-            </div>
-            {error && <p className="error-text">{errText(error) ?? t('login.genericError')}</p>}
-            <button className="btn" disabled={busy || code.trim().length < 6}>
-              {busy ? t('common.loading') : t('login.verifyLogin')}
+          <p className="hint-text">{t('login.firstTimeHint')}</p>
+          {error && <p className="error-text">{errText(error) ?? t('login.genericError')}</p>}
+          <button className="btn" disabled={busy || !id.trim()}>
+            {busy ? t('common.loading') : t('login.continue')}
+          </button>
+          {config.enableTestLoginButton && (
+            <button type="button" className="btn ghost" onClick={enterDemo}>
+              Enter demo
             </button>
-            <button
-              type="button"
-              className="btn ghost"
-              onClick={() => sendOtp(channel)}
-              disabled={busy || cooldown > 0}
-            >
-              {cooldown > 0
-                ? t('login.resendIn', { seconds: cooldown })
-                : t('login.resendCode')}
-            </button>
-          </form>
-        )}
+          )}
+        </form>
       </div>
     </div>
   );

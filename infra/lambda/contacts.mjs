@@ -10,30 +10,21 @@ import { json } from './util.mjs';
 const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const PARTICIPANTS_TABLE = process.env.ATTENDEES_TABLE;
 
-// Roles are stored as numeric i18n codes on each participant record:
-//   0 = 组员 (group member), 1 = 辅导 (group counsellor/leader). Every other code
-//   (2 = 同工, 3 = 祷告组, …, 10 = 大会主席) is staff and is treated as a maintainer.
 const ROLE_MEMBER = 0;
 const ROLE_LEADER = 1;
+const ROLE_MAINTAINER = 8;
 
 // Placeholder ids emitted by the uploader when a participant has no real
 // team / room assignment yet.
 const UNASSIGNED = new Set(['unassigned', 'team_0', 'room_0']);
 
 /**
- * GET /contacts?id=BCN-001
  *
- * Returns a role-based slice of the participant roster. During the temporary
- * ID-only access period, the attendee ID comes from the query string; their role
- * and team are still read from their own DynamoDB record.
- *
- *   member (组员)      → { role, people: [their group leaders] }
- *   leader (辅导)      → { role, people: [their group members] }
- *   maintainer (staff) → { role, groups: [every group], maintainers: [staff roster] }
+ * Returns a role-based slice of the participant. The attendee ID is taken
+ * from the query string; their role and team are read from their DynamoDB record.
  */
 export async function handler(event) {
-  const claims = event.requestContext?.authorizer?.claims;
-  const myId = claims?.['cognito:username'] || claims?.sub || event.queryStringParameters?.id?.trim();
+  const myId = event.queryStringParameters?.id?.trim();
   if (!myId) return json(401, { message: 'Unauthorized' });
 
   try {
@@ -59,7 +50,7 @@ function isLeaderRole(role) {
 }
 
 function isMaintainerRole(role) {
-  return role !== ROLE_MEMBER && role !== ROLE_LEADER;
+  return role === ROLE_MAINTAINER;
 }
 
 function isLeader(p) {
@@ -78,7 +69,6 @@ function hasRealRoom(p) {
   return Boolean(p.room_id) && !UNASSIGNED.has(p.room_id);
 }
 
-/** "team_1" -> "Team 1", "room_12" -> "Room 12" (fallback: the raw id). */
 function label(id) {
   if (!id) return '';
   const [prefix, ...rest] = id.split('_');
@@ -87,7 +77,6 @@ function label(id) {
   return `${prefix.charAt(0).toUpperCase()}${prefix.slice(1)} ${suffix}`;
 }
 
-/** Maps a raw DynamoDB participant item to the public person shape (no birthday). */
 function toPerson(item) {
   return {
     id: item.id,
@@ -104,7 +93,6 @@ function byName(a, b) {
   return (a.name || '').localeCompare(b.name || '');
 }
 
-/** Loads a single participant by id. */
 async function fetchParticipant(id) {
   const res = await ddb.send(
     new GetCommand({ TableName: PARTICIPANTS_TABLE, Key: { id } }),
@@ -144,7 +132,7 @@ async function leaderView(me) {
   return { role: 'leader', people };
 }
 
-/** Maintainers see every group plus the staff roster. */
+/** Maintainers see every group plus the staff. */
 async function maintainerView() {
   const items = await scanAll();
 

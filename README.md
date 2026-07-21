@@ -5,8 +5,8 @@ A disposable, mobile-first Progressive Web App for a one-week private event with
 and to be torn down after the event.
 
 - **Frontend:** React 18 + TypeScript + Vite, installable PWA (`vite-plugin-pwa`).
-- **Auth:** AWS Cognito, **passwordless OTP** (email / SMS) via a `CUSTOM_AUTH` flow.
-- **Data:** DynamoDB (attendee roster + OTP store), Lambda + API Gateway (SAM).
+- **Auth:** ID-based — an attendee is logged in if their ID exists in the roster.
+- **Data:** DynamoDB (attendee roster), Lambda + API Gateway (SAM).
 - **Extras:** Google Drive gallery, OneSignal web push, i18n (EN / ES / ZH).
 
 ---
@@ -47,9 +47,6 @@ cp .env.example .env
 
 | Env var | What it is |
 |---|---|
-| `VITE_AWS_REGION` | Cognito region (e.g. `eu-west-3`) |
-| `VITE_COGNITO_USER_POOL_ID` | Cognito User Pool ID |
-| `VITE_COGNITO_CLIENT_ID` | Cognito App Client ID |
 | `VITE_API_BASE_URL` | API Gateway base URL (`.../prod`) |
 | `VITE_GOOGLE_DRIVE_API_KEY` | Browser-restricted, read-only Drive key |
 | `VITE_GOOGLE_DRIVE_FOLDER_ID` | Public parent folder (albums = subfolders) |
@@ -63,14 +60,13 @@ Only non-secret, public values are ever exposed to the client bundle (`VITE_*`).
 
 ## How login works
 
-There are **no passwords**. Every login is passwordless OTP:
+There are **no passwords and no OTP**. An attendee enters their ID and is granted
+access if it exists in the roster:
 
-1. Enter attendee ID → `GET /login/channels` returns which channels (email / SMS)
-   are available, with masked hints. A 404 means the ID is not on the roster.
-2. Pick a channel → Cognito `CUSTOM_AUTH` starts and the `CreateAuthChallenge`
-   Lambda sends a 6-digit code (rate-limited with a cooldown).
-3. Enter the code → Cognito issues JWTs; the profile is read from the ID-token
-   claims populated at seed time.
+1. Enter attendee ID → `GET /login?id=...` looks the ID up in the DynamoDB
+   `Participants` table. A 404 means the ID is not on the roster.
+2. The attendee's profile (name, church, team, room, role) is returned and the
+   app stores it locally to keep the session across reloads.
 
 ---
 
@@ -83,24 +79,24 @@ src/
   config.ts                Runtime config + demo-mode toggle (VITE_* env)
   types.ts                 Shared domain types
   main.tsx / App.tsx       Bootstrap + auth-gated routing (Login | Dashboard)
-  context/AuthContext.tsx  Session state, profile from JWT, demo profile
-  pages/                   Login (id → channel → OTP), Dashboard (tab shell)
+  context/AuthContext.tsx  Session state (profile in localStorage), demo profile
+  pages/                   Login (attendee id), Dashboard (tab shell)
   components/
     Header, BottomNav, LanguageSelector, PushBanner, Lightbox
     tabs/                  Profile, Schedule (live "NOW"), Gallery, Contacts
   services/
-    auth.ts                Cognito passwordless OTP client
+    auth.ts                ID-based login client (GET /login)
     contacts.ts            Role-based directory (GET /contacts) + demo data
     googleDrive.ts         Drive API v3 albums + images
     push.ts                OneSignal init / identify / permission
   data/eventData.ts        Static schedule + emergency contacts (edit + redeploy)
   i18n/                    react-i18next setup + en/es/zh locales
 infra/
-  template.yaml            SAM: Cognito, DynamoDB, Lambda API
-  lambda/                  loginChannels, {define,create,verify}AuthChallenge,
-                           contacts, util (CUSTOM_AUTH triggers + REST handlers)
-  seed/                    seedUsers.mjs (roster → Cognito + DynamoDB),
-                           broadcast.mjs (OneSignal push), roster.csv
+  template.yaml            SAM: DynamoDB roster + Lambda API
+  lambda/                  login, contacts, util (REST handlers)
+  seed/                    upload_participants.py (roster → DynamoDB),
+                           broadcast.mjs (OneSignal push), participants.csv
+.github/workflows/         deploy-frontend.yml, deploy-backend.yml
 .github/workflows/         deploy-frontend.yml, deploy-backend.yml
 ```
 
@@ -108,33 +104,29 @@ infra/
 
 ## Backend & seed (deploy)
 
-Deploying is only needed to test against real Cognito/DynamoDB — day-to-day UI
+Deploying is only needed to test against the real DynamoDB roster — day-to-day UI
 work uses demo mode. The project region is `eu-west-3`.
 
 ```bash
-# 1. Deploy the stack (needs a verified SES sender for OTP emails)
+# 1. Deploy the stack
 cd infra
 sam build
 sam deploy --guided \
   --stack-name bcn2026-backend \
-  --capabilities CAPABILITY_IAM \
-  --parameter-overrides SesFromAddress="no-reply@yourdomain.com"
+  --capabilities CAPABILITY_IAM
 
-# 2. Pre-provision attendees (idempotent — safe to re-run)
+# 2. Load the attendee roster into DynamoDB (idempotent — safe to re-run)
 cd seed
-npm install
-AWS_REGION=eu-west-3 \
-COGNITO_USER_POOL_ID=eu-west-3_XXXX \
-ATTENDEES_TABLE=bcn2026-attendees \
-  npm run seed
+pip install -r requirements.txt
+python upload_participants.py
 
 # 3. Broadcast a push (optional)
 ONESIGNAL_APP_ID=xxx ONESIGNAL_REST_API_KEY=xxx \
   npm run broadcast -- "Keynote in 10 min" "Auditorium A"
 ```
 
-Edit the roster in `infra/seed/roster.csv`
-(`id,name,email,phone,church_name,team_code,team_name,room_number,leaders_id,roommates_id,is_leader,is_maintainer`).
+Edit the roster in `infra/seed/participants.csv`
+(`id,name,sex,phone,church,role,team,room,birthday`).
 
 CI/CD lives in `.github/workflows/`: `deploy-frontend.yml` runs on push to `main`
 (build → S3 → CloudFront invalidate); `deploy-backend.yml` is manual. Both use
@@ -146,7 +138,6 @@ repository secrets and variables.
 ## Notes
 
 - Add binary PWA icons before deploying — see [public/ICONS_README.md](public/ICONS_README.md).
-- OTPs are stored hashed (SHA-256) with a DynamoDB TTL and verified in constant
-  time; the Google Drive key is browser-restricted and read-only.
+- The Google Drive key is browser-restricted and read-only.
 - Teardown after the event: `aws cloudformation delete-stack --stack-name bcn2026-backend`,
   then remove the S3 bucket + CloudFront distribution and disable the OneSignal app.

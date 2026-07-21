@@ -9,7 +9,7 @@ const person =
   demoData.people.find((p) => p.id === demoData.selectedPersonId) ?? demoData.people[0];
 const team = demoData.camp.teams.find((t) => t.code === person.teamCode);
 
-/** Mock attendee used when the app runs in demo mode (no Cognito session). */
+/** Mock attendee used when the app runs in demo mode (no backend session). */
 export const DEMO_PROFILE: UserProfile = {
   id: person.id,
   name: person.name,
