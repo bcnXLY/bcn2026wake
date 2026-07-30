@@ -1,9 +1,14 @@
 import os
 import boto3
+import time
+import random
+import json
+import base64
+import urllib.request
+import urllib.parse
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
 from util import json_response
-
 ddb = boto3.resource('dynamodb')
 PARTICIPANTS_TABLE = os.environ.get('ATTENDEES_TABLE', '')
 
@@ -13,9 +18,35 @@ ROLE_MAINTAINER = 8
 
 UNASSIGNED = {'unassigned', 'team_0', 'room_0'}
 
+def send_sms(to_phone, body):
+    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+    from_phone = os.environ.get('TWILIO_PHONE_NUMBER')
+    
+    if not account_sid or not auth_token or not from_phone:
+        return
+
+    url = f"https://api.twilio.com/2010-04-01/Accounts/{account_sid}/Messages.json"
+    data = urllib.parse.urlencode({
+        'To': to_phone,
+        'From': from_phone,
+        'Body': body
+    }).encode('ascii')
+    
+    req = urllib.request.Request(url, data=data)
+    auth_b64 = base64.b64encode(f"{account_sid}:{auth_token}".encode('utf-8')).decode('ascii')
+    req.add_header('Authorization', f'Basic {auth_b64}')
+    
+    try:
+        with urllib.request.urlopen(req) as response:
+            return json.loads(response.read())
+    except Exception as e:
+        raise e
+
 def lambda_handler(event, context):
     query_params = event.get('queryStringParameters') or {}
     user_id = (query_params.get('id') or '').strip()
+    code = (query_params.get('code') or '').strip()
     
     if not user_id:
         return json_response(400, {'message': 'Missing id'})
@@ -27,6 +58,62 @@ def lambda_handler(event, context):
         p = res.get('Item')
         if not p:
             return json_response(404, {'message': 'Unknown id'})
+
+        role = p.get('role', 0)
+        try:
+            role = int(role)
+        except (ValueError, TypeError):
+            role = 0
+
+        # Roles 1 and 8 require SMS 2FA
+        if role in (ROLE_LEADER, ROLE_MAINTAINER):
+            if not code:
+                # Initiate 2FA
+                phone = p.get('phone')
+                if not phone or phone == 0 or phone == "0" or phone == "":
+                    return json_response(400, {'message': 'Phone number not registered. Please contact support.'})
+                
+                # Generate 6-digit OTP
+                otp = str(random.randint(100000, 999999))
+                expiry = int(time.time()) + 600 # 10 minutes from now
+                
+                # Save OTP to DB
+                table.update_item(
+                    Key={'id': user_id},
+                    UpdateExpression="SET otp = :otp, otp_expires = :expiry",
+                    ExpressionAttributeValues={
+                        ':otp': otp,
+                        ':expiry': expiry
+                    }
+                )
+                
+                # Send SMS
+                phone_str = str(phone)
+                # Ensure phone number has a + prefix (assuming standard E.164, though we just use what's in DB)
+                if not phone_str.startswith('+'):
+                    # Depending on local rules, you might prepend a country code, e.g., '+34' for Spain.
+                    # Assuming the phone field in DB is already properly formatted or can be parsed by Twilio.
+                    pass
+                    
+                send_sms(phone_str, f"Your BCN2026 Wake login code is: {otp}")
+                
+                return json_response(200, {'requires2FA': True})
+            else:
+                # Verify 2FA code
+                saved_otp = p.get('otp')
+                otp_expires = p.get('otp_expires', 0)
+                
+                if not saved_otp or saved_otp != code:
+                    return json_response(401, {'message': 'Invalid code'})
+                if int(time.time()) > int(otp_expires):
+                    return json_response(401, {'message': 'Code has expired'})
+                
+                # Clear OTP
+                table.update_item(
+                    Key={'id': user_id},
+                    UpdateExpression="REMOVE otp, otp_expires"
+                )
+                # Code valid, proceed to return profile
 
         return json_response(200, {'profile': to_profile(p)})
     except ClientError as err:

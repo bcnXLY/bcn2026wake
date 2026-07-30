@@ -32,6 +32,8 @@
     "invalidCredentials": "Incorrect ID or password.",
     "unknownId": "That ID is not on the roster.",
     "invalidCode": "That code is invalid or expired.",
+    "noPhoneRegistered": "Phone number not registered. Please contact support.",
+    "unauthorized": "Unauthorized access.",
     "genericError": "Something went wrong. Please try again."
   },
   "nav": {

@@ -12,18 +12,32 @@ export default function Login() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [id, setId] = useState('');
+  const [requires2FA, setRequires2FA] = useState(false);
+  const [code, setCode] = useState('');
 
   const errText = (key: string | null) => (key ? t(`login.${key}`) : null);
 
   const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!id.trim()) return;
+    if (!requires2FA && !id.trim()) return;
+    if (requires2FA && !code.trim()) return;
     if (isDemoMode()) return enterDemo();
     setBusy(true);
     setError(null);
     try {
-      const profile = await login(id.trim());
-      enterWithProfile(profile);
+      if (!requires2FA) {
+        const result = await login(id.trim());
+        if ('requires2FA' in result && result.requires2FA) {
+          setRequires2FA(true);
+        } else {
+          enterWithProfile(result as any);
+        }
+      } else {
+        const result = await login(id.trim(), code.trim());
+        if (!('requires2FA' in result)) {
+          enterWithProfile(result as any);
+        }
+      }
     } catch (err) {
       setError(err instanceof AuthError ? err.code : 'genericError');
     } finally {
@@ -47,19 +61,36 @@ export default function Login() {
 
       <div className="login-card">
         <form onSubmit={handleContinue}>
-          <div className="field">
-            <label htmlFor="id">{t('login.idLabel')}</label>
-            <input
-              id="id"
-              autoComplete="username"
-              inputMode="text"
-              placeholder={t('login.idPlaceholder')}
-              value={id}
-              onChange={(e) => setId(e.target.value)}
-            />
-          </div>
+          {!requires2FA ? (
+            <div className="field">
+              <label htmlFor="id">{t('login.idLabel')}</label>
+              <input
+                id="id"
+                autoComplete="username"
+                inputMode="text"
+                placeholder={t('login.idPlaceholder')}
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+              />
+            </div>
+          ) : (
+            <div className="field">
+              <label htmlFor="code">{t('login.otpLabel')}</label>
+              <input
+                id="code"
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                placeholder={t('login.otpPlaceholder')}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <p className="help-text" style={{ fontSize: '0.85rem', color: 'var(--text-color-secondary)', marginTop: '0.5rem' }}>
+                {t('login.otpSentSms')}
+              </p>
+            </div>
+          )}
           {error && <p className="error-text">{errText(error) ?? t('login.genericError')}</p>}
-          <button className="btn" disabled={busy || !id.trim()}>
+          <button className="btn" disabled={busy || (!requires2FA && !id.trim()) || (requires2FA && !code.trim())}>
             {busy ? t('common.loading') : t('login.continue')}
           </button>
           {config.enableTestLoginButton && (

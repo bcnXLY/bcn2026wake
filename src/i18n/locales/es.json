@@ -32,6 +32,8 @@
     "invalidCredentials": "ID o contraseña incorrectos.",
     "unknownId": "Ese ID no está en la lista.",
     "invalidCode": "Ese código es inválido o expiró.",
+    "noPhoneRegistered": "Número de teléfono no registrado. Por favor contacte con soporte.",
+    "unauthorized": "Acceso no autorizado.",
     "genericError": "Algo salió mal. Inténtalo de nuevo."
   },
   "nav": {

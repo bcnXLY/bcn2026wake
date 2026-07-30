@@ -16,11 +16,26 @@ export class AuthError extends Error {
  * DynamoDB roster; if it exists the attendee profile is returned and access is
  * granted. A 404 means the ID is not on the roster.
  */
-export async function login(id: string): Promise<UserProfile> {
-  const res = await fetch(`${config.apiBaseUrl}/login?id=${encodeURIComponent(id)}`);
+export async function login(id: string, code?: string): Promise<UserProfile | { requires2FA: true }> {
+  const url = `${config.apiBaseUrl}/login?id=${encodeURIComponent(id)}${code ? `&code=${encodeURIComponent(code)}` : ''}`;
+  const res = await fetch(url);
   if (res.status === 404) throw new AuthError('unknownId');
+  if (res.status === 400) {
+    const data = await res.json().catch(() => ({}));
+    if (data.message === 'Phone number not registered. Please contact support.') {
+        throw new AuthError('noPhoneRegistered');
+    }
+  }
+  if (res.status === 401) {
+    const data = await res.json().catch(() => ({}));
+    if (data.message === 'Invalid code' || data.message === 'Code has expired') throw new AuthError('invalidCode');
+    throw new AuthError('unauthorized');
+  }
   if (!res.ok) throw new AuthError('genericError');
   const data = await res.json();
+  if (data.requires2FA) {
+    return { requires2FA: true };
+  }
   return data.profile as UserProfile;
 }
 
