@@ -6,7 +6,7 @@ and to be torn down after the event.
 
 - **Frontend:** React 18 + TypeScript + Vite, installable PWA (`vite-plugin-pwa`).
 - **Auth:** ID-based — an attendee is logged in if their ID exists in the roster.
-- **Data:** DynamoDB (attendee roster), Lambda + API Gateway (SAM).
+- **Data:** DynamoDB (attendee roster + team notice boards), Lambda + API Gateway (SAM).
 - **Extras:** Google Drive gallery, OneSignal web push, i18n (EN / ES / ZH).
 
 ---
@@ -77,6 +77,31 @@ code (Twilio Verify):
 
 ---
 
+## Team notices (小组公告)
+
+Each team has one notice board, stored in the `TeamMessages` table (`team_id`
+partition key, timestamp-prefixed `message_id` sort key, so a single query
+returns a board in order). Team 0 is the staff team and has its own board;
+only `unassigned` means the participant has no board yet.
+
+- `GET /messages?id=...` — the caller's own board. The team and posting rights
+  come from their roster record, so nobody can read or post to another team's
+  board by changing the request.
+- `POST /messages` — post a notice. Allowed for everyone on the team **except**
+  members (`role = 0`), who read only.
+- `PUT /messages` — edit a notice. A condition on `sender_id` means only the
+  author can edit their own message; edits are marked "edited" in the UI.
+
+Sender name and role are denormalised onto each message, so a board renders
+without a lookup per message. In demo mode the boards live in memory.
+
+An open board polls every 25s and refreshes whenever the app regains focus, so
+someone else's notice appears without leaving the tab. Polling skips hidden tabs
+and pauses while you are posting or editing, and a failed poll leaves the board
+untouched.
+
+---
+
 ## Project structure
 
 ```
@@ -90,17 +115,19 @@ src/
   pages/                   Login (attendee id), Dashboard (tab shell)
   components/
     Header, BottomNav, LanguageSelector, PushBanner, Lightbox
-    tabs/                  Profile, Schedule (live "NOW"), Gallery, Contacts
+    tabs/                  Profile, Schedule (live "NOW"), Messages (team
+                           notice board), Gallery, Contacts
   services/
     auth.ts                ID-based login client (GET /login)
     contacts.ts            Role-based directory (GET /contacts) + demo data
+    messages.ts            Team notice board (GET/POST/PUT /messages)
     googleDrive.ts         Drive API v3 albums + images
     push.ts                OneSignal init / identify / permission
   data/eventData.ts        Static schedule + emergency contacts (edit + redeploy)
   i18n/                    react-i18next setup + en/es/zh locales
 infra/
-  template.yaml            SAM: DynamoDB roster + Lambda API
-  lambda/                  login, contacts, util (REST handlers)
+  template.yaml            SAM: DynamoDB roster + notice boards + Lambda API
+  lambda/                  login, contacts, update_profile, messages, util
   seed/                    upload_participants.py (roster → DynamoDB),
                            broadcast.mjs (OneSignal push), participants.csv
 .github/workflows/         deploy-frontend.yml, deploy-backend.yml

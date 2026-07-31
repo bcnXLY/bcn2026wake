@@ -46,6 +46,7 @@
   "nav": {
     "profile": "Perfil",
     "schedule": "Agenda",
+    "messages": "Avisos",
     "gallery": "Galería",
     "contacts": "Contactos"
   },
@@ -103,6 +104,19 @@
         "location": "Comedor"
       }
     }
+  },
+  "messages": {
+    "heading": "Avisos del equipo",
+    "placeholder": "Escribe un aviso para tu equipo…",
+    "composerLabel": "Mensaje",
+    "send": "Publicar",
+    "sending": "Publicando…",
+    "edited": "editado",
+    "empty": "Aún no hay avisos.",
+    "noTeam": "Todavía no tienes equipo asignado.",
+    "loadError": "No se pudieron cargar los avisos.",
+    "sendFailed": "No se pudo publicar. Inténtalo de nuevo.",
+    "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
   },
   "gallery": {
     "title": "Galería",

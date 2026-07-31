@@ -6,3 +6,4 @@
 export { DEMO_PROFILE } from './profile';
 export { demoDirectory } from './contacts';
 export { demoAlbums, demoGalleryImages } from './gallery';
+export { demoBoard, demoPostMessage, demoEditMessage } from './messages';

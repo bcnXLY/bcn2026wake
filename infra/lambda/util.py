@@ -4,7 +4,7 @@ CORS = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST,GET,OPTIONS',
+    'Access-Control-Allow-Methods': 'POST,GET,PUT,OPTIONS',
 }
 
 def json_response(status_code, body):

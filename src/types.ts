@@ -69,6 +69,31 @@ export interface ContactsDirectory {
   emergencyContacts?: DirectoryPerson[];
 }
 
+/** One post on a team's announcement board (from DynamoDB). */
+export interface TeamMessage {
+  id: string;
+  text: string;
+  senderId: string;
+  senderName: string;
+  /** Numeric role code of the sender, shown next to their name. */
+  senderRole: number;
+  createdAt: string;
+  /** Only present once the author has edited the message. */
+  updatedAt?: string;
+}
+
+/**
+ * A team's board as returned by GET /messages. The caller's team and posting
+ * rights are derived server-side from their roster record — never trusted from
+ * the client.
+ */
+export interface TeamMessageBoard {
+  teamCode: string;
+  /** Members (role 0) read only; everyone else on the team may post. */
+  canPost: boolean;
+  messages: TeamMessage[];
+}
+
 export interface GalleryImage {
   id: string;
   name: string;
@@ -84,4 +109,4 @@ export interface GalleryAlbum {
   coverUrl?: string;
 }
 
-export type TabKey = 'profile' | 'schedule' | 'gallery' | 'contacts';
+export type TabKey = 'profile' | 'schedule' | 'messages' | 'gallery' | 'contacts';

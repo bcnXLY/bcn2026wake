@@ -69,12 +69,30 @@ Resources:
           Projection:
             ProjectionType: ALL
 
+  TeamMessagesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: TeamMessages
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: team_id
+          AttributeType: S
+        - AttributeName: message_id
+          AttributeType: S
+      KeySchema:
+        # One board per team; message_id is timestamp-prefixed so a plain query
+        # returns the board in chronological order.
+        - AttributeName: team_id
+          KeyType: HASH
+        - AttributeName: message_id
+          KeyType: RANGE
+
   Api:
     Type: AWS::Serverless::Api
     Properties:
       StageName: prod
       Cors:
-        AllowMethods: "'POST,GET,OPTIONS'"
+        AllowMethods: "'POST,GET,PUT,OPTIONS'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowOrigin: "'*'"
 
@@ -156,8 +174,53 @@ Resources:
             Path: /profile
             Method: put
 
+  MessagesFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: messages.lambda_handler
+      CodeUri: lambda/
+      Environment:
+        Variables:
+          ATTENDEES_TABLE: !Ref ParticipantsTable
+          MESSAGES_TABLE: !Ref TeamMessagesTable
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+              Resource:
+                - !GetAtt ParticipantsTable.Arn
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+                - dynamodb:PutItem
+                - dynamodb:UpdateItem
+              Resource:
+                - !GetAtt TeamMessagesTable.Arn
+      Events:
+        ListMessages:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /messages
+            Method: get
+        PostMessage:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /messages
+            Method: post
+        EditMessage:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /messages
+            Method: put
+
 Outputs:
   ApiBaseUrl:
     Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod'
   ParticipantsTable:
     Value: !Ref ParticipantsTable
+  TeamMessagesTable:
+    Value: !Ref TeamMessagesTable

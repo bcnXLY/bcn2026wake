@@ -1,0 +1,159 @@
+/* Team announcement board — same soft-UI language as the rest of the app. */
+
+/* Fills the body so the composer can sit at the bottom on a short board. */
+.messages-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-team {
+  margin: -6px 0 16px;
+}
+
+/* Pinned to the bottom of the body's content box — which the app shell already
+   keeps clear of the nav. `margin-top: auto` drops it to the bottom when the
+   board is too short to scroll. */
+.msg-composer {
+  position: sticky;
+  /* Matches the body's bottom padding, so pinned and resting positions agree. */
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px);
+  z-index: 10;
+  margin-top: auto;
+  padding-top: 12px;
+  background: var(--bg);
+}
+
+/* Covers the strip the body reserves below the content box, so messages don't
+   scroll through the gap between the composer and the nav. */
+.msg-composer::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background: var(--bg);
+}
+
+.msg-compose-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.msg-send {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow:
+    4px 4px 10px rgba(79, 70, 229, 0.35),
+    -3px -3px 8px var(--nm-light);
+  transition:
+    transform 0.15s var(--ease),
+    box-shadow 0.2s var(--ease),
+    opacity 0.2s var(--ease);
+}
+
+.msg-send:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 3px 3px 8px rgba(49, 43, 145, 0.5),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.15);
+}
+
+.msg-send:disabled {
+  background: var(--surface);
+  color: var(--text-faint);
+  box-shadow: var(--nm-in-sm);
+  cursor: not-allowed;
+}
+
+.msg-textarea {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  resize: vertical;
+  box-shadow: var(--nm-in);
+  transition: box-shadow 0.2s var(--ease);
+}
+
+.msg-textarea::placeholder {
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.msg-textarea:focus {
+  outline: none;
+  box-shadow:
+    var(--nm-in),
+    0 0 0 2px var(--ring);
+}
+
+.msg-textarea:disabled {
+  opacity: 0.6;
+}
+
+.msg-card {
+  padding: 16px 20px 18px;
+}
+
+.msg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.msg-sender {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.msg-sender strong {
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.msg-time {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.msg-text {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.msg-card .msg-textarea {
+  margin-top: 10px;
+}
+
+.msg-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}

@@ -4,6 +4,7 @@ import BottomNav from '../components/BottomNav';
 import PushBanner from '../components/PushBanner';
 import ProfileTab from '../components/tabs/ProfileTab';
 import ScheduleTab from '../components/tabs/ScheduleTab';
+import MessagesTab from '../components/tabs/MessagesTab';
 import GalleryTab from '../components/tabs/GalleryTab';
 import ContactsTab from '../components/tabs/ContactsTab';
 import type { TabKey } from '../types';
@@ -18,6 +19,7 @@ export default function Dashboard() {
         <PushBanner />
         {tab === 'profile' && <ProfileTab />}
         {tab === 'schedule' && <ScheduleTab />}
+        {tab === 'messages' && <MessagesTab />}
         {tab === 'gallery' && <GalleryTab />}
         {tab === 'contacts' && <ContactsTab />}
       </main>

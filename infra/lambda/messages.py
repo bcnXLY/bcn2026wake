@@ -1,0 +1,232 @@
+import os
+import json
+import uuid
+from datetime import datetime, timezone
+
+import boto3
+from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
+from util import json_response
+
+ddb = boto3.resource('dynamodb')
+PARTICIPANTS_TABLE = os.environ.get('ATTENDEES_TABLE', '')
+MESSAGES_TABLE = os.environ.get('MESSAGES_TABLE', '')
+
+ROLE_MEMBER = 0
+
+# Team 0 is the staff team and gets its own board, so `unassigned` is the only
+# team_id that means "no team yet".
+NO_TEAM = {'unassigned', ''}
+
+MAX_TEXT_LENGTH = 2000
+
+
+def lambda_handler(event, context):
+    method = (event.get('httpMethod') or 'GET').upper()
+
+    try:
+        if method == 'GET':
+            return handle_get(event)
+        if method == 'POST':
+            return handle_post(event)
+        if method == 'PUT':
+            return handle_put(event)
+        return json_response(405, {'message': 'Method not allowed'})
+    except Exception as err:
+        print(err)
+        return json_response(500, {'message': 'Server error'})
+
+
+def handle_get(event):
+    query_params = event.get('queryStringParameters') or {}
+    my_id = (query_params.get('id') or '').strip()
+
+    if not my_id:
+        return json_response(401, {'message': 'Unauthorized'})
+
+    me = fetch_participant(my_id)
+    if not me:
+        return json_response(404, {'message': 'Participant not found'})
+
+    if not has_real_team(me):
+        return json_response(200, {'teamCode': '', 'canPost': False, 'messages': []})
+
+    return json_response(200, {
+        'teamCode': extract_numbers(me.get('team_id')),
+        'canPost': can_post(me),
+        'messages': fetch_messages(me.get('team_id')),
+    })
+
+
+def handle_post(event):
+    body = parse_body(event)
+    if body is None:
+        return json_response(400, {'message': 'Invalid JSON'})
+
+    my_id = (body.get('id') or '').strip()
+    if not my_id:
+        return json_response(401, {'message': 'Unauthorized'})
+
+    text, error = clean_text(body.get('text'))
+    if error:
+        return json_response(400, {'message': error})
+
+    me = fetch_participant(my_id)
+    if not me:
+        return json_response(404, {'message': 'Participant not found'})
+
+    # The team is resolved from the roster record — never trusted from the client,
+    # so nobody can post onto another team's board.
+    if not can_post(me):
+        return json_response(403, {'message': 'Forbidden'})
+
+    now = utc_now()
+    item = {
+        'team_id': me.get('team_id'),
+        'message_id': f'{now}#{uuid.uuid4().hex[:8]}',
+        'text': text,
+        'sender_id': me.get('id'),
+        # Sender name/role are denormalised so reading a board never needs a
+        # second lookup per message.
+        'sender_name': me.get('name', ''),
+        'sender_role': get_role(me),
+        'created_at': now,
+    }
+    ddb.Table(MESSAGES_TABLE).put_item(Item=item)
+
+    return json_response(201, {'message': to_message(item)})
+
+
+def handle_put(event):
+    body = parse_body(event)
+    if body is None:
+        return json_response(400, {'message': 'Invalid JSON'})
+
+    my_id = (body.get('id') or '').strip()
+    message_id = (body.get('messageId') or '').strip()
+    if not my_id:
+        return json_response(401, {'message': 'Unauthorized'})
+    if not message_id:
+        return json_response(400, {'message': 'Missing messageId'})
+
+    text, error = clean_text(body.get('text'))
+    if error:
+        return json_response(400, {'message': error})
+
+    me = fetch_participant(my_id)
+    if not me:
+        return json_response(404, {'message': 'Participant not found'})
+    if not can_post(me):
+        return json_response(403, {'message': 'Forbidden'})
+
+    try:
+        res = ddb.Table(MESSAGES_TABLE).update_item(
+            Key={'team_id': me.get('team_id'), 'message_id': message_id},
+            UpdateExpression='set #t = :t, updated_at = :u',
+            # Only the author can edit their own message.
+            ConditionExpression='sender_id = :uid',
+            ExpressionAttributeNames={'#t': 'text'},
+            ExpressionAttributeValues={
+                ':t': text,
+                ':u': utc_now(),
+                ':uid': me.get('id'),
+            },
+            ReturnValues='ALL_NEW',
+        )
+    except ClientError as err:
+        if err.response['Error']['Code'] == 'ConditionalCheckFailedException':
+            return json_response(403, {'message': 'Forbidden'})
+        raise
+
+    return json_response(200, {'message': to_message(res.get('Attributes', {}))})
+
+
+def parse_body(event):
+    try:
+        return json.loads(event.get('body') or '{}')
+    except Exception:
+        return None
+
+
+def clean_text(raw):
+    text = (raw or '').strip() if isinstance(raw, str) else ''
+    if not text:
+        return '', 'Missing text'
+    if len(text) > MAX_TEXT_LENGTH:
+        return '', 'Message too long'
+    return text, None
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+
+
+def get_role(item):
+    role = item.get('role', 0)
+    try:
+        return int(role)
+    except (ValueError, TypeError):
+        return 0
+
+
+def has_real_team(p):
+    team_id = p.get('team_id')
+    return bool(team_id) and team_id not in NO_TEAM
+
+
+def can_post(p):
+    """Members (role 0) read their board; everyone else on the team may post."""
+    return has_real_team(p) and get_role(p) != ROLE_MEMBER
+
+
+def extract_numbers(id_str):
+    if not id_str:
+        return ''
+    return ''.join(c for c in id_str if c.isdigit())
+
+
+def to_message(item):
+    message = {
+        'id': item.get('message_id'),
+        'text': item.get('text', ''),
+        'senderId': item.get('sender_id'),
+        'senderName': item.get('sender_name', ''),
+        'senderRole': get_sender_role(item),
+        'createdAt': item.get('created_at'),
+    }
+    if item.get('updated_at'):
+        message['updatedAt'] = item.get('updated_at')
+    return message
+
+
+def get_sender_role(item):
+    role = item.get('sender_role', 0)
+    try:
+        return int(role)
+    except (ValueError, TypeError):
+        return 0
+
+
+def fetch_participant(user_id):
+    table = ddb.Table(PARTICIPANTS_TABLE)
+    res = table.get_item(Key={'id': user_id})
+    return res.get('Item')
+
+
+def fetch_messages(team_id):
+    table = ddb.Table(MESSAGES_TABLE)
+    items = []
+    kwargs = {
+        'KeyConditionExpression': Key('team_id').eq(team_id),
+        # message_id is timestamp-prefixed, so the sort key orders chronologically.
+        'ScanIndexForward': True,
+    }
+
+    while True:
+        res = table.query(**kwargs)
+        items.extend(res.get('Items', []))
+        if 'LastEvaluatedKey' in res:
+            kwargs['ExclusiveStartKey'] = res['LastEvaluatedKey']
+        else:
+            break
+    return [to_message(item) for item in items]

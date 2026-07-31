@@ -223,6 +223,9 @@ a {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 22px 18px calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px);
+  /* Column flow so a tab can opt into filling the body (see .messages-tab). */
+  display: flex;
+  flex-direction: column;
 }
 
 .tab-title {
@@ -317,7 +320,7 @@ a {
   height: calc(var(--nav-h) + env(safe-area-inset-bottom));
   padding: 8px 10px env(safe-area-inset-bottom);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 6px;
   background: var(--bg);
   box-shadow: 0 -8px 16px -10px var(--nm-dark);
@@ -888,6 +891,42 @@ a {
 .btn.ghost:disabled {
   box-shadow: none;
   background: transparent;
+}
+
+/* Small pill buttons for inline editing (profile phone, team messages). */
+.btn-save,
+.btn-edit,
+.btn-cancel {
+  background: var(--surface);
+  color: var(--accent);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 8px 15px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--nm-out-sm);
+  transition:
+    box-shadow 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.btn-edit,
+.btn-cancel {
+  color: var(--text-dim);
+}
+
+.btn-save:active,
+.btn-edit:active,
+.btn-cancel:active {
+  box-shadow: var(--nm-in-sm);
+}
+
+.btn-save:disabled,
+.btn-cancel:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: var(--nm-in-sm);
 }
 
 .btn-row {

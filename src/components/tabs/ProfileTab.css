@@ -14,7 +14,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 120% at 0% 0%, var(--accent-soft), transparent 60%);
+  background: var(--accent-soft);
   pointer-events: none;
 }
 
@@ -91,41 +91,6 @@
   box-shadow:
     var(--nm-in-sm),
     0 0 0 2px var(--ring);
-}
-
-.btn-save,
-.btn-edit,
-.btn-cancel {
-  background: var(--surface);
-  color: var(--accent);
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 8px 15px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: var(--nm-out-sm);
-  transition:
-    box-shadow 0.2s var(--ease),
-    color 0.2s var(--ease);
-}
-
-.btn-edit,
-.btn-cancel {
-  color: var(--text-dim);
-}
-
-.btn-save:active,
-.btn-edit:active,
-.btn-cancel:active {
-  box-shadow: var(--nm-in-sm);
-}
-
-.btn-save:disabled,
-.btn-cancel:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  box-shadow: var(--nm-in-sm);
 }
 
 .phone-value {

@@ -46,6 +46,7 @@
   "nav": {
     "profile": "Profile",
     "schedule": "Schedule",
+    "messages": "Notices",
     "gallery": "Gallery",
     "contacts": "Contacts"
   },
@@ -103,6 +104,19 @@
         "location": "Dining Hall"
       }
     }
+  },
+  "messages": {
+    "heading": "Team notices",
+    "placeholder": "Write a notice for your team…",
+    "composerLabel": "Message",
+    "send": "Post",
+    "sending": "Posting…",
+    "edited": "edited",
+    "empty": "No notices yet.",
+    "noTeam": "You are not assigned to a team yet.",
+    "loadError": "Could not load notices.",
+    "sendFailed": "Could not post. Please try again.",
+    "saveFailed": "Could not save. Please try again."
   },
   "gallery": {
     "title": "Gallery",

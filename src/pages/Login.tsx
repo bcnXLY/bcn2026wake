@@ -171,10 +171,6 @@ export default function Login() {
             </p>
           )}
 
-          <button className="btn" style={{ marginTop: 18 }} disabled={busy || !canSubmit}>
-            {busy ? t('common.loading') : step === 'id' ? t('login.continue') : t('login.verify')}
-          </button>
-
           {step === 'code' && (
             <>
               <div className="resend-row">
