@@ -34,6 +34,8 @@
     "invalidCode": "That code is invalid or expired.",
     "noPhoneRegistered": "Phone number not registered. Please contact support.",
     "unauthorized": "Unauthorized access.",
+    "tooManyAttempts": "Too many attempts. Please wait a few minutes and try again.",
+    "smsFailed": "We could not send your code right now. Please try again shortly.",
     "genericError": "Something went wrong. Please try again."
   },
   "nav": {
@@ -142,6 +144,7 @@
   },
   "common": {
     "loading": "Loading…",
-    "retry": "Retry"
+    "retry": "Retry",
+    "back": "Back"
   }
 }

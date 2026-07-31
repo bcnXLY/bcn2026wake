@@ -34,6 +34,8 @@
     "invalidCode": "验证码无效或已过期。",
     "noPhoneRegistered": "未注册手机号码，请联系支持人员。",
     "unauthorized": "未经授权的访问。",
+    "tooManyAttempts": "尝试次数过多，请稍候几分钟后重试。",
+    "smsFailed": "暂时无法发送验证码，请稍后重试。",
     "genericError": "出现问题，请重试。"
   },
   "nav": {
@@ -142,6 +144,7 @@
   },
   "common": {
     "loading": "加载中…",
-    "retry": "重试"
+    "retry": "重试",
+    "back": "返回"
   }
 }

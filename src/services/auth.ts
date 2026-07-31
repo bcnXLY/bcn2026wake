@@ -16,22 +16,28 @@ export class AuthError extends Error {
  * DynamoDB roster; if it exists the attendee profile is returned and access is
  * granted. A 404 means the ID is not on the roster.
  */
+const KNOWN_ERROR_CODES = new Set([
+  'unknownId',
+  'noPhoneRegistered',
+  'invalidCode',
+  'tooManyAttempts',
+  'smsFailed',
+  'unauthorized',
+]);
+
 export async function login(id: string, code?: string): Promise<UserProfile | { requires2FA: true }> {
   const url = `${config.apiBaseUrl}/login?id=${encodeURIComponent(id)}${code ? `&code=${encodeURIComponent(code)}` : ''}`;
   const res = await fetch(url);
-  if (res.status === 404) throw new AuthError('unknownId');
-  if (res.status === 400) {
-    const data = await res.json().catch(() => ({}));
-    if (data.message === 'Phone number not registered. Please contact support.') {
-        throw new AuthError('noPhoneRegistered');
-    }
+
+  if (!res.ok) {
+    // The backend returns a stable `code` field; never match on message text.
+    const data = await res.json().catch(() => ({}) as { code?: string });
+    if (data.code && KNOWN_ERROR_CODES.has(data.code)) throw new AuthError(data.code);
+    if (res.status === 404) throw new AuthError('unknownId');
+    if (res.status === 401) throw new AuthError('unauthorized');
+    throw new AuthError('genericError');
   }
-  if (res.status === 401) {
-    const data = await res.json().catch(() => ({}));
-    if (data.message === 'Invalid code' || data.message === 'Code has expired') throw new AuthError('invalidCode');
-    throw new AuthError('unauthorized');
-  }
-  if (!res.ok) throw new AuthError('genericError');
+
   const data = await res.json();
   if (data.requires2FA) {
     return { requires2FA: true };

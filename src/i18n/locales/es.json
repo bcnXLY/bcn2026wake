@@ -34,6 +34,8 @@
     "invalidCode": "Ese código es inválido o expiró.",
     "noPhoneRegistered": "Número de teléfono no registrado. Por favor contacte con soporte.",
     "unauthorized": "Acceso no autorizado.",
+    "tooManyAttempts": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+    "smsFailed": "No hemos podido enviar tu código ahora mismo. Inténtalo de nuevo en unos minutos.",
     "genericError": "Algo salió mal. Inténtalo de nuevo."
   },
   "nav": {
@@ -142,6 +144,7 @@
   },
   "common": {
     "loading": "Cargando…",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "back": "Volver"
   }
 }

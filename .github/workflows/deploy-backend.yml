@@ -42,13 +42,25 @@ jobs:
 
       - name: SAM deploy
         working-directory: infra
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_VERIFY_SERVICE_SID: ${{ secrets.TWILIO_VERIFY_SERVICE_SID }}
         run: |
+          if [ -z "$TWILIO_ACCOUNT_SID" ] || [ -z "$TWILIO_AUTH_TOKEN" ] || [ -z "$TWILIO_VERIFY_SERVICE_SID" ]; then
+            echo "::error::Twilio secrets are missing; SMS 2FA would deploy disabled."
+            exit 1
+          fi
           sam deploy \
             --stack-name bcn2026-backend \
             --s3-bucket "${{ vars.SAM_ARTIFACT_BUCKET }}" \
             --capabilities CAPABILITY_IAM \
             --no-confirm-changeset \
-            --no-fail-on-empty-changeset
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              "TwilioAccountSid=$TWILIO_ACCOUNT_SID" \
+              "TwilioAuthToken=$TWILIO_AUTH_TOKEN" \
+              "TwilioVerifyServiceSid=$TWILIO_VERIFY_SERVICE_SID"
 
       - name: Show outputs
         run: |

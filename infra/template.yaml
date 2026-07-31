@@ -5,6 +5,25 @@ Description: >
   handlers for ID-based login and the role-based contact directory. Designed to
   sit comfortably inside the AWS free tier for a 1-week, 400-500 user event.
 
+Parameters:
+  TwilioAccountSid:
+    Type: String
+    Default: ''
+    Description: Twilio Account SID (ACxxxx). Leave empty to disable SMS 2FA.
+  TwilioAuthToken:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Twilio Auth Token.
+  TwilioVerifyServiceSid:
+    Type: String
+    Default: ''
+    Description: Twilio Verify Service SID (VAxxxx).
+  DefaultCountryCode:
+    Type: String
+    Default: '34'
+    Description: Country code prepended to roster numbers stored without one.
+
 Globals:
   Function:
     Runtime: python3.12
@@ -67,6 +86,9 @@ Resources:
       Environment:
         Variables:
           ATTENDEES_TABLE: !Ref ParticipantsTable
+          TWILIO_ACCOUNT_SID: !Ref TwilioAccountSid
+          TWILIO_AUTH_TOKEN: !Ref TwilioAuthToken
+          TWILIO_VERIFY_SERVICE_SID: !Ref TwilioVerifyServiceSid
       Policies:
         - Statement:
             - Effect: Allow
