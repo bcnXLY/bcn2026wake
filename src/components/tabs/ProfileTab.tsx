@@ -46,7 +46,7 @@ export default function ProfileTab() {
         <h3 className="profile-name">{profile.name}</h3>
         <div>
           {profile.isLeader && <span className="profile-role-badge">{t('profile.leader')}</span>}
-          {profile.isMaintainer && <span className="profile-role-badge">{t('profile.maintainer')}</span>}
+          {profile.isManager && <span className="profile-role-badge">{t('profile.maintainer')}</span>}
         </div>
       </div>
 

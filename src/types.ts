@@ -8,7 +8,7 @@ export interface UserProfile {
   leadersName: string[];
   roommatesName: string[];
   isLeader: boolean;
-  isMaintainer: boolean;
+  isManager: boolean;
 }
 
 export interface ScheduleItem {
@@ -40,7 +40,7 @@ export interface DirectoryPerson {
   /** Numeric role code (0 = member, 1 = leader, 2+ = staff) for i18n display. */
   role?: number;
   isLeader?: boolean;
-  isMaintainer?: boolean;
+  isManager?: boolean;
   /** Set on the maintainer roster so each entry shows its group. */
   teamCode?: string;
 }

@@ -87,7 +87,7 @@ def to_person(item):
         'phone': phone_str,
         'role': role,
         'isLeader': is_leader_role(role),
-        'isMaintainer': is_maintainer_role(role),
+        'isManager': is_maintainer_role(role),
     }
     if has_real_room(item):
         person['roomNumber'] = extract_numbers(item.get('room_id'))

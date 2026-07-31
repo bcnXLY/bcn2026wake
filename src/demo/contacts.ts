@@ -10,7 +10,7 @@ const toPerson = (p: Person): DirectoryPerson => ({
   phone: p.phone,
   roomNumber: p.roomNumber,
   isLeader: p.isLeader,
-  isMaintainer: p.isMaintainer,
+  isManager: p.isManager,
 });
 
 /** Role-based mock directory derived from the flat `people` list in demo mode. */
@@ -20,7 +20,7 @@ export function demoDirectory(profile: UserProfile): ContactsDirectory {
     .filter((p) => p.id !== profile.id && p.roomNumber === profile.roomNumber)
     .map(toPerson);
 
-  if (profile.isMaintainer) {
+  if (profile.isManager) {
     return {
       role: 'maintainer',
       roommates,
@@ -29,7 +29,7 @@ export function demoDirectory(profile: UserProfile): ContactsDirectory {
         members: people.filter((p) => p.teamCode === t.code).map(toPerson),
       })),
       maintainers: people
-        .filter((p) => p.isMaintainer)
+        .filter((p) => p.isManager)
         .map((p) => ({ ...toPerson(p), teamCode: p.teamCode })),
     };
   }

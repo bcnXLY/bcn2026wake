@@ -37,3 +37,4 @@ pnpm-debug.log*
 
 # data
 *.csv
+src/demo/data.json

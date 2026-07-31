@@ -24,5 +24,5 @@ export const DEMO_PROFILE: UserProfile = {
     .filter((p) => p.id !== person.id && p.roomNumber === person.roomNumber)
     .map((p) => p.name),
   isLeader: person.isLeader,
-  isMaintainer: person.isMaintainer,
+  isManager: person.isManager,
 };

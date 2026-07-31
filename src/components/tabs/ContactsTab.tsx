@@ -29,7 +29,7 @@ function PersonRow({ person, subtitle }: { person: DirectoryPerson; subtitle?: s
         : []
       : [
         person.isLeader ? t('contacts.tags.leader') : null,
-        person.isMaintainer ? t('contacts.tags.maintainer') : null,
+        person.isManager ? t('contacts.tags.maintainer') : null,
       ].filter(Boolean);
 
   return (

@@ -134,7 +134,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X1486012M",
@@ -144,7 +144,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X5810093V",
@@ -154,7 +154,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X7102139S",
@@ -164,7 +164,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y1962895C",
@@ -174,7 +174,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y1848686Y",
@@ -184,7 +184,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X8887621F",
@@ -194,7 +194,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X6929111Q",
@@ -204,7 +204,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "60853050H",
@@ -214,7 +214,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y3549912Z",
@@ -224,7 +224,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X7498675P",
@@ -234,7 +234,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "54615227W",
@@ -244,7 +244,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X6127140D",
@@ -254,7 +254,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y3533630Q",
@@ -264,7 +264,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "60276516W",
@@ -274,7 +274,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "43569650Z",
@@ -284,7 +284,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X8021983B",
@@ -294,7 +294,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X8487896E",
@@ -304,7 +304,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X8473077S",
@@ -314,7 +314,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "48089531G",
@@ -324,7 +324,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X0683661D",
@@ -334,7 +334,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X2877602A",
@@ -344,7 +344,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X7270897E",
@@ -354,7 +354,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X1445729H",
@@ -364,7 +364,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X0888627E",
@@ -374,7 +374,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X8130066A",
@@ -384,7 +384,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X0884958X",
@@ -394,7 +394,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X0573110L",
@@ -404,7 +404,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X3954753H",
@@ -414,7 +414,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X3581920S",
@@ -424,7 +424,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "25368824P",
@@ -434,7 +434,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X0992772T",
@@ -444,7 +444,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X1387589E",
@@ -454,7 +454,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X4417949V",
@@ -464,7 +464,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X1758706B",
@@ -474,7 +474,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X5528791M",
@@ -484,7 +484,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Z0290354F",
@@ -494,7 +494,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X2097130J",
@@ -504,7 +504,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X2400577K",
@@ -514,7 +514,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X3983044",
@@ -524,7 +524,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X2798797L",
@@ -534,7 +534,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X3692345V",
@@ -544,7 +544,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X5119179T",
@@ -554,7 +554,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X5077268H",
@@ -564,7 +564,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y0459120P",
@@ -574,7 +574,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "X7707593V",
@@ -584,7 +584,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": true
+      "isManager": true
     },
     {
       "id": "Y3552963Y",
@@ -594,7 +594,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X1751675H",
@@ -604,7 +604,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9675040K",
@@ -614,7 +614,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4747350N",
@@ -624,7 +624,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7288178F",
@@ -634,7 +634,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X3305281-C",
@@ -644,7 +644,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3270629C",
@@ -654,7 +654,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X3758965Y",
@@ -664,7 +664,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6162635S",
@@ -674,7 +674,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6088858E",
@@ -684,7 +684,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8569787X",
@@ -694,7 +694,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X2369088L",
@@ -704,7 +704,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8130129C",
@@ -714,7 +714,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9948044S",
@@ -724,7 +724,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4864165X",
@@ -734,7 +734,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X2564843K",
@@ -744,7 +744,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X2792095X",
@@ -754,7 +754,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "48107071H",
@@ -764,7 +764,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X2296264J",
@@ -774,7 +774,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5238964R",
@@ -784,7 +784,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X3295991E",
@@ -794,7 +794,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5548533J",
@@ -804,7 +804,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6105939Z",
@@ -814,7 +814,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6274265A",
@@ -824,7 +824,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7846676L",
@@ -834,7 +834,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9807458M",
@@ -844,7 +844,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5471638K",
@@ -854,7 +854,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4521808P",
@@ -864,7 +864,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "E29423213",
@@ -874,7 +874,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0887376G",
@@ -884,7 +884,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9502913A",
@@ -894,7 +894,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1321576X",
@@ -904,7 +904,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z0056831A",
@@ -914,7 +914,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8745278B",
@@ -924,7 +924,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5994257C",
@@ -934,7 +934,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5480602R",
@@ -944,7 +944,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4061044A",
@@ -954,7 +954,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8473108T",
@@ -964,7 +964,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5017811Q",
@@ -974,7 +974,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8490216L",
@@ -984,7 +984,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8366614L",
@@ -994,7 +994,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X3479438K",
@@ -1004,7 +1004,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8051740S",
@@ -1014,7 +1014,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4059179R",
@@ -1024,7 +1024,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7162838V",
@@ -1034,7 +1034,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6177016K",
@@ -1044,7 +1044,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "46493729B",
@@ -1054,7 +1054,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "06662260B",
@@ -1064,7 +1064,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8413822P",
@@ -1074,7 +1074,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "76646683B",
@@ -1084,7 +1084,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2057614W",
@@ -1094,7 +1094,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0693191P",
@@ -1104,7 +1104,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X2584112Q",
@@ -1114,7 +1114,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": true,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6127648B",
@@ -1124,7 +1124,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2351390E",
@@ -1134,7 +1134,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2356137P",
@@ -1144,7 +1144,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2290017J",
@@ -1154,7 +1154,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2260764E",
@@ -1164,7 +1164,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1725202D",
@@ -1174,7 +1174,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2291183Y",
@@ -1184,7 +1184,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3044603S",
@@ -1194,7 +1194,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2296817M",
@@ -1204,7 +1204,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2260488Q",
@@ -1214,7 +1214,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2143595D",
@@ -1224,7 +1224,7 @@
       "roomNumber": "0",
       "teamCode": "1",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2188483R",
@@ -1234,7 +1234,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2249574G",
@@ -1244,7 +1244,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "42286841F",
@@ -1254,7 +1254,7 @@
       "roomNumber": "1",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2121550K",
@@ -1264,7 +1264,7 @@
       "roomNumber": "1",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3108453V",
@@ -1274,7 +1274,7 @@
       "roomNumber": "1",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2551750M",
@@ -1284,7 +1284,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2097226P",
@@ -1294,7 +1294,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2066574S",
@@ -1304,7 +1304,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2043357M",
@@ -1314,7 +1314,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1923573M",
@@ -1324,7 +1324,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3587045W",
@@ -1334,7 +1334,7 @@
       "roomNumber": "0",
       "teamCode": "2",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2051993Q",
@@ -1344,7 +1344,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2195585L",
@@ -1354,7 +1354,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2593915N",
@@ -1364,7 +1364,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1815524X",
@@ -1374,7 +1374,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1817597J",
@@ -1384,7 +1384,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2122035T",
@@ -1394,7 +1394,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2015054S",
@@ -1404,7 +1404,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1807234T",
@@ -1414,7 +1414,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1885231G",
@@ -1424,7 +1424,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2190304M",
@@ -1434,7 +1434,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1723654W",
@@ -1444,7 +1444,7 @@
       "roomNumber": "0",
       "teamCode": "3",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2767946W",
@@ -1454,7 +1454,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "42301263P",
@@ -1464,7 +1464,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1718003D",
@@ -1474,7 +1474,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1763021Q",
@@ -1484,7 +1484,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1607606N",
@@ -1494,7 +1494,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1652701G",
@@ -1504,7 +1504,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1678748S",
@@ -1514,7 +1514,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1829567T",
@@ -1524,7 +1524,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1583043J",
@@ -1534,7 +1534,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1901631M",
@@ -1544,7 +1544,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "ER4317237",
@@ -1554,7 +1554,7 @@
       "roomNumber": "0",
       "teamCode": "4",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EJ6571212",
@@ -1564,7 +1564,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "44120917V",
@@ -1574,7 +1574,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1565281F",
@@ -1584,7 +1584,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2188809M",
@@ -1594,7 +1594,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X1711070E",
@@ -1604,7 +1604,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1376859K",
@@ -1614,7 +1614,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1675897Q",
@@ -1624,7 +1624,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1213613D",
@@ -1634,7 +1634,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1475388K",
@@ -1644,7 +1644,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1583073C",
@@ -1654,7 +1654,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1281967F",
@@ -1664,7 +1664,7 @@
       "roomNumber": "0",
       "teamCode": "5",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1931516J",
@@ -1674,7 +1674,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1614275B",
@@ -1684,7 +1684,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1585196G",
@@ -1694,7 +1694,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1773841A",
@@ -1704,7 +1704,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z123235J",
@@ -1714,7 +1714,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1370173P",
@@ -1724,7 +1724,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1297607F",
@@ -1734,7 +1734,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1492679Q",
@@ -1744,7 +1744,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1144947K",
@@ -1754,7 +1754,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1790174Y",
@@ -1764,7 +1764,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2071134K",
@@ -1774,7 +1774,7 @@
       "roomNumber": "0",
       "teamCode": "6",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1320337J",
@@ -1784,7 +1784,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1514088N",
@@ -1794,7 +1794,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1132449N",
@@ -1804,7 +1804,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "61243297R",
@@ -1814,7 +1814,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1629766T",
@@ -1824,7 +1824,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1179966B",
@@ -1834,7 +1834,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1135789V",
@@ -1844,7 +1844,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2154267D",
@@ -1854,7 +1854,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1379100B",
@@ -1864,7 +1864,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z0018706N",
@@ -1874,7 +1874,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1047428E",
@@ -1884,7 +1884,7 @@
       "roomNumber": "0",
       "teamCode": "7",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2154301C",
@@ -1894,7 +1894,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1097837S",
@@ -1904,7 +1904,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4033750R",
@@ -1914,7 +1914,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1148337F",
@@ -1924,7 +1924,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1380081A",
@@ -1934,7 +1934,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "46499015F",
@@ -1944,7 +1944,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "61123384X",
@@ -1954,7 +1954,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EQ4916453",
@@ -1964,7 +1964,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0896644A",
@@ -1974,7 +1974,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0893400W",
@@ -1984,7 +1984,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2706265F",
@@ -1994,7 +1994,7 @@
       "roomNumber": "0",
       "teamCode": "8",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1037646S",
@@ -2004,7 +2004,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "60590346C",
@@ -2014,7 +2014,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1114323X",
@@ -2024,7 +2024,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1629050C",
@@ -2034,7 +2034,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "41544797N",
@@ -2044,7 +2044,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EL7670253",
@@ -2054,7 +2054,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0879258M",
@@ -2064,7 +2064,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0850277G",
@@ -2074,7 +2074,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3683717M",
@@ -2084,7 +2084,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0939334M",
@@ -2094,7 +2094,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0923320E",
@@ -2104,7 +2104,7 @@
       "roomNumber": "0",
       "teamCode": "9",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1607642W",
@@ -2114,7 +2114,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6671069K",
@@ -2124,7 +2124,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0703585Y",
@@ -2134,7 +2134,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5088609B",
@@ -2144,7 +2144,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z1999091M",
@@ -2154,7 +2154,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6441084V",
@@ -2164,7 +2164,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0631599X",
@@ -2174,7 +2174,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0779448S",
@@ -2184,7 +2184,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0653675Y",
@@ -2194,7 +2194,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0650729G",
@@ -2204,7 +2204,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1716201R",
@@ -2214,7 +2214,7 @@
       "roomNumber": "0",
       "teamCode": "10",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "11474954R",
@@ -2224,7 +2224,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0798492S",
@@ -2234,7 +2234,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0606689D",
@@ -2244,7 +2244,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0849874S",
@@ -2254,7 +2254,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0551721B",
@@ -2264,7 +2264,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4085557N",
@@ -2274,7 +2274,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0617151Y",
@@ -2284,7 +2284,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0484939K",
@@ -2294,7 +2294,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4399208N",
@@ -2304,7 +2304,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0445301N",
@@ -2314,7 +2314,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0366026H",
@@ -2324,7 +2324,7 @@
       "roomNumber": "0",
       "teamCode": "11",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0554010T",
@@ -2334,7 +2334,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0466907K",
@@ -2344,7 +2344,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1264175V",
@@ -2354,7 +2354,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1572807N",
@@ -2364,7 +2364,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0516375Q",
@@ -2374,7 +2374,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0366070Q",
@@ -2384,7 +2384,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0416000J",
@@ -2394,7 +2394,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2585963H",
@@ -2404,7 +2404,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0325496Z",
@@ -2414,7 +2414,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0465830W",
@@ -2424,7 +2424,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "23859944C",
@@ -2434,7 +2434,7 @@
       "roomNumber": "0",
       "teamCode": "12",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0546766R",
@@ -2444,7 +2444,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "49929083Q",
@@ -2454,7 +2454,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EK7308119",
@@ -2464,7 +2464,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0336173L",
@@ -2474,7 +2474,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0379311D",
@@ -2484,7 +2484,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X1928185V",
@@ -2494,7 +2494,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0276893X",
@@ -2504,7 +2504,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0318655G",
@@ -2514,7 +2514,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4104587K",
@@ -2524,7 +2524,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1398685T",
@@ -2534,7 +2534,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0066368G",
@@ -2544,7 +2544,7 @@
       "roomNumber": "0",
       "teamCode": "13",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0480732T",
@@ -2554,7 +2554,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0339892N",
@@ -2564,7 +2564,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0459522L",
@@ -2574,7 +2574,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0231627P",
@@ -2584,7 +2584,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0184716V",
@@ -2594,7 +2594,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0206484G",
@@ -2604,7 +2604,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "61502088L",
@@ -2614,7 +2614,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6505970C",
@@ -2624,7 +2624,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1565238X",
@@ -2634,7 +2634,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "26611141A",
@@ -2644,7 +2644,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9677212P",
@@ -2654,7 +2654,7 @@
       "roomNumber": "0",
       "teamCode": "14",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0032600T",
@@ -2664,7 +2664,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0126246J",
@@ -2674,7 +2674,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0076265B",
@@ -2684,7 +2684,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0086607A",
@@ -2694,7 +2694,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0257920N",
@@ -2704,7 +2704,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0434483G",
@@ -2714,7 +2714,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z1048552X",
@@ -2724,7 +2724,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3319060J",
@@ -2734,7 +2734,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5645542E",
@@ -2744,7 +2744,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1304232P",
@@ -2754,7 +2754,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5920631P",
@@ -2764,7 +2764,7 @@
       "roomNumber": "0",
       "teamCode": "15",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9784264H",
@@ -2774,7 +2774,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5198624V",
@@ -2784,7 +2784,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2980304R",
@@ -2794,7 +2794,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z3734401B",
@@ -2804,7 +2804,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "26652905E",
@@ -2814,7 +2814,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1295380B",
@@ -2824,7 +2824,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9375127M",
@@ -2834,7 +2834,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9367269J",
@@ -2844,7 +2844,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9591537P",
@@ -2854,7 +2854,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3552974V",
@@ -2864,7 +2864,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0459383H",
@@ -2874,7 +2874,7 @@
       "roomNumber": "0",
       "teamCode": "16",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "23877646N",
@@ -2884,7 +2884,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3329775X",
@@ -2894,7 +2894,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5032259B",
@@ -2904,7 +2904,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2670482N",
@@ -2914,7 +2914,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9031447Z",
@@ -2924,7 +2924,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9110632X",
@@ -2934,7 +2934,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1795893K",
@@ -2944,7 +2944,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8921848X",
@@ -2954,7 +2954,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9507340Z",
@@ -2964,7 +2964,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9824868G",
@@ -2974,7 +2974,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8803861J",
@@ -2984,7 +2984,7 @@
       "roomNumber": "0",
       "teamCode": "17",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0241181V",
@@ -2994,7 +2994,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "60058537V",
@@ -3004,7 +3004,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8921823P",
@@ -3014,7 +3014,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8871377R",
@@ -3024,7 +3024,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "49326885G",
@@ -3034,7 +3034,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9957646A",
@@ -3044,7 +3044,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8627131S",
@@ -3054,7 +3054,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8675084J",
@@ -3064,7 +3064,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3534296S",
@@ -3074,7 +3074,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8184052P",
@@ -3084,7 +3084,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8197582Z",
@@ -3094,7 +3094,7 @@
       "roomNumber": "0",
       "teamCode": "18",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9083511Y",
@@ -3104,7 +3104,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0719468L",
@@ -3114,7 +3114,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8705462P",
@@ -3124,7 +3124,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1257753N",
@@ -3134,7 +3134,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8532493E",
@@ -3144,7 +3144,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8483513D",
@@ -3154,7 +3154,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8262079A",
@@ -3164,7 +3164,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0268856T",
@@ -3174,7 +3174,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1950235X",
@@ -3184,7 +3184,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8372518N",
@@ -3194,7 +3194,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8300726A",
@@ -3204,7 +3204,7 @@
       "roomNumber": "0",
       "teamCode": "19",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8577492X",
@@ -3214,7 +3214,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9415525S",
@@ -3224,7 +3224,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0173659T",
@@ -3234,7 +3234,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8189116N",
@@ -3244,7 +3244,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4783255M",
@@ -3254,7 +3254,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8375723C",
@@ -3264,7 +3264,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3495706L",
@@ -3274,7 +3274,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "07101722N",
@@ -3284,7 +3284,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7780133S",
@@ -3294,7 +3294,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7676975N",
@@ -3304,7 +3304,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7596428B",
@@ -3314,7 +3314,7 @@
       "roomNumber": "0",
       "teamCode": "20",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7937653P",
@@ -3324,7 +3324,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8738930B",
@@ -3334,7 +3334,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7647479W",
@@ -3344,7 +3344,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5016283C",
@@ -3354,7 +3354,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9576810R",
@@ -3364,7 +3364,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1424942Z",
@@ -3374,7 +3374,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y2350185J",
@@ -3384,7 +3384,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7423259D",
@@ -3394,7 +3394,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9947146Z",
@@ -3404,7 +3404,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "61547279S",
@@ -3414,7 +3414,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0359116P",
@@ -3424,7 +3424,7 @@
       "roomNumber": "0",
       "teamCode": "21",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8562174X",
@@ -3434,7 +3434,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y7242012Q",
@@ -3444,7 +3444,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1176254W",
@@ -3454,7 +3454,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7313885T",
@@ -3464,7 +3464,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "55613678T",
@@ -3474,7 +3474,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7379934Q",
@@ -3484,7 +3484,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6678966X",
@@ -3494,7 +3494,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7052630W",
@@ -3504,7 +3504,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8269626E",
@@ -3514,7 +3514,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6380984Q",
@@ -3524,7 +3524,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0084154B",
@@ -3534,7 +3534,7 @@
       "roomNumber": "0",
       "teamCode": "22",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y3573282Q",
@@ -3544,7 +3544,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7210503A",
@@ -3554,7 +3554,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y6291129E",
@@ -3564,7 +3564,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "54891298G",
@@ -3574,7 +3574,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7770636V",
@@ -3584,7 +3584,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8758552Z",
@@ -3594,7 +3594,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6594162Q",
@@ -3604,7 +3604,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7306862S",
@@ -3614,7 +3614,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9725722B",
@@ -3624,7 +3624,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4399165S",
@@ -3634,7 +3634,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y7300540D",
@@ -3644,7 +3644,7 @@
       "roomNumber": "0",
       "teamCode": "23",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7338820A",
@@ -3654,7 +3654,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6362783V",
@@ -3664,7 +3664,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8776823T",
@@ -3674,7 +3674,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z1170187K",
@@ -3684,7 +3684,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1176316H",
@@ -3694,7 +3694,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "55613679R",
@@ -3704,7 +3704,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EM8129684",
@@ -3714,7 +3714,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0905594Y",
@@ -3724,7 +3724,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6215850P",
@@ -3734,7 +3734,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9812821D",
@@ -3744,7 +3744,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5649583S",
@@ -3754,7 +3754,7 @@
       "roomNumber": "0",
       "teamCode": "24",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6926995Q",
@@ -3764,7 +3764,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EJ4430269",
@@ -3774,7 +3774,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9249053V",
@@ -3784,7 +3784,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1882257C",
@@ -3794,7 +3794,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7338878S",
@@ -3804,7 +3804,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "42304203G",
@@ -3814,7 +3814,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5603346V",
@@ -3824,7 +3824,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5775460J",
@@ -3834,7 +3834,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4085527M",
@@ -3844,7 +3844,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8736537X",
@@ -3854,7 +3854,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9513890D",
@@ -3864,7 +3864,7 @@
       "roomNumber": "0",
       "teamCode": "25",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "47980837P",
@@ -3874,7 +3874,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1442585Q",
@@ -3884,7 +3884,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7210045M",
@@ -3894,7 +3894,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1501011E",
@@ -3904,7 +3904,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8817101M",
@@ -3914,7 +3914,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8804757N",
@@ -3924,7 +3924,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5968191J",
@@ -3934,7 +3934,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4134140L",
@@ -3944,7 +3944,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8516684Z",
@@ -3954,7 +3954,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5691732Z",
@@ -3964,7 +3964,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "27418862X",
@@ -3974,7 +3974,7 @@
       "roomNumber": "0",
       "teamCode": "26",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "50511483X",
@@ -3984,7 +3984,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "60391594B",
@@ -3994,7 +3994,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1874396W",
@@ -4004,7 +4004,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EK6312237",
@@ -4014,7 +4014,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1163618Q",
@@ -4024,7 +4024,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8569941A",
@@ -4034,7 +4034,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Z3439696M",
@@ -4044,7 +4044,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4386322S",
@@ -4054,7 +4054,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9545866S",
@@ -4064,7 +4064,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0674400P",
@@ -4074,7 +4074,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1273777M",
@@ -4084,7 +4084,7 @@
       "roomNumber": "0",
       "teamCode": "27",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "54615226R",
@@ -4094,7 +4094,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "EQ9676898",
@@ -4104,7 +4104,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9175955J",
@@ -4114,7 +4114,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X9860170R",
@@ -4124,7 +4124,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7257918S",
@@ -4134,7 +4134,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "27418233W",
@@ -4144,7 +4144,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5505923E",
@@ -4154,7 +4154,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1581820D",
@@ -4164,7 +4164,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7537341B",
@@ -4174,7 +4174,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6069714Z",
@@ -4184,7 +4184,7 @@
       "roomNumber": "0",
       "teamCode": "28",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X4200419K",
@@ -4194,7 +4194,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6968542W",
@@ -4204,7 +4204,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1163585Y",
@@ -4214,7 +4214,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6779377N",
@@ -4224,7 +4224,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7894665F",
@@ -4234,7 +4234,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5032334V",
@@ -4244,7 +4244,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "NP9L8KP56",
@@ -4254,7 +4254,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X7472362F",
@@ -4264,7 +4264,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0813754M",
@@ -4274,7 +4274,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8365155D",
@@ -4284,7 +4284,7 @@
       "roomNumber": "0",
       "teamCode": "29",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0808157C",
@@ -4294,7 +4294,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y4531032T",
@@ -4304,7 +4304,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1057934V",
@@ -4314,7 +4314,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6439674L",
@@ -4324,7 +4324,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1252617M",
@@ -4334,7 +4334,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6495873Y",
@@ -4344,7 +4344,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y5032401S",
@@ -4354,7 +4354,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y0175612K",
@@ -4364,7 +4364,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X5841937Y",
@@ -4374,7 +4374,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X6126798N",
@@ -4384,7 +4384,7 @@
       "roomNumber": "0",
       "teamCode": "30",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "Y1604040B",
@@ -4394,7 +4394,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     },
     {
       "id": "X8661567C",
@@ -4404,7 +4404,7 @@
       "roomNumber": "0",
       "teamCode": "",
       "isLeader": false,
-      "isMaintainer": false
+      "isManager": false
     }
   ],
   "gallery": {

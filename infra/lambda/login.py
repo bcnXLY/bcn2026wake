@@ -1,7 +1,5 @@
 import os
 import boto3
-import time
-import random
 import json
 import base64
 import urllib.request
@@ -18,19 +16,18 @@ ROLE_MAINTAINER = 8
 
 UNASSIGNED = {'unassigned', 'team_0', 'room_0'}
 
-def send_sms(to_phone, body):
+def twilio_verify_start(to_phone):
     account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
     auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-    from_phone = os.environ.get('TWILIO_PHONE_NUMBER')
+    service_sid = os.environ.get('TWILIO_VERIFY_SERVICE_SID')
     
-    if not account_sid or not auth_token or not from_phone:
+    if not account_sid or not auth_token or not service_sid:
         return
 
-    url = f"https://api.twilio.com/2010-04-01/Accounts/{account_sid}/Messages.json"
+    url = f"https://verify.twilio.com/v2/Services/{service_sid}/Verifications"
     data = urllib.parse.urlencode({
         'To': to_phone,
-        'From': from_phone,
-        'Body': body
+        'Channel': 'sms'
     }).encode('ascii')
     
     req = urllib.request.Request(url, data=data)
@@ -42,6 +39,31 @@ def send_sms(to_phone, body):
             return json.loads(response.read())
     except Exception as e:
         raise e
+
+def twilio_verify_check(to_phone, code):
+    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+    service_sid = os.environ.get('TWILIO_VERIFY_SERVICE_SID')
+    
+    if not account_sid or not auth_token or not service_sid:
+        return False
+
+    url = f"https://verify.twilio.com/v2/Services/{service_sid}/VerificationCheck"
+    data = urllib.parse.urlencode({
+        'To': to_phone,
+        'Code': code
+    }).encode('ascii')
+    
+    req = urllib.request.Request(url, data=data)
+    auth_b64 = base64.b64encode(f"{account_sid}:{auth_token}".encode('utf-8')).decode('ascii')
+    req.add_header('Authorization', f'Basic {auth_b64}')
+    
+    try:
+        with urllib.request.urlopen(req) as response:
+            result = json.loads(response.read())
+            return result.get('status') == 'approved'
+    except Exception as e:
+        return False
 
 def lambda_handler(event, context):
     query_params = event.get('queryStringParameters') or {}
@@ -67,60 +89,28 @@ def lambda_handler(event, context):
 
         # Roles 1 and 8 require SMS 2FA
         if role in (ROLE_LEADER, ROLE_MAINTAINER):
+            phone = p.get('phone')
+            if not phone or phone == "":
+                return json_response(400, {'message': 'Phone number not registered.'})
+            
+            phone_str = str(phone)
+            if not phone_str.startswith('+'):
+                phone_str = "+34" + phone_str
+
             if not code:
                 # Initiate 2FA
-                phone = p.get('phone')
-                if not phone or phone == 0 or phone == "0" or phone == "":
-                    return json_response(400, {'message': 'Phone number not registered. Please contact support.'})
-                
-                # Generate 6-digit OTP
-                otp = str(random.randint(100000, 999999))
-                expiry = int(time.time()) + 600 # 10 minutes from now
-                
-                # Save OTP to DB
-                table.update_item(
-                    Key={'id': user_id},
-                    UpdateExpression="SET otp = :otp, otp_expires = :expiry",
-                    ExpressionAttributeValues={
-                        ':otp': otp,
-                        ':expiry': expiry
-                    }
-                )
-                
-                # Send SMS
-                phone_str = str(phone)
-                # Ensure phone number has a + prefix (assuming standard E.164, though we just use what's in DB)
-                if not phone_str.startswith('+'):
-                    # Depending on local rules, you might prepend a country code, e.g., '+34' for Spain.
-                    # Assuming the phone field in DB is already properly formatted or can be parsed by Twilio.
-                    pass
-                    
-                send_sms(phone_str, f"Your BCN2026 Wake login code is: {otp}")
+                twilio_verify_start(phone_str)
                 
                 return json_response(200, {'requires2FA': True})
             else:
                 # Verify 2FA code
-                saved_otp = p.get('otp')
-                otp_expires = p.get('otp_expires', 0)
+                is_valid = twilio_verify_check(phone_str, code)
                 
-                if not saved_otp or saved_otp != code:
+                if not is_valid:
                     return json_response(401, {'message': 'Invalid code'})
-                if int(time.time()) > int(otp_expires):
-                    return json_response(401, {'message': 'Code has expired'})
-                
-                # Clear OTP
-                table.update_item(
-                    Key={'id': user_id},
-                    UpdateExpression="REMOVE otp, otp_expires"
-                )
-                # Code valid, proceed to return profile
 
         return json_response(200, {'profile': to_profile(p)})
-    except ClientError as err:
-        print(err)
-        return json_response(500, {'message': 'Server error'})
     except Exception as err:
-        print(err)
         return json_response(500, {'message': 'Server error'})
 
 def has_real_team(p):
@@ -187,5 +177,5 @@ def to_profile(p):
         'leadersName': leadersName,
         'roommatesName': roommatesName,
         'isLeader': role == ROLE_LEADER,
-        'isMaintainer': role == ROLE_MAINTAINER,
+        'isManager': role == ROLE_MAINTAINER,
     }
