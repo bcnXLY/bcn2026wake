@@ -31,7 +31,6 @@ export default function Login() {
     return () => clearTimeout(timer);
   }, [resendIn]);
 
-  /** Step 1 — look the ID up and have the backend text a code. */
   const requestCode = async ({ resend = false } = {}) => {
     if (busy || !id.trim()) return;
     if (isDemoMode()) return enterDemo();
@@ -39,7 +38,7 @@ export default function Login() {
     setError(null);
     setNotice(null);
     try {
-      const result = await login(id.trim());
+      const result = await login(id.trim().toUpperCase());
       if ('requires2FA' in result) {
         setStep('code');
         setCode('');
@@ -47,7 +46,6 @@ export default function Login() {
         setResendIn(RESEND_COOLDOWN_SECONDS);
         if (resend) setNotice('codeResent');
       } else {
-        // No 2FA for this attendee — straight in.
         enterWithProfile(result);
       }
     } catch (err) {
@@ -68,7 +66,6 @@ export default function Login() {
     try {
       const result = await login(id.trim(), value);
       if ('requires2FA' in result) {
-        // Shouldn't happen, but never silently swallow it.
         setError('genericError');
         return;
       }
@@ -104,8 +101,6 @@ export default function Login() {
     submittedCode.current = null;
   };
 
-  const canSubmit = step === 'id' ? Boolean(id.trim()) : code.length === CODE_LENGTH;
-
   return (
     <div className="login-wrap">
       <div className="login-lang">
@@ -113,11 +108,10 @@ export default function Login() {
       </div>
 
       <div className="login-head">
-        <div className="login-logo" aria-hidden="true">
-          B
+        <div className="login-logo">
+          <img src="/logo.png" alt={t('app.name')} />
         </div>
         <h1>{t('app.name')}</h1>
-        <p>{t('app.tagline')}</p>
       </div>
 
       <div className="login-card">
@@ -135,9 +129,6 @@ export default function Login() {
                 disabled={busy}
                 onChange={(e) => setId(e.target.value)}
               />
-              <p className="hint-text" style={{ marginTop: 10 }}>
-                {t('login.firstTimeHint')}
-              </p>
             </div>
           ) : (
             <div className="field">
@@ -169,6 +160,12 @@ export default function Login() {
             <p className="ok-text" role="status">
               {t(`login.${notice}`)}
             </p>
+          )}
+
+          {step === 'id' && (
+            <button className="btn" style={{ marginTop: 18 }} disabled={busy || !id.trim()}>
+              {busy ? t('common.loading') : t('login.continue')}
+            </button>
           )}
 
           {step === 'code' && (

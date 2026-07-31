@@ -1,7 +1,6 @@
 {
   "app": {
-    "name": "BCN 2026 Wake",
-    "tagline": "Your camp companion"
+    "name": "BCN 2026 Awakening"
   },
   "login": {
     "title": "Sign in",
@@ -12,7 +11,6 @@
     "continue": "Continue",
     "signIn": "Sign in",
     "verifyLogin": "Verify & sign in",
-    "firstTimeHint": "Enter your attendee ID and we'll send you a one-time code.",
     "otpLabel": "One-time code",
     "otpPlaceholder": "6-digit code",
     "otpSentEmail": "We sent a code to your registered email.",
@@ -78,6 +76,13 @@
     "upcoming": "Upcoming",
     "past": "Done",
     "empty": "No activities scheduled yet.",
+    "countdown": {
+      "label": "Next up",
+      "none": "See you next time 🥹",
+      "hours": "h",
+      "minutes": "m",
+      "seconds": "s"
+    },
     "items": {
       "s1": {
         "title": "Check-in",

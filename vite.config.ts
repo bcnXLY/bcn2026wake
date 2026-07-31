@@ -8,7 +8,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: [
+        'favicon-16x16.png',
+        'favicon-32x32.png',
+        'apple-touch-icon.png',
+        'logo.png',
+      ],
       manifest: {
         name: 'BCN 2026 Wake — Event Companion',
         short_name: 'BCN2026',
@@ -23,7 +28,9 @@ export default defineConfig({
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
           {
-            src: 'pwa-512x512.png',
+            // Separate file: the maskable variant carries extra padding so the
+            // figure survives Android's circular/squircle crop.
+            src: 'pwa-maskable-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',

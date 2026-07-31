@@ -80,8 +80,6 @@ Resources:
         - AttributeName: message_id
           AttributeType: S
       KeySchema:
-        # One board per team; message_id is timestamp-prefixed so a plain query
-        # returns the board in chronological order.
         - AttributeName: team_id
           KeyType: HASH
         - AttributeName: message_id

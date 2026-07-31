@@ -1,39 +1,29 @@
 /* Team announcement board — same soft-UI language as the rest of the app. */
 
-/* Fills the body so the composer can sit at the bottom on a short board. */
-.messages-tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+/* Room at the end of the board so the newest message clears the composer.
+   Keep in step with the composer's real height. */
+.messages-tab.has-composer {
+  padding-bottom: 100px;
 }
 
-.msg-team {
-  margin: -6px 0 16px;
-}
-
-/* Pinned to the bottom of the body's content box — which the app shell already
-   keeps clear of the nav. `margin-top: auto` drops it to the bottom when the
-   board is too short to scroll. */
+/* Anchored directly above the nav, the same way .bottom-nav pins itself to the
+   shell. Sticky can't do this: it resolves its offset against the scrollport's
+   padding box, which leaves a gap whenever the board is too short to scroll. */
 .msg-composer {
-  position: sticky;
-  /* Matches the body's bottom padding, so pinned and resting positions agree. */
-  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom) + 24px);
-  z-index: 10;
-  margin-top: auto;
-  padding-top: 12px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: var(--maxw);
+  z-index: 25;
+  padding: 12px 18px 14px;
   background: var(--bg);
 }
 
-/* Covers the strip the body reserves below the content box, so messages don't
-   scroll through the gap between the composer and the nav. */
-.msg-composer::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 26px;
-  background: var(--bg);
+/* Fixed height keeps the reserve above honest. */
+.msg-composer .msg-textarea {
+  resize: none;
 }
 
 .msg-compose-row {
@@ -86,7 +76,7 @@
   font-family: inherit;
   font-size: 15px;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 0.9;
   resize: vertical;
   box-shadow: var(--nm-in);
   transition: box-shadow 0.2s var(--ease);

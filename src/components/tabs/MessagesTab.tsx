@@ -9,6 +9,22 @@ const MAX_LENGTH = 2000;
 /** How often an open board checks for other people's notices. */
 const POLL_INTERVAL_MS = 25_000;
 
+/**
+ * The element that actually scrolls the board. Depending on how tall the shell
+ * is, that is either the body pane or the page itself.
+ */
+function scrollParentOf(node: HTMLElement | null): HTMLElement | null {
+  let el = node?.parentElement ?? null;
+  while (el) {
+    const { overflowY } = getComputedStyle(el);
+    if ((overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight) {
+      return el;
+    }
+    el = el.parentElement;
+  }
+  return document.scrollingElement as HTMLElement | null;
+}
+
 const SEND_ICON = (
   <svg
     viewBox="0 0 24 24"
@@ -44,7 +60,7 @@ export default function MessagesTab() {
 
   // Bumped whenever the newest message should come into view (first load, own post).
   const [scrollTick, setScrollTick] = useState(0);
-  const endRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const countRef = useRef(0);
   const refreshingRef = useRef(false);
 
@@ -77,7 +93,7 @@ export default function MessagesTab() {
     if (!profile || refreshingRef.current) return;
     refreshingRef.current = true;
 
-    const scroller = endRef.current?.closest('.app-body');
+    const scroller = scrollParentOf(sectionRef.current);
     // Only follow new arrivals if the reader is already at the newest message.
     const atNewest =
       !scroller || scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop < 80;
@@ -113,10 +129,14 @@ export default function MessagesTab() {
     };
   }, [paused, refresh]);
 
-  // The board reads bottom-up like a chat, so open it on the newest message.
+
   useEffect(() => {
     if (scrollTick === 0) return;
-    endRef.current?.scrollIntoView({ behavior: scrollTick === 1 ? 'auto' : 'smooth', block: 'end' });
+    const scroller = scrollParentOf(sectionRef.current);
+    scroller?.scrollTo({
+      top: scroller.scrollHeight,
+      behavior: scrollTick === 1 ? 'auto' : 'smooth',
+    });
   }, [scrollTick]);
 
   const timeFmt = useMemo(
@@ -197,11 +217,12 @@ export default function MessagesTab() {
   const roleLabel = (role: number) => t(`contacts.roles.${role}`, { defaultValue: '' });
 
   return (
-    <section className="messages-tab" role="tabpanel">
+    <section
+      ref={sectionRef}
+      className={board?.canPost ? 'messages-tab has-composer' : 'messages-tab'}
+      role="tabpanel"
+    >
       <h2 className="tab-title">{t('messages.heading')}</h2>
-      {board?.teamCode && (
-        <p className="msg-team hint-text">{`${t('profile.team')} ${board.teamCode}`}</p>
-      )}
 
       {messages.map((m) => {
         const mine = m.senderId === profile?.id;
@@ -309,9 +330,6 @@ export default function MessagesTab() {
         </div>
       )}
 
-      {/* Scroll anchor: the composer stays pinned, so this lands the newest
-          message just above it. */}
-      <div ref={endRef} aria-hidden="true" />
     </section>
   );
 }

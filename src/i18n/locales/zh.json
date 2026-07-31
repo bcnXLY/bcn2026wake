@@ -1,7 +1,6 @@
 {
   "app": {
-    "name": "BCN 2026 觉醒",
-    "tagline": "营会小助手"
+    "name": "BCN 2026 觉醒"
   },
   "login": {
     "title": "登录",
@@ -12,7 +11,6 @@
     "continue": "继续",
     "signIn": "登录",
     "verifyLogin": "验证并登录",
-    "firstTimeHint": "输入您的参会者 ID，我们将发送一次性验证码。",
     "otpLabel": "一次性验证码",
     "otpPlaceholder": "6 位验证码",
     "otpSentEmail": "验证码已发送至您注册的邮箱。",
@@ -78,6 +76,13 @@
     "upcoming": "即将开始",
     "past": "已结束",
     "empty": "暂无安排的活动。",
+    "countdown": {
+      "label": "下一项",
+      "none": "下次见 🥹",
+      "hours": "小时",
+      "minutes": "分",
+      "seconds": "秒"
+    },
     "items": {
       "s1": {
         "title": "登记",

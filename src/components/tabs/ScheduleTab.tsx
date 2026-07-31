@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SCHEDULE } from '../../data/eventData';
+import type { ScheduleItem } from '../../types';
 
 type Status = 'past' | 'now' | 'upcoming';
 
@@ -12,12 +13,18 @@ function statusOf(startISO: string, endISO: string, now: number): Status {
   return 'upcoming';
 }
 
+// Minutes and seconds stay two digits so the countdown doesn't reflow on tick.
+function pad(value: number) {
+  return String(value).padStart(2, '0');
+}
+
 export default function ScheduleTab() {
   const { t, i18n } = useTranslation();
-  // Live clock — re-renders every 30s so the "NOW" marker tracks device time.
+  // Live clock — ticks every second so the countdown's seconds stay honest;
+  // the "NOW" marker rides along on the same tick.
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 30_000);
+    const id = setInterval(() => setNow(Date.now()), 1_000);
     return () => clearInterval(id);
   }, []);
 
@@ -40,6 +47,30 @@ export default function ScheduleTab() {
     [i18n.resolvedLanguage],
   );
 
+  // Next activity that has not started yet — drives the countdown header.
+  const next = useMemo(() => {
+    let soonest: ScheduleItem | null = null;
+    let soonestStart = Infinity;
+    for (const item of SCHEDULE) {
+      const start = new Date(item.start).getTime();
+      if (start > now && start < soonestStart) {
+        soonest = item;
+        soonestStart = start;
+      }
+    }
+    if (!soonest) return null;
+    // Whole seconds left, expressed as hours + minutes + seconds — hours keep
+    // accumulating past 24 rather than rolling over into days.
+    const totalSeconds = Math.floor((soonestStart - now) / 1_000);
+    return {
+      item: soonest,
+      start: new Date(soonestStart),
+      hours: Math.floor(totalSeconds / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
+  }, [now]);
+
   // The event spans several days, so the timeline is grouped by day —
   // otherwise "08:30" on day 1 and day 2 read as the same morning.
   const days = useMemo(() => {
@@ -59,6 +90,33 @@ export default function ScheduleTab() {
   return (
     <section role="tabpanel">
       <h2 className="tab-title">{t('schedule.title')}</h2>
+      <div className="countdown card">
+        {next ? (
+          <>
+            <span className="countdown-label">{t('schedule.countdown.label')}</span>
+            <strong className="countdown-title">{t(next.item.titleKey)}</strong>
+            <div className="countdown-clock">
+              <span className="countdown-unit">
+                <b>{next.hours}</b>
+                {t('schedule.countdown.hours')}
+              </span>
+              <span className="countdown-unit">
+                <b>{pad(next.minutes)}</b>
+                {t('schedule.countdown.minutes')}
+              </span>
+              <span className="countdown-unit">
+                <b>{pad(next.seconds)}</b>
+                {t('schedule.countdown.seconds')}
+              </span>
+            </div>
+            <div className="hint-text">
+              {dayFmt.format(next.start)} · {timeFmt.format(next.start)}
+            </div>
+          </>
+        ) : (
+          <div className="countdown-none">{t('schedule.countdown.none')}</div>
+        )}
+      </div>
       {days.length === 0 ? (
         <div className="center-state">{t('schedule.empty')}</div>
       ) : (

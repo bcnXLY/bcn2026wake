@@ -1,7 +1,6 @@
 {
   "app": {
-    "name": "BCN 2026 Wake",
-    "tagline": "Tu compañero del campamento"
+    "name": "BCN 2026 Awakening"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -12,7 +11,6 @@
     "continue": "Continuar",
     "signIn": "Entrar",
     "verifyLogin": "Verificar y entrar",
-    "firstTimeHint": "Ingresa tu ID de asistente y te enviaremos un código de un solo uso.",
     "otpLabel": "Código de un solo uso",
     "otpPlaceholder": "Código de 6 dígitos",
     "otpSentEmail": "Enviamos un código a tu correo registrado.",
@@ -78,6 +76,13 @@
     "upcoming": "Próximo",
     "past": "Hecho",
     "empty": "Aún no hay actividades programadas.",
+    "countdown": {
+      "label": "A continuación",
+      "none": "Nos vemos en la próxima 🥹",
+      "hours": "h",
+      "minutes": "min",
+      "seconds": "s"
+    },
     "items": {
       "s1": {
         "title": "Registro",

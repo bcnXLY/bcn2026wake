@@ -30,7 +30,6 @@ export async function login(id: string, code?: string): Promise<UserProfile | { 
   const res = await fetch(url);
 
   if (!res.ok) {
-    // The backend returns a stable `code` field; never match on message text.
     const data = await res.json().catch(() => ({}) as { code?: string });
     if (data.code && KNOWN_ERROR_CODES.has(data.code)) throw new AuthError(data.code);
     if (res.status === 404) throw new AuthError('unknownId');
