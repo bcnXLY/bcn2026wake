@@ -21,6 +21,7 @@ export function demoGalleryImages(target: string): GalleryImage[] {
       thumbnailUrl: `https://picsum.photos/seed/g${s}/400/400`,
       fullUrl: `https://picsum.photos/seed/g${s}/1600/1600`,
       webViewLink: `https://picsum.photos/seed/g${s}/1600/1600`,
+      downloadUrl: `https://picsum.photos/seed/g${s}/1600/1600`,
     };
   });
 }

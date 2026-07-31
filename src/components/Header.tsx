@@ -12,7 +12,7 @@ export default function Header() {
         <small>{t('header.team')}</small>
         <strong>{profile?.teamCode || '—'}</strong>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div className="header-actions">
         <LanguageSelector compact />
         <button
           className="icon-btn"
@@ -20,7 +20,21 @@ export default function Header() {
           aria-label={t('header.signOut')}
           title={t('header.signOut')}
         >
-          ⎋
+          <svg
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
         </button>
       </div>
     </header>

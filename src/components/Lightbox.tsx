@@ -8,6 +8,33 @@ interface Props {
   onClose: () => void;
 }
 
+const EXT_BY_TYPE: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+  'image/heic': 'heic',
+};
+
+/** Drive names usually carry an extension; picsum/demo names don't. */
+function fileNameFor(image: GalleryImage, mimeType?: string): string {
+  const base = image.name.replace(/[\\/:*?"<>|]/g, '_').trim() || `photo-${image.id}`;
+  if (/\.[a-z0-9]{3,4}$/i.test(base)) return base;
+  return `${base}.${EXT_BY_TYPE[mimeType ?? ''] ?? 'jpg'}`;
+}
+
+function saveBlob(blob: Blob, fileName: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  // Revoke late — Safari reads the blob after the click returns.
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}
+
 /**
  * Full-screen, swipeable image viewer. Pure client-side UI — it reuses images
  * already loaded from Google Drive's CDN and makes no extra Drive API calls,
@@ -16,6 +43,7 @@ interface Props {
 export default function Lightbox({ images, startIndex, onClose }: Props) {
   const { t } = useTranslation();
   const [index, setIndex] = useState(startIndex);
+  const [downloading, setDownloading] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   const prev = useCallback(
@@ -51,11 +79,72 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
 
   const img = images[index];
 
+  /**
+   * Downloads through a blob so the file lands in the user's downloads with a
+   * sensible name. Drive's CDN doesn't always allow a cross-origin read, so on
+   * any failure we hand the direct download URL to the browser instead.
+   */
+  const download = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      const res = await fetch(img.fullUrl, { mode: 'cors', credentials: 'omit' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      saveBlob(blob, fileNameFor(img, blob.type));
+    } catch {
+      window.open(img.downloadUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="lightbox" role="dialog" aria-modal="true" onClick={onClose}>
-      <button className="lb-close" onClick={onClose} aria-label="Close">
-        ✕
-      </button>
+      <div className="lb-topbar" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="lb-btn"
+          onClick={download}
+          disabled={downloading}
+          aria-label={t('gallery.download')}
+          title={t('gallery.download')}
+        >
+          {downloading ? (
+            <span className="spinner" aria-hidden="true" />
+          ) : (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3v12" />
+              <path d="m7 11 5 5 5-5" />
+              <path d="M4 20h16" />
+            </svg>
+          )}
+        </button>
+
+        <button className="lb-btn" onClick={onClose} aria-label={t('common.close')}>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
+            <path d="M5 5l14 14M19 5 5 19" />
+          </svg>
+        </button>
+      </div>
 
       <div
         className="lb-stage"
@@ -64,7 +153,7 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
         onTouchEnd={onTouchEnd}
       >
         {images.length > 1 && (
-          <button className="lb-nav prev" onClick={prev} aria-label="Previous">
+          <button className="lb-btn lb-nav prev" onClick={prev} aria-label={t('common.previous')}>
             ‹
           </button>
         )}
@@ -72,7 +161,7 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
         <img className="lb-img" src={img.fullUrl} alt={img.name} draggable={false} />
 
         {images.length > 1 && (
-          <button className="lb-nav next" onClick={next} aria-label="Next">
+          <button className="lb-btn lb-nav next" onClick={next} aria-label={t('common.next')}>
             ›
           </button>
         )}

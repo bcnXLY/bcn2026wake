@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { updatePhone } from '../../services/auth';
-import './ProfileTab.css'; // modern styles
+import './ProfileTab.css';
 
 export default function ProfileTab() {
   const { t } = useTranslation();
@@ -11,28 +11,37 @@ export default function ProfileTab() {
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [editedPhone, setEditedPhone] = useState('');
   const [savingPhone, setSavingPhone] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
   if (!profile) return null;
 
-  const handleEditPhone = () => {
+  const startEdit = () => {
     setEditedPhone(profile.phone);
+    setSaveError(false);
     setIsEditingPhone(true);
   };
 
+  const cancelEdit = () => {
+    setIsEditingPhone(false);
+    setSaveError(false);
+  };
+
   const handleSavePhone = async () => {
-    if (!editedPhone.trim()) {
-      setIsEditingPhone(false);
+    const phone = editedPhone.trim();
+    if (!phone || phone === profile.phone) {
+      cancelEdit();
       return;
     }
     setSavingPhone(true);
+    setSaveError(false);
     try {
-      await updatePhone(profile.id, editedPhone.trim());
-      enterWithProfile({ ...profile, phone: editedPhone.trim() });
+      await updatePhone(profile.id, phone);
+      enterWithProfile({ ...profile, phone });
       setIsEditingPhone(false);
     } catch (err) {
       console.error('Failed to update phone', err);
-      // Fallback: close editing mode
-      setIsEditingPhone(false);
+      // Keep the field open with the typed value so the edit isn't lost.
+      setSaveError(true);
     } finally {
       setSavingPhone(false);
     }
@@ -40,48 +49,65 @@ export default function ProfileTab() {
 
   return (
     <section className="profile-tab" role="tabpanel">
-      <h2 className="tab-title" style={{ display: 'none' }}>{t('profile.title')}</h2>
+      <h2 className="sr-only">{t('profile.title')}</h2>
 
       <div className="profile-header-card">
+        <span className="profile-eyebrow">{t('profile.name')}</span>
         <h3 className="profile-name">{profile.name}</h3>
-        <div>
-          {profile.isLeader && <span className="profile-role-badge">{t('profile.leader')}</span>}
-          {profile.isManager && <span className="profile-role-badge">{t('profile.maintainer')}</span>}
-        </div>
+        {(profile.isLeader || profile.isManager) && (
+          <div className="profile-badges">
+            {profile.isLeader && <span className="profile-role-badge">{t('profile.leader')}</span>}
+            {profile.isManager && (
+              <span className="profile-role-badge">{t('profile.maintainer')}</span>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="card">
-        <div className="row" style={{ alignItems: isEditingPhone ? 'center' : 'flex-start' }}>
+        <div className="row">
           <span className="label">{t('profile.phone')}</span>
           <span className="value">
             {isEditingPhone ? (
               <div className="input-wrapper">
                 <input
                   type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  aria-label={t('profile.phone')}
                   value={editedPhone}
                   onChange={(e) => setEditedPhone(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') void handleSavePhone();
+                    if (e.key === 'Escape') cancelEdit();
+                  }}
                   disabled={savingPhone}
                   className="phone-input"
                   autoFocus
                 />
-                <button
-                  onClick={handleSavePhone}
-                  disabled={savingPhone}
-                  className="btn-save"
-                >
-                  Save
+                <button onClick={handleSavePhone} disabled={savingPhone} className="btn-save">
+                  {savingPhone ? t('common.saving') : t('common.save')}
+                </button>
+                <button onClick={cancelEdit} disabled={savingPhone} className="btn-cancel">
+                  {t('common.cancel')}
                 </button>
               </div>
             ) : (
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end' }}>
-                <button onClick={handleEditPhone} className="btn-edit">
-                  Edit
+              <div className="phone-value">
+                <span className="phone-number">{profile.phone}</span>
+                <button onClick={startEdit} className="btn-edit">
+                  {t('common.edit')}
                 </button>
-                <a href={`tel:${profile.phone}`}>{profile.phone}</a>
               </div>
             )}
           </span>
-        </div>
+        </div>  
+
+        {saveError && (
+          <p className="error-text" role="alert">
+            {t('profile.saveFailed')}
+          </p>
+        )}
 
         {profile.churchName && (
           <div className="row">

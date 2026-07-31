@@ -9,6 +9,7 @@ import {
 import { identifyPushUser, logoutPush } from '../services/push';
 import { enableDemoMode } from '../config';
 import { DEMO_PROFILE } from '../demo';
+import { applyAccentFor } from '../utils/nameColor';
 import type { UserProfile } from '../types';
 
 interface AuthContextValue {
@@ -41,6 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    applyAccentFor(profile?.name);
+  }, [profile?.name]);
 
   const value = useMemo<AuthContextValue>(
     () => ({

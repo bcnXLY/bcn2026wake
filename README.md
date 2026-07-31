@@ -60,12 +60,19 @@ Only non-secret, public values are ever exposed to the client bundle (`VITE_*`).
 
 ## How login works
 
-There are **no passwords and no OTP**. An attendee enters their ID and is granted
-access if it exists in the roster:
+There are **no passwords**. An attendee enters their ID and is granted access if
+it exists in the roster; leaders and maintainers additionally confirm an SMS
+code (Twilio Verify):
 
 1. Enter attendee ID → `GET /login?id=...` looks the ID up in the DynamoDB
    `Participants` table. A 404 means the ID is not on the roster.
-2. The attendee's profile (name, church, team, room, role) is returned and the
+2. **Members** get their profile straight back.
+   **Leaders / maintainers** get `{ requires2FA: true }` and a 6-digit code by
+   SMS; the app then calls `GET /login?id=...&code=...` to verify it. The code
+   is entered in six single-digit boxes (paste and SMS autofill both work) and
+   submits itself once the last digit lands. "Resend code" is available after a
+   30-second cooldown.
+3. The attendee's profile (name, church, team, room, role) is returned and the
    app stores it locally to keep the session across reloads.
 
 ---

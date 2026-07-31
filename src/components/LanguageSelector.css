@@ -6,27 +6,34 @@
 .custom-lang-trigger {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  padding: 6px 6px 6px 12px;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: var(--shadow-sm);
+  color: var(--text-dim);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 9px 10px 9px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: var(--nm-out-sm);
   cursor: pointer;
   font-family: inherit;
+  transition:
+    box-shadow 0.2s var(--ease),
+    color 0.2s var(--ease);
 }
 
-.custom-lang-trigger:focus-visible,
 .custom-lang-trigger:hover {
-  outline: none;
-  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.custom-lang-trigger[aria-expanded='true'],
+.custom-lang-trigger:active {
+  box-shadow: var(--nm-in-sm);
+  color: var(--accent);
 }
 
 .custom-lang-arrow {
-  transition: transform 0.2s ease;
+  transition: transform 0.2s var(--ease);
   opacity: 0.8;
 }
 
@@ -36,38 +43,60 @@
 
 .custom-lang-dropdown {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 10px);
   right: 0;
   background: var(--surface);
-  border: 1px solid var(--border-strong);
+  border: none;
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--nm-out);
   list-style: none;
   margin: 0;
-  padding: 6px;
-  min-width: 120px;
+  padding: 8px;
+  min-width: 132px;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  animation: lang-in 0.18s var(--ease);
+}
+
+@keyframes lang-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .custom-lang-option {
-  padding: 8px 12px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 10px 12px;
   font-size: 14px;
-  font-weight: 500;
-  color: var(--text);
+  font-weight: 600;
+  color: var(--text-dim);
   cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.15s ease, color 0.15s ease;
+  border-radius: 10px;
+  transition:
+    box-shadow 0.18s var(--ease),
+    color 0.18s var(--ease);
 }
 
 .custom-lang-option:hover {
-  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--nm-out-sm);
 }
 
 .custom-lang-option.selected {
   font-weight: 700;
   color: var(--accent);
-  background: var(--bg);
+  box-shadow: var(--nm-in-sm);
 }

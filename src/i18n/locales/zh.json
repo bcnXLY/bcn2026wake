@@ -21,6 +21,11 @@
     "confirmPasswordLabel": "确认密码",
     "setPassword": "设置密码并进入",
     "verify": "验证",
+    "stepVerify": "第 2 步，共 2 步",
+    "otpDigit": "第 {{index}} 位，共 {{total}} 位",
+    "noCode": "没有收到验证码？",
+    "changeId": "使用其他 ID",
+    "codeResent": "新的验证码已发送。",
     "resendCode": "重新发送验证码",
     "resendIn": "{{seconds}} 秒后可重新发送",
     "chooseChannel": "您希望通过哪种方式接收一次性验证码？",
@@ -63,7 +68,8 @@
     "roommates": "室友",
     "role": "角色",
     "leader": "辅导",
-    "maintainer": "策划"
+    "maintainer": "策划",
+    "saveFailed": "保存失败，请重试。"
   },
   "schedule": {
     "title": "日程",
@@ -103,7 +109,8 @@
     "albums": "相册集",
     "empty": "暂无照片 — 请稍后再来。",
     "loadError": "无法加载照片。",
-    "openDrive": "在 Google 云端硬盘中打开"
+    "openDrive": "在 Google 云端硬盘中打开",
+    "download": "下载照片"
   },
   "contacts": {
     "title": "紧急联系人",
@@ -145,6 +152,13 @@
   "common": {
     "loading": "加载中…",
     "retry": "重试",
-    "back": "返回"
+    "back": "返回",
+    "close": "关闭",
+    "previous": "上一张",
+    "next": "下一张",
+    "edit": "编辑",
+    "save": "保存",
+    "cancel": "取消",
+    "saving": "保存中…"
   }
 }

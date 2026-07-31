@@ -60,7 +60,11 @@ export default function GalleryTab() {
         )}
 
         {!imagesError && images === null && (
-          <div className="center-state">{t('common.loading')}</div>
+          <div className="gallery-grid" aria-busy="true" aria-label={t('common.loading')}>
+            {Array.from({ length: 9 }, (_, i) => (
+              <div key={i} className="skeleton skeleton-tile" />
+            ))}
+          </div>
         )}
 
         {!imagesError && images?.length === 0 && (
@@ -112,7 +116,13 @@ export default function GalleryTab() {
         </div>
       )}
 
-      {!albumsError && albums === null && <div className="center-state">{t('common.loading')}</div>}
+      {!albumsError && albums === null && (
+        <div className="album-grid" aria-busy="true" aria-label={t('common.loading')}>
+          {Array.from({ length: 4 }, (_, i) => (
+            <div key={i} className="skeleton skeleton-album" />
+          ))}
+        </div>
+      )}
 
       {!albumsError && albums?.length === 0 && (
         <div className="center-state">{t('gallery.empty')}</div>

@@ -24,6 +24,8 @@ function toImage(f: DriveFile): GalleryImage {
     thumbnailUrl: thumb(f, 400),
     fullUrl: `https://drive.google.com/thumbnail?id=${f.id}&sz=w1600`,
     webViewLink: `https://drive.google.com/file/d/${f.id}/view`,
+    // Serves the original file (not the resized preview) as an attachment.
+    downloadUrl: `https://drive.usercontent.google.com/download?id=${f.id}&export=download`,
   };
 }
 

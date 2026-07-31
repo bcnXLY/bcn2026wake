@@ -75,6 +75,7 @@ export interface GalleryImage {
   thumbnailUrl: string;
   fullUrl: string;
   webViewLink: string;
+  downloadUrl: string;
 }
 
 export interface GalleryAlbum {

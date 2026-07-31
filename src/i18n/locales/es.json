@@ -21,6 +21,11 @@
     "confirmPasswordLabel": "Confirmar contraseña",
     "setPassword": "Guardar contraseña y entrar",
     "verify": "Verificar",
+    "stepVerify": "Paso 2 de 2",
+    "otpDigit": "Dígito {{index}} de {{total}}",
+    "noCode": "¿No lo recibiste?",
+    "changeId": "Usar otro ID",
+    "codeResent": "Te hemos enviado un código nuevo.",
     "resendCode": "Reenviar código",
     "resendIn": "Reenviar en {{seconds}}s",
     "chooseChannel": "¿Cómo quieres recibir tu código de un solo uso?",
@@ -63,7 +68,8 @@
     "roommates": "Compañeros de habitación",
     "role": "Rol",
     "leader": "Líder",
-    "maintainer": "Encargado"
+    "maintainer": "Encargado",
+    "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
   },
   "schedule": {
     "title": "Agenda",
@@ -103,7 +109,8 @@
     "albums": "Álbumes",
     "empty": "Aún no hay fotos — vuelve pronto.",
     "loadError": "No se pudieron cargar las fotos.",
-    "openDrive": "Abrir en Google Drive"
+    "openDrive": "Abrir en Google Drive",
+    "download": "Descargar foto"
   },
   "contacts": {
     "title": "Contactos de emergencia",
@@ -145,6 +152,13 @@
   "common": {
     "loading": "Cargando…",
     "retry": "Reintentar",
-    "back": "Volver"
+    "back": "Volver",
+    "close": "Cerrar",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "edit": "Editar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "saving": "Guardando…"
   }
 }
