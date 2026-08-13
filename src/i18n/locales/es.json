@@ -3,22 +3,10 @@
     "name": "BCN 2026 Awakening"
   },
   "login": {
-    "title": "Iniciar sesión",
     "idLabel": "ID de asistente",
     "idPlaceholder": "ej. X0000000T",
-    "passwordLabel": "Contraseña",
-    "passwordPlaceholder": "Tu contraseña",
     "continue": "Continuar",
-    "signIn": "Entrar",
-    "verifyLogin": "Verificar y entrar",
-    "otpLabel": "Código de un solo uso",
-    "otpPlaceholder": "Código de 6 dígitos",
-    "otpSentEmail": "Enviamos un código a tu correo registrado.",
     "otpSentSms": "Enviamos un código a tu teléfono registrado.",
-    "newPasswordLabel": "Crear contraseña",
-    "confirmPasswordLabel": "Confirmar contraseña",
-    "setPassword": "Guardar contraseña y entrar",
-    "verify": "Verificar",
     "stepVerify": "Paso 2 de 2",
     "otpDigit": "Dígito {{index}} de {{total}}",
     "noCode": "¿No lo recibiste?",
@@ -26,13 +14,6 @@
     "codeResent": "Te hemos enviado un código nuevo.",
     "resendCode": "Reenviar código",
     "resendIn": "Reenviar en {{seconds}}s",
-    "chooseChannel": "¿Cómo quieres recibir tu código de un solo uso?",
-    "channelEmail": "Correo electrónico",
-    "channelSms": "Mensaje de texto (SMS)",
-    "cooldown": "Espera antes de solicitar otro código.",
-    "passwordMismatch": "Las contraseñas no coinciden.",
-    "passwordWeak": "Usa al menos 8 caracteres, con un número y una letra.",
-    "invalidCredentials": "ID o contraseña incorrectos.",
     "unknownId": "Ese ID no está en la lista.",
     "invalidCode": "Ese código es inválido o expiró.",
     "noPhoneRegistered": "Número de teléfono no registrado. Por favor contacte con soporte.",
@@ -56,8 +37,6 @@
   "profile": {
     "title": "Información personal",
     "name": "Nombre",
-    "id": "ID de asistente",
-    "email": "Correo",
     "phone": "Teléfono",
     "church": "Iglesia",
     "team": "Equipo",
@@ -65,7 +44,6 @@
     "room": "Habitación",
     "leaders": "Líderes",
     "roommates": "Compañeros de habitación",
-    "role": "Rol",
     "leader": "Líder",
     "maintainer": "Encargado",
     "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
@@ -73,8 +51,6 @@
   "schedule": {
     "title": "Agenda",
     "now": "AHORA",
-    "upcoming": "Próximo",
-    "past": "Hecho",
     "empty": "Aún no hay actividades programadas.",
     "countdown": {
       "label": "A continuación",
@@ -83,31 +59,32 @@
       "minutes": "min",
       "seconds": "s"
     },
-    "items": {
-      "s1": {
-        "title": "Registro",
-        "location": "Vestíbulo principal"
-      },
-      "s2": {
-        "title": "Inauguración",
-        "location": "Auditorio"
-      },
-      "s3": {
-        "title": "Sesiones de grupos",
-        "location": "*"
-      },
-      "s4": {
-        "title": "Almuerzo",
-        "location": "Comedor"
-      },
-      "s5": {
-        "title": "Talleres",
-        "location": "Sala A"
-      },
-      "s6": {
-        "title": "Cena",
-        "location": "Comedor"
-      }
+    "activities": {
+      "breakfast": "Desayuno",
+      "devotional": "Devocional",
+      "worship": "Alabanza",
+      "message": "Predicación",
+      "smallGroup": "Grupo pequeño",
+      "groupLunch": "Grupo pequeño y almuerzo",
+      "groupDinner": "Grupo pequeño y cena",
+      "lunch": "Almuerzo",
+      "interviewsRest": "Entrevistas / Descanso",
+      "groupPhoto": "Foto de grupo",
+      "opening": "Ceremonia de apertura",
+      "closing": "Ceremonia de clausura",
+      "teamFormation": "Formación de equipos",
+      "fieldGames": "Juegos al aire libre",
+      "workshops": "Talleres",
+      "freeTimeTraining": "Tiempo libre (formación de consejeros)",
+      "prayerNight": "Noche de oración",
+      "leadersMeeting": "Reunión de líderes de equipo",
+      "churchMeeting": "Reunión de la iglesia",
+      "qanda": "Preguntas y respuestas",
+      "headingHome": "Vuelta a casa",
+      "sessionA": "Sesión A",
+      "sessionC": "Sesión C",
+      "sessionD": "Sesión D",
+      "sessionE": "Sesión E"
     }
   },
   "messages": {
@@ -135,15 +112,12 @@
     "title": "Contactos de emergencia",
     "heading": "Contactos",
     "call": "Llamar",
-    "empty": "No hay contactos disponibles.",
     "loadError": "No se pudieron cargar los contactos.",
     "directory": {
-      "title": "Contactos",
       "leaders": "Líderes",
       "group": "Equipo",
       "maintainers": "Administración",
-      "roommates": "Compañeros de habitación",
-      "empty": "Aún no hay contactos."
+      "roommates": "Compañeros de habitación"
     },
     "tags": {
       "leader": "Líder",
@@ -165,7 +139,6 @@
   },
   "push": {
     "enable": "Activar alertas del evento",
-    "enabled": "Alertas activadas",
     "prompt": "Recibe avisos sobre novedades y cambios de agenda."
   },
   "common": {

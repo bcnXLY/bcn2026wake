@@ -164,7 +164,7 @@ def lambda_handler(event, context):
         except (ValueError, TypeError):
             role = 0
 
-        if role in (ROLE_LEADER, ROLE_MAINTAINER):
+        if role in (ROLE_LEADER, ROLE_MAINTAINER, ):
             phone_str = normalize_phone(p.get('phone'))
             if not phone_str:
                 return json_response(400, {

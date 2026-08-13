@@ -3,22 +3,10 @@
     "name": "BCN 2026 觉醒"
   },
   "login": {
-    "title": "登录",
     "idLabel": "参会者 ID",
     "idPlaceholder": "例如 X0000000T",
-    "passwordLabel": "密码",
-    "passwordPlaceholder": "您的密码",
     "continue": "继续",
-    "signIn": "登录",
-    "verifyLogin": "验证并登录",
-    "otpLabel": "一次性验证码",
-    "otpPlaceholder": "6 位验证码",
-    "otpSentEmail": "验证码已发送至您注册的邮箱。",
     "otpSentSms": "验证码已发送至您注册的手机。",
-    "newPasswordLabel": "设置密码",
-    "confirmPasswordLabel": "确认密码",
-    "setPassword": "设置密码并进入",
-    "verify": "验证",
     "stepVerify": "第 2 步，共 2 步",
     "otpDigit": "第 {{index}} 位，共 {{total}} 位",
     "noCode": "没有收到验证码？",
@@ -26,13 +14,6 @@
     "codeResent": "新的验证码已发送。",
     "resendCode": "重新发送验证码",
     "resendIn": "{{seconds}} 秒后可重新发送",
-    "chooseChannel": "您希望通过哪种方式接收一次性验证码？",
-    "channelEmail": "邮箱",
-    "channelSms": "短信（SMS）",
-    "cooldown": "请稍候再申请新的验证码。",
-    "passwordMismatch": "两次输入的密码不一致。",
-    "passwordWeak": "至少 8 位，包含数字和字母。",
-    "invalidCredentials": "ID 或密码错误。",
     "unknownId": "名单中没有该 ID。",
     "invalidCode": "验证码无效或已过期。",
     "noPhoneRegistered": "未注册手机号码，请联系支持人员。",
@@ -56,8 +37,6 @@
   "profile": {
     "title": "个人信息",
     "name": "姓名",
-    "id": "参会者 ID",
-    "email": "邮箱",
     "phone": "电话",
     "church": "教会",
     "team": "小组",
@@ -65,7 +44,6 @@
     "room": "房间",
     "leaders": "辅导",
     "roommates": "室友",
-    "role": "角色",
     "leader": "辅导",
     "maintainer": "策划",
     "saveFailed": "保存失败，请重试。"
@@ -73,8 +51,6 @@
   "schedule": {
     "title": "日程",
     "now": "进行中",
-    "upcoming": "即将开始",
-    "past": "已结束",
     "empty": "暂无安排的活动。",
     "countdown": {
       "label": "下一项",
@@ -83,31 +59,32 @@
       "minutes": "分",
       "seconds": "秒"
     },
-    "items": {
-      "s1": {
-        "title": "登记",
-        "location": "主厅"
-      },
-      "s2": {
-        "title": "开幕",
-        "location": "大堂"
-      },
-      "s3": {
-        "title": "小组时间",
-        "location": "*"
-      },
-      "s4": {
-        "title": "午餐",
-        "location": "餐厅"
-      },
-      "s5": {
-        "title": "工作坊 A",
-        "location": "房间 A"
-      },
-      "s6": {
-        "title": "晚餐",
-        "location": "餐厅"
-      }
+    "activities": {
+      "breakfast": "早餐",
+      "devotional": "灵修",
+      "worship": "敬拜",
+      "message": "讲道",
+      "smallGroup": "小组",
+      "groupLunch": "小组·午餐",
+      "groupDinner": "小组·晚餐",
+      "lunch": "午餐",
+      "interviewsRest": "采访篇 / 午休",
+      "groupPhoto": "集体照",
+      "opening": "开幕式",
+      "closing": "闭幕式",
+      "teamFormation": "点兵点将",
+      "fieldGames": "大地游戏",
+      "workshops": "工作坊",
+      "freeTimeTraining": "自由时间（辅导培训）",
+      "prayerNight": "祷告之夜",
+      "leadersMeeting": "队长会议",
+      "churchMeeting": "堂会会议",
+      "qanda": "Q&A",
+      "headingHome": "回家！",
+      "sessionA": "环节 A",
+      "sessionC": "环节 C",
+      "sessionD": "环节 D",
+      "sessionE": "环节 E"
     }
   },
   "messages": {
@@ -135,15 +112,12 @@
     "title": "紧急联系人",
     "heading": "联系人",
     "call": "拨打",
-    "empty": "暂无联系人。",
     "loadError": "无法加载联系人。",
     "directory": {
-      "title": "联系人",
       "leaders": "辅导",
       "group": "小组",
       "maintainers": "策划",
-      "roommates": "室友",
-      "empty": "暂无联系人。"
+      "roommates": "室友"
     },
     "tags": {
       "leader": "辅导",
@@ -165,7 +139,6 @@
   },
   "push": {
     "enable": "开启活动提醒",
-    "enabled": "提醒已开启",
     "prompt": "接收实时更新与日程变更通知。"
   },
   "common": {
