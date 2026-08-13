@@ -299,4 +299,5 @@ def to_profile(p):
         'roommatesName': roommatesName,
         'isLeader': role == ROLE_LEADER,
         'isManager': role == ROLE_MAINTAINER,
+        'role': role,
     }

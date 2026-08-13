@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { updatePhone } from '../../services/auth';
+import { leadersRevealed } from '../../utils/schedule';
+import { useNow } from '../../utils/useNow';
 import './ProfileTab.css';
 
 export default function ProfileTab() {
   const { t } = useTranslation();
   const { profile, enterWithProfile } = useAuth();
+
+  const revealed = leadersRevealed(useNow(15_000));
 
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [editedPhone, setEditedPhone] = useState('');
@@ -139,7 +143,17 @@ export default function ProfileTab() {
           {profile.leadersName.length > 0 && (
             <div className="row">
               <span className="label">{t('profile.leaders')}</span>
-              <span className="value">{profile.leadersName.join(', ')}</span>
+              <span className="value">
+                {revealed ? (
+                  profile.leadersName.join(', ')
+                ) : (
+                  <span className="value-locked">
+                    <span className="value-blurred" aria-hidden="true">
+                      {profile.leadersName.join(', ')}
+                    </span>
+                  </span>
+                )}
+              </span>
             </div>
           )}
           {profile.roommatesName.length > 0 && (

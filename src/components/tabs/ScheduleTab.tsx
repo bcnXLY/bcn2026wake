@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SCHEDULE } from '../../data/eventData';
-import type { ScheduleItem } from '../../types';
+import { useAuth } from '../../context/AuthContext';
+import { currentActivity, nextActivity, roleIdOf, scheduleFor } from '../../utils/schedule';
+import { useNow } from '../../utils/useNow';
 
 type Status = 'past' | 'now' | 'upcoming';
 
@@ -20,13 +21,13 @@ function pad(value: number) {
 
 export default function ScheduleTab() {
   const { t, i18n } = useTranslation();
+  const { profile } = useAuth();
   // Live clock — ticks every second so the countdown's seconds stay honest;
   // the "NOW" marker rides along on the same tick.
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1_000);
-    return () => clearInterval(id);
-  }, []);
+  const now = useNow(1_000);
+
+  // Activities restricted to other role groups never reach this screen.
+  const schedule = useMemo(() => scheduleFor(roleIdOf(profile)), [profile]);
 
   const timeFmt = useMemo(
     () =>
@@ -46,52 +47,52 @@ export default function ScheduleTab() {
       }),
     [i18n.resolvedLanguage],
   );
+  const current = useMemo(() => currentActivity(schedule, now), [schedule, now]);
 
   // Next activity that has not started yet — drives the countdown header.
   const next = useMemo(() => {
-    let soonest: ScheduleItem | null = null;
-    let soonestStart = Infinity;
-    for (const item of SCHEDULE) {
-      const start = new Date(item.start).getTime();
-      if (start > now && start < soonestStart) {
-        soonest = item;
-        soonestStart = start;
-      }
-    }
+    if (current) return null;
+    const soonest = nextActivity(schedule, now);
     if (!soonest) return null;
+    const start = new Date(soonest.start);
     // Whole seconds left, expressed as hours + minutes + seconds — hours keep
     // accumulating past 24 rather than rolling over into days.
-    const totalSeconds = Math.floor((soonestStart - now) / 1_000);
+    const totalSeconds = Math.floor((start.getTime() - now) / 1_000);
     return {
       item: soonest,
-      start: new Date(soonestStart),
+      start,
       hours: Math.floor(totalSeconds / 3600),
       minutes: Math.floor((totalSeconds % 3600) / 60),
       seconds: totalSeconds % 60,
     };
-  }, [now]);
+  }, [schedule, current, now]);
 
   // The event spans several days, so the timeline is grouped by day —
   // otherwise "08:30" on day 1 and day 2 read as the same morning.
   const days = useMemo(() => {
-    const sorted = [...SCHEDULE].sort(
-      (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
-    );
-    const grouped = new Map<string, typeof sorted>();
-    for (const item of sorted) {
+    const grouped = new Map<string, typeof schedule>();
+    for (const item of schedule) {
       const key = new Date(item.start).toDateString();
       const bucket = grouped.get(key);
       if (bucket) bucket.push(item);
       else grouped.set(key, [item]);
     }
     return [...grouped.entries()];
-  }, []);
+  }, [schedule]);
 
   return (
     <section role="tabpanel">
       <h2 className="tab-title">{t('schedule.title')}</h2>
       <div className="countdown card">
-        {next ? (
+        {current ? (
+          <>
+            <span className="countdown-label">{t('schedule.now')}</span>
+            <strong className="countdown-title">{t(current.titleKey)}</strong>
+            <div className="hint-text" style={{ marginTop: 8 }}>
+              {timeFmt.format(new Date(current.start))} – {timeFmt.format(new Date(current.end))}
+            </div>
+          </>
+        ) : next ? (
           <>
             <span className="countdown-label">{t('schedule.countdown.label')}</span>
             <strong className="countdown-title">{t(next.item.titleKey)}</strong>

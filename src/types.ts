@@ -9,6 +9,7 @@ export interface UserProfile {
   roommatesName: string[];
   isLeader: boolean;
   isManager: boolean;
+  role?: number;
 }
 
 export interface ScheduleItem {
@@ -20,6 +21,7 @@ export interface ScheduleItem {
   /** ISO 8601 start/end timestamps. */
   start: string;
   end: string;
+  roleIds?: number[];
 }
 
 export interface EmergencyContact {

@@ -103,3 +103,16 @@
 .phone-value .phone-number {
   color: var(--text);
 }
+
+.value-locked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.value-blurred {
+  filter: blur(7px);
+  user-select: none;
+  pointer-events: none;
+}

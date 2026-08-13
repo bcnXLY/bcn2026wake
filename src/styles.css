@@ -117,6 +117,7 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1071,6 +1072,7 @@ a {
     box-shadow 0.2s var(--ease),
     color 0.2s var(--ease);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .otp-box::-webkit-outer-spin-button,
@@ -1105,6 +1107,7 @@ a {
 }
 
 @keyframes shake {
+
   0%,
   100% {
     transform: translateX(0);

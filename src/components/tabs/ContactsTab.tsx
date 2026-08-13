@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { fetchContactsDirectory } from '../../services/contacts';
+import { leadersRevealed } from '../../utils/schedule';
+import { useNow } from '../../utils/useNow';
 import type { ContactsDirectory, DirectoryPerson } from '../../types';
 
 const CALL_ICON = (
@@ -92,6 +94,8 @@ export default function ContactsTab() {
   const [error, setError] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
+  const revealed = leadersRevealed(useNow(15_000));
+
   const load = useCallback(() => {
     if (!profile) return () => { };
     let active = true;
@@ -159,20 +163,25 @@ export default function ContactsTab() {
         }
       } else {
         const people = directory.people ?? [];
-        list.push({
-          id: 'directory',
-          title:
-            directory.role === 'leader'
-              ? t('contacts.directory.group')
-              : t('contacts.directory.leaders'),
-          count: people.length,
-          render: () => people.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
-        });
+        const isLeaderList = directory.role !== 'leader';
+        // Members see their leaders only once the reveal activity has finished;
+        // a leader's own group list is never held back.
+        if (!isLeaderList || revealed) {
+          list.push({
+            id: 'directory',
+            title: isLeaderList
+              ? t('contacts.directory.leaders')
+              : t('contacts.directory.group'),
+            count: people.length,
+            render: () =>
+              people.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
+          });
+        }
       }
     }
 
     return list;
-  }, [directory, roomOf, t]);
+  }, [directory, revealed, roomOf, t]);
 
   useEffect(() => {
     if (groups.length === 0) return;
