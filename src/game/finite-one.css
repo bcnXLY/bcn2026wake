@@ -1,0 +1,1009 @@
+/* ==========================================================================
+   "The Finite ONE" — field games
+   --------------------------------------------------------------------------
+   Scoped under .fo-root. Same soft UI as the rest of the app — one surface
+   colour, depth from a light and a dark shadow, recessed inputs — but darker,
+   with monospace readouts and HUD framing over it. --fo-accent / --fo-rgb come
+   from world health, so the whole panel drifts green → blue → ash → yellow →
+   orange → red as the world runs out.
+   ========================================================================== */
+
+.fo-root {
+  --fo-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Base surface — background and every raised control share it. */
+  --fo-surface: #141821;
+  --fo-nm-light: #1c212c;
+  --fo-nm-dark: #0a0d13;
+
+  --fo-out-sm: 3px 3px 7px var(--fo-nm-dark), -3px -3px 7px var(--fo-nm-light);
+  --fo-out: 6px 6px 14px var(--fo-nm-dark), -5px -5px 12px var(--fo-nm-light);
+  --fo-in-sm: inset 2px 2px 5px var(--fo-nm-dark), inset -2px -2px 5px var(--fo-nm-light);
+  --fo-in: inset 5px 5px 11px var(--fo-nm-dark), inset -4px -4px 10px var(--fo-nm-light);
+
+  --fo-ink: #dfe6f2;
+  --fo-ink-dim: #8b95a8;
+  --fo-ink-faint: #5c6678;
+
+  --fo-radius: 20px;
+  --fo-radius-sm: 14px;
+
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--fo-surface);
+  color: var(--fo-ink);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+/* Same 480px column as .app-shell, so the game feels like the same product. */
+.fo-header,
+.fo-body > *,
+.fo-nav {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* A bloom in the current accent, sitting behind everything. */
+.fo-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 55% at 50% 12%,
+    rgba(var(--fo-rgb, 63, 224, 138), 0.13),
+    transparent 66%
+  );
+  pointer-events: none;
+}
+
+.fo-loading {
+  align-items: center;
+  justify-content: center;
+  color: var(--fo-ink-faint);
+  font-family: var(--fo-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---- Header ---- */
+.fo-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: calc(60px + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) 20px 0;
+  flex: none;
+  background: var(--fo-surface);
+  box-shadow: 0 6px 14px -10px var(--fo-nm-dark);
+}
+
+.fo-title {
+  margin: 0;
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fo-ink-dim);
+}
+
+/* Round extruded icon button, same move as .icon-btn in the app. */
+.fo-exit {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border: none;
+  border-radius: 999px;
+  background: var(--fo-surface);
+  color: var(--fo-ink-dim);
+  box-shadow: var(--fo-out-sm);
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.fo-exit:active {
+  box-shadow: var(--fo-in-sm);
+  color: var(--fo-accent, #3fe08a);
+}
+
+.fo-offline {
+  margin-left: auto;
+  font-family: var(--fo-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f0b429;
+  background: var(--fo-surface);
+  border-radius: 999px;
+  padding: 6px 12px;
+  box-shadow: var(--fo-out-sm);
+}
+
+/* ---- Body ---- */
+.fo-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 22px 20px 28px;
+}
+
+.fo-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fo-panel-title,
+.fo-eyebrow,
+.fo-readout-label,
+.fo-history-title {
+  font-family: var(--fo-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fo-ink-faint);
+}
+
+.fo-panel-title {
+  margin: 2px 0 0;
+  text-align: center;
+}
+
+.fo-note {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fo-ink-dim);
+  margin: 0;
+}
+
+.fo-centred {
+  text-align: center;
+}
+
+.fo-empty {
+  text-align: center;
+  color: var(--fo-ink-faint);
+  padding: 40px 0;
+  font-family: var(--fo-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.fo-error {
+  color: #ff6b6b;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.fo-ok {
+  color: var(--fo-accent, #3fe08a);
+  font-family: var(--fo-mono);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ---- The world ---- */
+.fo-world {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* The globe sits in a well carved out of the surface. */
+.fo-world-stage {
+  position: relative;
+  width: min(310px, 76vw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--fo-surface);
+  box-shadow: var(--fo-in);
+}
+
+.fo-planet {
+  position: absolute;
+  inset: 4%;
+}
+
+.fo-planet canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Shown only when WebGL is unavailable — the colour still carries the reading. */
+.fo-planet-flat {
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 30%, rgba(255, 255, 255, 0.16), transparent 46%),
+    radial-gradient(circle at 50% 50%, rgba(var(--fo-rgb, 63, 224, 138), 0.5), #05070c 72%);
+  box-shadow: 0 0 60px rgba(var(--fo-rgb, 63, 224, 138), 0.4);
+}
+
+.fo-bracket {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgba(var(--fo-rgb, 63, 224, 138), 0.5);
+  pointer-events: none;
+}
+
+.fo-bracket.tl {
+  top: 4%;
+  left: 4%;
+  border-right: 0;
+  border-bottom: 0;
+}
+.fo-bracket.tr {
+  top: 4%;
+  right: 4%;
+  border-left: 0;
+  border-bottom: 0;
+}
+.fo-bracket.bl {
+  bottom: 4%;
+  left: 4%;
+  border-right: 0;
+  border-top: 0;
+}
+.fo-bracket.br {
+  bottom: 4%;
+  right: 4%;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* ---- Readout, over the globe ---- */
+.fo-readout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Keeps the number legible over the cage without hiding the globe. */
+.fo-readout::before {
+  content: '';
+  position: absolute;
+  inset: -34% -46%;
+  background: radial-gradient(ellipse at center, rgba(5, 7, 12, 0.82), transparent 72%);
+  z-index: -1;
+}
+
+.fo-readout-value {
+  font-family: var(--fo-mono);
+  font-size: clamp(44px, 14vw, 58px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(var(--fo-rgb, 63, 224, 138), 0.6);
+}
+
+.fo-readout-fraction {
+  font-size: 0.44em;
+  opacity: 0.62;
+}
+
+.fo-readout-percent {
+  font-size: 0.32em;
+  opacity: 0.5;
+  margin-left: 3px;
+}
+
+.fo-readout-label {
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+/* Collapsed: grey and still. Nothing pulses, nothing glows. */
+.fo-readout-dead {
+  font-family: var(--fo-mono);
+  font-size: clamp(22px, 7vw, 30px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #6b7280;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.fo-world-terminal .fo-world-stage {
+  box-shadow: var(--fo-in);
+  filter: saturate(0.35);
+}
+
+.fo-world-terminal .fo-status-dot {
+  box-shadow: none;
+}
+
+/* ---- Status line ---- */
+.fo-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-family: var(--fo-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.fo-status-key {
+  color: var(--fo-ink-faint);
+}
+
+.fo-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--fo-accent, #3fe08a);
+  box-shadow: 0 0 10px rgba(var(--fo-rgb, 63, 224, 138), 0.9);
+}
+
+.fo-status-value {
+  color: var(--fo-accent, #3fe08a);
+}
+
+/* ---- Glitch: the feed breaking up ----
+   .glitching is toggled on the stage by the render loop, so the panel tears in
+   the same frame the globe jumps. */
+.fo-world-stage.glitching .fo-planet canvas {
+  animation: fo-tear 0.1s steps(2, end) infinite;
+  filter:
+    drop-shadow(2px 0 rgba(255, 0, 68, 0.6))
+    drop-shadow(-2px 0 rgba(0, 225, 255, 0.55));
+}
+
+@keyframes fo-tear {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+  20% {
+    clip-path: inset(14% 0 66% 0);
+    transform: translateX(-7px);
+  }
+  40% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(2px);
+  }
+  60% {
+    clip-path: inset(58% 0 22% 0);
+    transform: translateX(6px);
+  }
+  80% {
+    clip-path: inset(34% 0 44% 0);
+    transform: translateX(-3px);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+}
+
+/* Interference bars over the globe while it tears. */
+.fo-world-stage.glitching::after {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.07) 0 2px,
+    transparent 2px 6px
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.fo-world-stage.glitching .fo-readout-value,
+.fo-world-stage.glitching .fo-readout-dead {
+  transform: translateX(-2px) skewX(-2deg);
+  text-shadow:
+    2px 0 rgba(255, 0, 68, 0.9),
+    -2px 0 rgba(0, 225, 255, 0.85),
+    0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.fo-world-stage.glitching .fo-readout-label {
+  opacity: 0.35;
+  transform: translateX(3px);
+}
+
+/* The panel starts to fail as the world does. */
+.fo-world-critical .fo-readout-value,
+.fo-world-terminal .fo-readout-dead {
+  animation: fo-flicker 3.4s steps(1, end) infinite;
+}
+
+/* Below a quarter the whole stage develops a tremor. */
+.fo-world-critical .fo-world-stage {
+  animation: fo-tremor 0.42s ease-in-out infinite;
+}
+
+@keyframes fo-tremor {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-1px, 1px);
+  }
+  50% {
+    transform: translate(1px, -1px);
+  }
+  75% {
+    transform: translate(1px, 1px);
+  }
+}
+
+/* A red pulse washes the whole panel once the end is close. */
+.fo-world-critical::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    transparent 40%,
+    rgba(232, 51, 44, 0.16) 100%
+  );
+  animation: fo-alarm 2.6s ease-in-out infinite;
+}
+
+@keyframes fo-alarm {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.fo-world-critical .fo-status-dot,
+.fo-world-terminal .fo-status-dot {
+  animation: fo-blink 1.1s steps(1, end) infinite;
+}
+
+@keyframes fo-flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.4;
+  }
+  95% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes fo-blink {
+  0%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  61%,
+  99% {
+    opacity: 0.15;
+  }
+}
+
+/* ---- Player: team and points ---- */
+.fo-team-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.fo-team-number {
+  font-family: var(--fo-mono);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.fo-points {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px;
+  border-radius: var(--fo-radius);
+  background: var(--fo-surface);
+  box-shadow: var(--fo-out);
+}
+
+.fo-points-value {
+  font-family: var(--fo-mono);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--fo-accent, #3fe08a);
+}
+
+/* ---- Buttons: extruded, pressed in on tap ---- */
+.fo-btn {
+  width: 100%;
+  border: none;
+  border-radius: var(--fo-radius-sm);
+  padding: 17px;
+  font-family: var(--fo-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--fo-surface);
+  color: var(--fo-accent, #3fe08a);
+  box-shadow: var(--fo-out);
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.fo-btn:active:not(:disabled) {
+  box-shadow: var(--fo-in);
+}
+
+.fo-btn:disabled {
+  color: var(--fo-ink-faint);
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-btn-ghost,
+.fo-btn-scan {
+  color: var(--fo-ink-dim);
+  box-shadow: var(--fo-out-sm);
+}
+
+.fo-btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fo-inline-btn {
+  border: none;
+  border-radius: 999px;
+  background: var(--fo-surface);
+  color: var(--fo-ink-dim);
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 13px;
+  flex: none;
+  box-shadow: var(--fo-out-sm);
+}
+
+.fo-inline-btn:active {
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-back {
+  align-self: flex-start;
+  border: none;
+  border-radius: 999px;
+  background: var(--fo-surface);
+  color: var(--fo-ink-dim);
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  box-shadow: var(--fo-out-sm);
+}
+
+.fo-back:active {
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-pending {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: #f0b429;
+  color: #150f00;
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+/* ---- QR: the one place that goes bright, for the camera's sake ---- */
+.fo-qr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #f4f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px calc(24px + env(safe-area-inset-left))
+    calc(24px + env(safe-area-inset-bottom));
+}
+
+.fo-qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.fo-qr-sheet {
+  width: 100%;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow:
+    10px 10px 22px #ccd2dd,
+    -8px -8px 18px #ffffff;
+}
+
+.fo-qr {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fo-qr-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #2b3040;
+}
+
+.fo-qr-team {
+  font-family: var(--fo-mono);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.fo-qr-points {
+  font-size: 15px;
+  color: #646d80;
+}
+
+.fo-qr-overlay .fo-btn-ghost {
+  max-width: 380px;
+  background: #f4f6fa;
+  color: #2b3040;
+  box-shadow:
+    5px 5px 12px #ccd2dd,
+    -4px -4px 10px #ffffff;
+}
+
+.fo-qr-overlay .fo-btn-ghost:active {
+  box-shadow:
+    inset 4px 4px 9px #ccd2dd,
+    inset -3px -3px 8px #ffffff;
+}
+
+/* ---- Standings ---- */
+.fo-board {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fo-board-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--fo-radius-sm);
+  background: var(--fo-surface);
+  box-shadow: var(--fo-out-sm);
+}
+
+.fo-board-row.mine {
+  box-shadow:
+    var(--fo-out-sm),
+    inset 0 0 0 1px rgba(var(--fo-rgb, 63, 224, 138), 0.55);
+}
+
+.fo-board-rank {
+  min-width: 24px;
+  font-family: var(--fo-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fo-ink-faint);
+  text-align: right;
+}
+
+.fo-board-row.top .fo-board-rank {
+  color: var(--fo-ink);
+}
+
+.fo-board-row.top-1 .fo-board-rank {
+  color: #ffd45e;
+}
+
+.fo-board-team {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.fo-board-you {
+  font-family: var(--fo-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: var(--fo-accent, #3fe08a);
+  box-shadow: var(--fo-in-sm);
+}
+
+/* ---- Game master ---- */
+.fo-gm .fo-field label {
+  display: block;
+  font-family: var(--fo-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fo-ink-faint);
+  margin-bottom: 9px;
+}
+
+/* Inputs are carved into the surface — the core neumorphic move. */
+.fo-field input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--fo-radius-sm);
+  background: var(--fo-surface);
+  color: #fff;
+  font-family: var(--fo-mono);
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: var(--fo-in);
+}
+
+.fo-field input:focus {
+  outline: none;
+  box-shadow: var(--fo-in), 0 0 0 2px rgba(var(--fo-rgb, 63, 224, 138), 0.45);
+}
+
+.fo-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fo-scanner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fo-scanner-video {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--fo-radius);
+  background: #000;
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-scanner-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -72%);
+  border: 1px solid var(--fo-accent, #3fe08a);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.fo-scanner-hint {
+  text-align: center;
+  font-family: var(--fo-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--fo-ink-dim);
+  margin: 0;
+}
+
+/* ---- History ---- */
+.fo-history-title {
+  margin: 10px 0 0;
+}
+
+.fo-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fo-history-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 16px;
+  border-radius: var(--fo-radius-sm);
+  background: var(--fo-surface);
+  box-shadow: var(--fo-out-sm);
+}
+
+.fo-history-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  flex: none;
+  background: var(--fo-ink-faint);
+}
+
+.fo-history-row.pending .fo-history-dot,
+.fo-history-row.sending .fo-history-dot {
+  background: #f0b429;
+  box-shadow: 0 0 9px rgba(240, 180, 41, 0.7);
+}
+
+.fo-history-row.applied .fo-history-dot {
+  background: #3fe08a;
+  box-shadow: 0 0 9px rgba(63, 224, 138, 0.7);
+}
+
+.fo-history-row.rejected .fo-history-dot {
+  background: #ff5c5c;
+  box-shadow: 0 0 9px rgba(255, 92, 92, 0.7);
+}
+
+.fo-history-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fo-history-body strong {
+  font-family: var(--fo-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.fo-history-delta {
+  display: flex;
+  gap: 10px;
+  font-family: var(--fo-mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fo-history-delta .plus {
+  color: #3fe08a;
+}
+.fo-history-delta .minus {
+  color: #ff7a7a;
+}
+.fo-history-delta .world {
+  color: #6fc3ff;
+}
+
+.fo-history-meta {
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  color: var(--fo-ink-faint);
+}
+
+.fo-pending-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: var(--fo-radius-sm);
+  background: var(--fo-surface);
+  box-shadow: var(--fo-in-sm);
+  color: #f0b429;
+  font-family: var(--fo-mono);
+  font-size: 12px;
+}
+
+/* ---- Bottom nav ---- */
+.fo-nav {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+  background: var(--fo-surface);
+  box-shadow: 0 -8px 16px -12px var(--fo-nm-dark);
+}
+
+.fo-nav button {
+  flex: 1;
+  border: none;
+  border-radius: var(--fo-radius-sm);
+  padding: 13px 6px;
+  background: var(--fo-surface);
+  color: var(--fo-ink-faint);
+  font-family: var(--fo-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: var(--fo-out-sm);
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+/* Active tab is pressed into the surface. */
+.fo-nav button.active {
+  color: var(--fo-accent, #3fe08a);
+  box-shadow: var(--fo-in-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fo-world-critical .fo-readout-value,
+  .fo-world-critical .fo-status-dot,
+  .fo-world-critical .fo-world-stage,
+  .fo-world-critical::after,
+  .fo-world-stage.glitching .fo-planet canvas {
+    animation: none;
+  }
+
+  .fo-world-stage.glitching .fo-planet canvas,
+  .fo-world-stage.glitching .fo-readout-value {
+    filter: none;
+    transform: none;
+  }
+}

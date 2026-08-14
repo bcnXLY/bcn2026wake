@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { currentActivity, nextActivity, roleIdOf, scheduleFor } from '../../utils/schedule';
+import {
+  FIELD_GAMES_EVENT_ID,
+  currentActivity,
+  nextActivity,
+  roleIdOf,
+  scheduleFor,
+} from '../../utils/schedule';
 import { useNow } from '../../utils/useNow';
 
 type Status = 'past' | 'now' | 'upcoming';
@@ -19,7 +25,7 @@ function pad(value: number) {
   return String(value).padStart(2, '0');
 }
 
-export default function ScheduleTab() {
+export default function ScheduleTab({ onEnterGame }: { onEnterGame: () => void }) {
   const { t, i18n } = useTranslation();
   const { profile } = useAuth();
   // Live clock — ticks every second so the countdown's seconds stay honest;
@@ -80,44 +86,61 @@ export default function ScheduleTab() {
     return [...grouped.entries()];
   }, [schedule]);
 
+  const gameLive = current?.id === FIELD_GAMES_EVENT_ID;
+
+  const cardBody = (
+    <>
+      {current ? (
+        <>
+          <span className="countdown-label">{t('schedule.now')}</span>
+          <strong className="countdown-title">{t(current.titleKey)}</strong>
+          {gameLive ? (
+            <span className="countdown-cta">{t('schedule.enterGame')}</span>
+          ) : (
+            <div className="hint-text" style={{ marginTop: 8 }}>
+              {timeFmt.format(new Date(current.start))} –{' '}
+              {timeFmt.format(new Date(current.end))}
+            </div>
+          )}
+        </>
+      ) : next ? (
+        <>
+          <span className="countdown-label">{t('schedule.countdown.label')}</span>
+          <strong className="countdown-title">{t(next.item.titleKey)}</strong>
+          <div className="countdown-clock">
+            <span className="countdown-unit">
+              <b>{next.hours}</b>
+              {t('schedule.countdown.hours')}
+            </span>
+            <span className="countdown-unit">
+              <b>{pad(next.minutes)}</b>
+              {t('schedule.countdown.minutes')}
+            </span>
+            <span className="countdown-unit">
+              <b>{pad(next.seconds)}</b>
+              {t('schedule.countdown.seconds')}
+            </span>
+          </div>
+          <div className="hint-text">
+            {dayFmt.format(next.start)} · {timeFmt.format(next.start)}
+          </div>
+        </>
+      ) : (
+        <div className="countdown-none">{t('schedule.countdown.none')}</div>
+      )}
+    </>
+  );
+
   return (
     <section role="tabpanel">
       <h2 className="tab-title">{t('schedule.title')}</h2>
-      <div className="countdown card">
-        {current ? (
-          <>
-            <span className="countdown-label">{t('schedule.now')}</span>
-            <strong className="countdown-title">{t(current.titleKey)}</strong>
-            <div className="hint-text" style={{ marginTop: 8 }}>
-              {timeFmt.format(new Date(current.start))} – {timeFmt.format(new Date(current.end))}
-            </div>
-          </>
-        ) : next ? (
-          <>
-            <span className="countdown-label">{t('schedule.countdown.label')}</span>
-            <strong className="countdown-title">{t(next.item.titleKey)}</strong>
-            <div className="countdown-clock">
-              <span className="countdown-unit">
-                <b>{next.hours}</b>
-                {t('schedule.countdown.hours')}
-              </span>
-              <span className="countdown-unit">
-                <b>{pad(next.minutes)}</b>
-                {t('schedule.countdown.minutes')}
-              </span>
-              <span className="countdown-unit">
-                <b>{pad(next.seconds)}</b>
-                {t('schedule.countdown.seconds')}
-              </span>
-            </div>
-            <div className="hint-text">
-              {dayFmt.format(next.start)} · {timeFmt.format(next.start)}
-            </div>
-          </>
-        ) : (
-          <div className="countdown-none">{t('schedule.countdown.none')}</div>
-        )}
-      </div>
+      {gameLive ? (
+        <button type="button" className="countdown card countdown-live" onClick={onEnterGame}>
+          {cardBody}
+        </button>
+      ) : (
+        <div className="countdown card">{cardBody}</div>
+      )}
       {days.length === 0 ? (
         <div className="center-state">{t('schedule.empty')}</div>
       ) : (

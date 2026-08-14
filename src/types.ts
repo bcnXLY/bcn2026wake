@@ -112,3 +112,67 @@ export interface GalleryAlbum {
 }
 
 export type TabKey = 'profile' | 'schedule' | 'messages' | 'gallery' | 'contacts';
+
+/* ---- "The Finite ONE" (field games) ------------------------------------ */
+
+export type GameStatus = 'idle' | 'running' | 'ended';
+
+/** Resolved server-side from the caller's roster row. */
+export type GameView = 'player' | 'spectator' | 'gm';
+
+/** Deliberately carries no points. */
+export interface LeaderboardEntry {
+  rank: number;
+  team: string;
+}
+
+export interface GameState {
+  status: GameStatus;
+  /** 0–100. The decay pace behind it is never sent. */
+  worldHealth: number;
+  view: GameView;
+  leaderboard: LeaderboardEntry[];
+  /** Players only. */
+  team?: string;
+  /** Players only — no other team's points are ever sent. */
+  teamPoints?: number;
+  /** Game masters only — the teams in play, from the roster. */
+  teams?: string[];
+  /** Game masters only — the backend's per-award clamps. */
+  limits?: { points: number; worldPoints: number };
+}
+
+export type AwardSource = 'qr' | 'manual';
+
+/** `awardId` is local, and is what makes replaying the queue safe. */
+export interface QueuedAward {
+  awardId: string;
+  team: string;
+  points: number;
+  worldPoints: number;
+  source: AwardSource;
+  createdAt: number;
+  status: 'pending' | 'sending' | 'applied' | 'rejected';
+  /** Set on a terminal rejection — these are never resent. */
+  reason?: string;
+  attempts: number;
+}
+
+export interface ServerAward {
+  awardId: string;
+  team: string;
+  points: number;
+  worldPoints: number;
+  gmId: string;
+  gmName: string;
+  source: AwardSource;
+  createdAt: number;
+  receivedAt: number;
+  status: 'applied' | 'rejected';
+  reason?: string;
+}
+
+/** `terminal` is the important bit: a business rejection is never retried. */
+export type AwardResult =
+  | { ok: true; duplicate: boolean }
+  | { ok: false; terminal: boolean; reason?: string };

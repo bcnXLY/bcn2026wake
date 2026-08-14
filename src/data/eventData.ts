@@ -6,7 +6,7 @@ export const SCHEDULE: ScheduleItem[] = [
   {
     id: 's1',
     titleKey: 'schedule.activities.sessionA',
-    start: '2026-08-13T11:30:00+02:00',
+    start: '2026-08-31T11:30:00+02:00',
     end: '2026-08-31T13:00:00+02:00',
     roleIds: [],
   },
@@ -127,8 +127,8 @@ export const SCHEDULE: ScheduleItem[] = [
   {
     id: 's18',
     titleKey: 'schedule.activities.fieldGames',
-    start: '2026-09-01T15:30:00+02:00',
-    end: '2026-09-01T18:00:00+02:00',
+    start: '2026-08-13T15:30:00+02:00',
+    end: '2026-08-14T18:00:00+02:00',
     roleIds: [],
   },
   {

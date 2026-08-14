@@ -62,6 +62,55 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Dark mode — the whole app, for the duration of the field games. Set by
+   useEventTheme(). Below the tokens, only the rules with baked-in light
+   values need restating. */
+:root[data-theme='dark'] {
+  --bg: #21242c;
+  --surface: #21242c;
+  --surface-2: #1a1d24;
+  --surface-raised: #272b34;
+  --card: var(--surface);
+
+  --nm-light: #2c313b;
+  --nm-dark: #13151a;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text: #e8ecf3;
+  --text-dim: #a3abba;
+  --text-faint: #79818f;
+  --muted: #a3abba;
+
+  --accent: #8b83ff;
+  --accent-strong: #9c95ff;
+  --accent-contrast: #0c0e13;
+  --accent-soft: rgba(139, 131, 255, 0.16);
+  --ring: rgba(139, 131, 255, 0.45);
+
+  --ok: #4ade80;
+  --danger: #ff6b6b;
+}
+
+/* The accent button bakes in its coloured shadow. */
+:root[data-theme='dark'] .btn {
+  box-shadow:
+    5px 5px 12px rgba(0, 0, 0, 0.45),
+    -4px -4px 10px var(--nm-light);
+}
+
+:root[data-theme='dark'] .btn:active:not(:disabled) {
+  box-shadow:
+    inset 4px 4px 9px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.08);
+}
+
+/* The shimmer sweeps white — too hot on a dark surface. */
+:root[data-theme='dark'] .skeleton::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09), transparent);
+}
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -463,6 +512,51 @@ a {
 .countdown-none {
   font-size: 14px;
   color: var(--text-dim);
+}
+
+/* The card becomes a door while the field games are running. */
+button.countdown-live {
+  display: block;
+  width: 100%;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s var(--ease),
+    transform 0.15s var(--ease);
+}
+
+button.countdown-live:active {
+  transform: translateY(1px);
+  box-shadow: var(--nm-in-sm);
+}
+
+.countdown-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: countdown-breathe 2.6s ease-in-out infinite;
+}
+
+@keyframes countdown-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--ring);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
 }
 
 /* ---- Schedule timeline ---- */

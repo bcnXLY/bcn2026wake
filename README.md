@@ -102,6 +102,57 @@ untouched.
 
 ---
 
+## The Finite ONE (field games)
+
+A mini-app inside the app, reachable **only while the Field Games activity is
+running** — the schedule's top card becomes a door for those two and a half
+hours and looks perfectly ordinary before then. The whole app also turns dark
+for the duration. Design notes and the reasoning behind the data model live in
+[docs/finite-one-plan.md](docs/finite-one-plan.md).
+
+World health is life points: a single float the backend owns. Time subtracts
+from it once a minute, sacrificed team points add to it, and the **decay pace is
+private** — it never appears in an API response or the client bundle.
+
+It is shown as a three.js wireframe globe rather than a bar — continents in
+points, fog turning inside it, the percentage over the middle — going emerald →
+cyan → ash → yellow → orange → red as the world runs out, with the same colour
+driving every accent on screen. It glitches more the worse things get, and at
+zero it freezes grey and parks the render loop entirely. three.js loads as its
+own lazy, precached chunk, renders at a capped 30fps, stops while the tab is
+hidden, and falls back to a CSS orb where WebGL is unavailable.
+
+Three dashboards, chosen server-side from the caller's roster row (never from
+the request): **players** (roles 0–1 on teams 1–30) see their team, the meter,
+their points and a QR code; **game masters** (role 8) get a scanner and the
+award form; everyone else spectates. Nobody — game masters included — ever
+receives another team's points, and the standings carry ranks only.
+
+```bash
+# Start it. No fixed duration: it runs until you end it or the world hits zero.
+cd infra/scripts
+python start_game.py --pace 0.6
+
+python set_pace.py --status   # health, pace, projected minutes to collapse
+python set_pace.py 1.6        # speed up the collapse, mid-game, no jump
+python set_pace.py 0          # freeze the meter
+python start_game.py --end    # stop
+python start_game.py --reset  # wipe scores + ledger after a rehearsal
+```
+
+Game masters are expected to lose signal in a field, so every submission is
+queued on their device with a locally generated id and replayed when the network
+returns — the id is what stops a retry awarding twice. A team can never be taken
+below zero: that submission is refused, shown in the history, and deliberately
+cannot be resent.
+
+```bash
+cd infra/lambda && python -m unittest test_game_state   # decay maths, ranking, roles
+```
+
+To rehearse the late states, set `localStorage['bcn2026-demo-health'] = '8'` in
+demo mode and reload — the world starts there instead of at full health.
+
 ## Project structure
 
 ```
@@ -117,20 +168,31 @@ src/
     Header, BottomNav, LanguageSelector, PushBanner, Lightbox
     tabs/                  Profile, Schedule (live "NOW"), Messages (team
                            notice board), Gallery, Contacts
+  game/                    "The Finite ONE" — full-screen field-games mini-app
+    FiniteOne.tsx          Shell: role routing, own dark theme, tab bar
+    useGameState.ts        Poll (jittered, visibility-gated, backoff) + cache
+    WorldMeter.tsx         The world's life points, as a planet
+    planet/                three.js scene + shaders
+    awardQueue.ts          Game master outbox: localStorage, ids, replay
+    player/ gm/            Team + QR · scanner, award form, history
   services/
     auth.ts                ID-based login client (GET /login)
     contacts.ts            Role-based directory (GET /contacts) + demo data
     messages.ts            Team notice board (GET/POST/PUT /messages)
+    game.ts                Field games (GET /game, POST /game/award)
     googleDrive.ts         Drive API v3 albums + images
     push.ts                OneSignal init / identify / permission
   data/eventData.ts        Static schedule + emergency contacts (edit + redeploy)
+  utils/useEventTheme.ts   Turns the whole app dark during the field games
   i18n/                    react-i18next setup + en/es/zh locales
 infra/
-  template.yaml            SAM: DynamoDB roster + notice boards + Lambda API
-  lambda/                  login, contacts, update_profile, messages, util
+  template.yaml            SAM: DynamoDB roster + notice boards + game + Lambda API
+  lambda/                  login, contacts, update_profile, messages, util,
+                           game_state (+ tests), game, tick
+  scripts/                 start_game.py, set_pace.py (talk to DynamoDB directly)
   seed/                    upload_participants.py (roster → DynamoDB),
                            broadcast.mjs (OneSignal push), participants.csv
-.github/workflows/         deploy-frontend.yml, deploy-backend.yml
+docs/finite-one-plan.md    Field-games design notes and data model
 .github/workflows/         deploy-frontend.yml, deploy-backend.yml
 ```
 

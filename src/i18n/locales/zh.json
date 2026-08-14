@@ -85,7 +85,8 @@
       "sessionC": "环节 C",
       "sessionD": "环节 D",
       "sessionE": "环节 E"
-    }
+    },
+    "enterGame": "进入"
   },
   "messages": {
     "heading": "小组公告",
@@ -152,5 +153,87 @@
     "save": "保存",
     "cancel": "取消",
     "saving": "保存中…"
+  },
+  "game": {
+    "title": "The Finite ONE",
+    "loading": "正在连接世界…",
+    "unavailable": "世界没有回应。",
+    "offline": "离线",
+    "exit": "返回应用",
+    "team": "第 {{number}} 组",
+    "yourTeam": "你的小组",
+    "teamPoints": "小组积分",
+    "spectatorNote": "你正在观看。只有参赛小组能改变这里发生的事。",
+    "nav": {
+      "world": "世界",
+      "team": "我的小组",
+      "leaderboard": "排名",
+      "award": "记分"
+    },
+    "meter": {
+      "label": "世界稳定度",
+      "aria": "世界稳定度为百分之 {{value}}",
+      "collapsed": "已崩塌",
+      "collapsedNote": "已经无能为力",
+      "severity": {
+        "nominal": "稳定",
+        "strained": "紧张",
+        "degraded": "恶化中",
+        "critical": "危急"
+      },
+      "status": "状态"
+    },
+    "leaderboard": {
+      "title": "排名",
+      "empty": "暂时还没有排名。",
+      "you": "你"
+    },
+    "qr": {
+      "show": "出示小组二维码",
+      "close": "关闭",
+      "aria": "第 {{number}} 组的二维码"
+    },
+    "gm": {
+      "scan": "扫描小组二维码",
+      "stopScan": "停止扫描",
+      "cameraStarting": "正在开启相机…",
+      "camera": {
+        "denied": "无法使用相机，请在下面手动输入组号。",
+        "unavailable": "此设备无法扫描，请手动输入组号。"
+      },
+      "notAGameCode": "这不是小组二维码。",
+      "team": "组号",
+      "teamRange": "该组不在本次游戏中（{{range}}）。",
+      "points": "积分",
+      "worldPoints": "世界点数",
+      "pointsRange": "范围 -{{max}} 到 {{max}}。",
+      "worldRange": "范围 0 到 {{max}}。",
+      "negativeNote": "积分可以是负数。小组积分不会低于零——该提交会被拒绝，且无法重发。",
+      "submit": "提交",
+      "queued": "已加入队列：第 {{number}} 组。",
+      "history": "提交记录",
+      "back": "返回",
+      "historyEmpty": "还没有任何提交。",
+      "historyOffline": "无法载入其他工作人员的记录——上面你自己的队列是完整的。",
+      "allGameMasters": "所有工作人员",
+      "pendingNote": "{{count}} 条待发送",
+      "sendNow": "立即发送",
+      "resend": "重新发送",
+      "clearSettled": "清除已完成",
+      "status": {
+        "pending": "待发送",
+        "sending": "发送中…",
+        "applied": "已发送",
+        "rejected": "已拒绝"
+      },
+      "reason": {
+        "insufficient_points": "该组积分不足",
+        "not_running": "游戏尚未进行",
+        "invalid_team": "没有这个小组",
+        "invalid_points": "积分超出范围",
+        "invalid_world_points": "世界点数超出范围",
+        "invalid_award_id": "提交格式错误"
+      }
+    }
   }
 }

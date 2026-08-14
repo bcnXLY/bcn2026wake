@@ -85,7 +85,8 @@
       "sessionC": "Sesión C",
       "sessionD": "Sesión D",
       "sessionE": "Sesión E"
-    }
+    },
+    "enterGame": "Entrar"
   },
   "messages": {
     "heading": "Avisos del equipo",
@@ -152,5 +153,87 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "saving": "Guardando…"
+  },
+  "game": {
+    "title": "The Finite ONE",
+    "loading": "Conectando con el mundo…",
+    "unavailable": "El mundo no responde.",
+    "offline": "Sin conexión",
+    "exit": "Volver a la app",
+    "team": "Equipo {{number}}",
+    "yourTeam": "Tu equipo",
+    "teamPoints": "Puntos del equipo",
+    "spectatorNote": "Estás observando. Sólo los equipos pueden actuar sobre lo que pasa aquí.",
+    "nav": {
+      "world": "Mundo",
+      "team": "Tu equipo",
+      "leaderboard": "Clasificación",
+      "award": "Puntuar"
+    },
+    "meter": {
+      "label": "Estabilidad mundial",
+      "aria": "Estabilidad mundial al {{value}} por ciento",
+      "collapsed": "COLAPSADO",
+      "collapsedNote": "Ya no se puede hacer nada",
+      "severity": {
+        "nominal": "Estable",
+        "strained": "Forzado",
+        "degraded": "Degradándose",
+        "critical": "Crítico"
+      },
+      "status": "Estado"
+    },
+    "leaderboard": {
+      "title": "Clasificación",
+      "empty": "Todavía no hay clasificación.",
+      "you": "Tú"
+    },
+    "qr": {
+      "show": "Mostrar el QR del equipo",
+      "close": "Cerrar",
+      "aria": "Código QR del equipo {{number}}"
+    },
+    "gm": {
+      "scan": "Escanear el QR de un equipo",
+      "stopScan": "Dejar de escanear",
+      "cameraStarting": "Encendiendo la cámara…",
+      "camera": {
+        "denied": "Sin acceso a la cámara. Escribe el número de equipo abajo.",
+        "unavailable": "Este dispositivo no puede escanear. Escribe el número de equipo."
+      },
+      "notAGameCode": "Eso no es un código de equipo.",
+      "team": "Equipo",
+      "teamRange": "Ese equipo no juega ({{range}}).",
+      "points": "Puntos",
+      "worldPoints": "Puntos de mundo",
+      "pointsRange": "Entre -{{max}} y {{max}}.",
+      "worldRange": "Entre 0 y {{max}}.",
+      "negativeNote": "Los puntos pueden ser negativos. Un equipo nunca baja de cero: ese envío se rechaza y no se puede reenviar.",
+      "submit": "Enviar",
+      "queued": "En cola para el equipo {{number}}.",
+      "history": "Historial de envíos",
+      "back": "Atrás",
+      "historyEmpty": "Todavía no has enviado nada.",
+      "historyOffline": "No se pudieron cargar los demás game masters — tu cola de arriba está completa.",
+      "allGameMasters": "Todos los game masters",
+      "pendingNote": "{{count}} pendientes de enviar",
+      "sendNow": "Enviar ahora",
+      "resend": "Reenviar",
+      "clearSettled": "Limpiar los terminados",
+      "status": {
+        "pending": "pendiente de enviar",
+        "sending": "enviando…",
+        "applied": "enviado",
+        "rejected": "rechazado"
+      },
+      "reason": {
+        "insufficient_points": "el equipo no tiene esos puntos",
+        "not_running": "el juego no está en marcha",
+        "invalid_team": "ese equipo no existe",
+        "invalid_points": "puntos fuera de rango",
+        "invalid_world_points": "puntos de mundo fuera de rango",
+        "invalid_award_id": "envío mal formado"
+      }
+    }
   }
 }

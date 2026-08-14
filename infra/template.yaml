@@ -85,6 +85,62 @@ Resources:
         - AttributeName: message_id
           KeyType: RANGE
 
+  # ---- "The Finite ONE" (field games) ------------------------------------
+  # One item: status, world health, the private pace, every team's score.
+  # A single GetItem serves every client's whole view.
+  GameStateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GameState
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: game_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: game_id
+          KeyType: HASH
+
+  # `award_id` is client-generated, which is what makes a game master's
+  # offline queue safe to replay.
+  GameAwardsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GameAwards
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: award_id
+          AttributeType: S
+        - AttributeName: game_id
+          AttributeType: S
+        - AttributeName: received_at_ms
+          AttributeType: N
+      KeySchema:
+        - AttributeName: award_id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: byGame
+          KeySchema:
+            - AttributeName: game_id
+              KeyType: HASH
+            - AttributeName: received_at_ms
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  # FIFO so a retried send cannot be counted twice. TickFn drains it itself:
+  # no event source mapping, because draining and subtracting belong together.
+  WorldPointsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: FiniteOneWorldPoints.fifo
+      FifoQueue: true
+      ContentBasedDeduplication: false
+      VisibilityTimeout: 60
+      MessageRetentionPeriod: 86400
+
   Api:
     Type: AWS::Serverless::Api
     Properties:
@@ -215,6 +271,98 @@ Resources:
             Path: /messages
             Method: put
 
+  GameFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: game.lambda_handler
+      CodeUri: lambda/
+      Environment:
+        Variables:
+          ATTENDEES_TABLE: !Ref ParticipantsTable
+          GAME_STATE_TABLE: !Ref GameStateTable
+          GAME_AWARDS_TABLE: !Ref GameAwardsTable
+          WORLD_POINTS_QUEUE_URL: !Ref WorldPointsQueue
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+              Resource: !GetAtt ParticipantsTable.Arn
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt GameStateTable.Arn
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:Query
+              Resource:
+                - !GetAtt GameAwardsTable.Arn
+                - !Sub '${GameAwardsTable.Arn}/index/*'
+            - Effect: Allow
+              Action:
+                - sqs:SendMessage
+              Resource: !GetAtt WorldPointsQueue.Arn
+      Events:
+        GetGame:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /game
+            Method: get
+        PostAward:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /game/award
+            Method: post
+        GetAwards:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /game/awards
+            Method: get
+
+  # Reads project the pace forward between ticks, so this cadence affects only
+  # how fast a sacrifice shows up.
+  TickFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: tick.lambda_handler
+      CodeUri: lambda/
+      Timeout: 30
+      Environment:
+        Variables:
+          GAME_STATE_TABLE: !Ref GameStateTable
+          GAME_AWARDS_TABLE: !Ref GameAwardsTable
+          WORLD_POINTS_QUEUE_URL: !Ref WorldPointsQueue
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt GameStateTable.Arn
+            - Effect: Allow
+              Action:
+                - dynamodb:UpdateItem
+              Resource: !GetAtt GameAwardsTable.Arn
+            - Effect: Allow
+              Action:
+                - sqs:ReceiveMessage
+                - sqs:DeleteMessage
+                - sqs:GetQueueAttributes
+              Resource: !GetAtt WorldPointsQueue.Arn
+      Events:
+        EveryMinute:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+            Description: Subtracts world health and applies queued sacrifices.
+            # Left enabled — the function no-ops unless a game is running.
+            Enabled: true
+
 Outputs:
   ApiBaseUrl:
     Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/prod'
@@ -222,3 +370,9 @@ Outputs:
     Value: !Ref ParticipantsTable
   TeamMessagesTable:
     Value: !Ref TeamMessagesTable
+  GameStateTable:
+    Value: !Ref GameStateTable
+  GameAwardsTable:
+    Value: !Ref GameAwardsTable
+  WorldPointsQueueUrl:
+    Value: !Ref WorldPointsQueue

@@ -85,7 +85,8 @@
       "sessionC": "Session C",
       "sessionD": "Session D",
       "sessionE": "Session E"
-    }
+    },
+    "enterGame": "Enter"
   },
   "messages": {
     "heading": "Team notices",
@@ -152,5 +153,87 @@
     "save": "Save",
     "cancel": "Cancel",
     "saving": "Saving…"
+  },
+  "game": {
+    "title": "The Finite ONE",
+    "loading": "Connecting to the world…",
+    "unavailable": "The world is not responding.",
+    "offline": "Offline",
+    "exit": "Back to the app",
+    "team": "Team {{number}}",
+    "yourTeam": "Your team",
+    "teamPoints": "Team points",
+    "spectatorNote": "You are watching. Only teams can act on what happens here.",
+    "nav": {
+      "world": "World",
+      "team": "Your team",
+      "leaderboard": "Standings",
+      "award": "Award"
+    },
+    "meter": {
+      "label": "World stability",
+      "aria": "World stability at {{value}} percent",
+      "collapsed": "COLLAPSED",
+      "collapsedNote": "Nothing more can be done",
+      "severity": {
+        "nominal": "Stable",
+        "strained": "Strained",
+        "degraded": "Degrading",
+        "critical": "Critical"
+      },
+      "status": "Status"
+    },
+    "leaderboard": {
+      "title": "Standings",
+      "empty": "No standings yet.",
+      "you": "You"
+    },
+    "qr": {
+      "show": "Show team QR",
+      "close": "Close",
+      "aria": "QR code for team {{number}}"
+    },
+    "gm": {
+      "scan": "Scan a team QR",
+      "stopScan": "Stop scanning",
+      "cameraStarting": "Starting the camera…",
+      "camera": {
+        "denied": "No camera access. Enter the team number by hand below.",
+        "unavailable": "This device cannot scan. Enter the team number by hand."
+      },
+      "notAGameCode": "That is not a team code.",
+      "team": "Team",
+      "teamRange": "Not a team in this game ({{range}}).",
+      "points": "Points",
+      "worldPoints": "World points",
+      "pointsRange": "Between -{{max}} and {{max}}.",
+      "worldRange": "Between 0 and {{max}}.",
+      "negativeNote": "Points may be negative. A team can never go below zero — that submission is refused and cannot be resent.",
+      "submit": "Submit",
+      "queued": "Queued for team {{number}}.",
+      "history": "Submission history",
+      "back": "Back",
+      "historyEmpty": "Nothing submitted yet.",
+      "historyOffline": "Could not load the other game masters — your own queue above is complete.",
+      "allGameMasters": "All game masters",
+      "pendingNote": "{{count}} waiting to send",
+      "sendNow": "Send now",
+      "resend": "Resend",
+      "clearSettled": "Clear finished",
+      "status": {
+        "pending": "waiting to send",
+        "sending": "sending…",
+        "applied": "sent",
+        "rejected": "refused"
+      },
+      "reason": {
+        "insufficient_points": "team has not got the points",
+        "not_running": "the game is not running",
+        "invalid_team": "no such team",
+        "invalid_points": "points out of range",
+        "invalid_world_points": "world points out of range",
+        "invalid_award_id": "malformed submission"
+      }
+    }
   }
 }
