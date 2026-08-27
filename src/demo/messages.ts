@@ -9,7 +9,7 @@ const roleOf = (p: Person) => (p.isManager ? 8 : p.isLeader ? 1 : 0);
 const hoursAgo = (hours: number) => new Date(Date.now() - hours * 3_600_000).toISOString();
 
 /**
- * Boards live in memory for the session, so posting and editing behave like the
+ * Boards live in memory for the session, so posting and deleting behave like the
  * real backend without one. Reloading the page resets them to the seed below.
  */
 const boards = new Map<string, TeamMessage[]>();
@@ -51,7 +51,6 @@ function seedBoard(teamCode: string): TeamMessage[] {
       senderName: leaders[leaders.length - 1].name,
       senderRole: roleOf(leaders[leaders.length - 1]),
       createdAt: hoursAgo(3),
-      updatedAt: hoursAgo(2),
     },
   ];
 }
@@ -110,16 +109,13 @@ export function demoPostMessage(
   return message;
 }
 
-export function demoEditMessage(
+export function demoDeleteMessage(
   profile: UserProfile,
   messageId: string,
-  text: string,
   scope: MessageScope = 'team',
-): TeamMessage {
+): void {
   const messages = boardFor(boardOf(profile, scope));
-  const message = messages.find((m) => m.id === messageId && m.senderId === profile.id);
-  if (!message) throw new Error('Message not found');
-  message.text = text;
-  message.updatedAt = new Date().toISOString();
-  return { ...message };
+  const index = messages.findIndex((m) => m.id === messageId && m.senderId === profile.id);
+  if (index === -1) throw new Error('Message not found');
+  messages.splice(index, 1);
 }

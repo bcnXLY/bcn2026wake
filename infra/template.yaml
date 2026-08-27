@@ -146,7 +146,7 @@ Resources:
     Properties:
       StageName: prod
       Cors:
-        AllowMethods: "'POST,GET,PUT,OPTIONS'"
+        AllowMethods: "'POST,GET,PUT,DELETE,OPTIONS'"
         AllowHeaders: "'Content-Type,Authorization'"
         AllowOrigin: "'*'"
 
@@ -248,7 +248,7 @@ Resources:
               Action:
                 - dynamodb:Query
                 - dynamodb:PutItem
-                - dynamodb:UpdateItem
+                - dynamodb:DeleteItem
               Resource:
                 - !GetAtt TeamMessagesTable.Arn
       Events:
@@ -264,12 +264,12 @@ Resources:
             RestApiId: !Ref Api
             Path: /messages
             Method: post
-        EditMessage:
+        DeleteMessage:
           Type: Api
           Properties:
             RestApiId: !Ref Api
             Path: /messages
-            Method: put
+            Method: delete
 
   GameFn:
     Type: AWS::Serverless::Function

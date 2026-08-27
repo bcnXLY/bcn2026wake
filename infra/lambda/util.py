@@ -5,7 +5,7 @@ CORS = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST,GET,PUT,OPTIONS',
+    'Access-Control-Allow-Methods': 'POST,GET,PUT,DELETE,OPTIONS',
 }
 
 

@@ -76,7 +76,6 @@ export default function FiniteOne({ onExit }: { onExit: () => void }) {
         ) : (
           <div className="fo-panel">
             <WorldMeter health={state.worldHealth} status={state.status} />
-            <p className="fo-note fo-centred">{t('game.spectatorNote')}</p>
           </div>
         )}
       </main>

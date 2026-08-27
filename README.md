@@ -89,15 +89,16 @@ only `unassigned` means the participant has no board yet.
   board by changing the request.
 - `POST /messages` — post a notice. Allowed for everyone on the team **except**
   members (`role = 0`), who read only.
-- `PUT /messages` — edit a notice. A condition on `sender_id` means only the
-  author can edit their own message; edits are marked "edited" in the UI.
+- `DELETE /messages?id=...&messageId=...` — delete a notice. A condition on
+  `sender_id` means only the author can delete their own message; the UI asks
+  for confirmation on the card first.
 
 Sender name and role are denormalised onto each message, so a board renders
 without a lookup per message. In demo mode the boards live in memory.
 
 An open board polls every 25s and refreshes whenever the app regains focus, so
 someone else's notice appears without leaving the tab. Polling skips hidden tabs
-and pauses while you are posting or editing, and a failed poll leaves the board
+and pauses while you are posting or confirming a delete, and a failed poll leaves the board
 untouched.
 
 ---

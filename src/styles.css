@@ -1038,9 +1038,11 @@ button.countdown-live:active {
   background: transparent;
 }
 
-/* Small pill buttons for inline editing (profile phone, team messages). */
+/* Small pill buttons for inline actions (profile phone, team messages). */
 .btn-save,
 .btn-edit,
+.btn-delete,
+.btn-danger,
 .btn-cancel {
   background: var(--surface);
   color: var(--accent);
@@ -1057,17 +1059,25 @@ button.countdown-live:active {
 }
 
 .btn-edit,
+.btn-delete,
 .btn-cancel {
   color: var(--text-dim);
 }
 
+.btn-danger {
+  color: var(--danger);
+}
+
 .btn-save:active,
 .btn-edit:active,
+.btn-delete:active,
+.btn-danger:active,
 .btn-cancel:active {
   box-shadow: var(--nm-in-sm);
 }
 
 .btn-save:disabled,
+.btn-danger:disabled,
 .btn-cancel:disabled {
   opacity: 0.55;
   cursor: not-allowed;

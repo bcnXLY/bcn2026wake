@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { editTeamMessage, fetchTeamMessages, postTeamMessage } from '../../services/messages';
+import { deleteTeamMessage, fetchTeamMessages, postTeamMessage } from '../../services/messages';
 import type { MessageScope, TeamMessage, TeamMessageBoard } from '../../types';
 import './MessagesTab.css';
 
@@ -54,10 +54,9 @@ export default function MessagesTab() {
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState(false);
 
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedText, setEditedText] = useState('');
-  const [savingEdit, setSavingEdit] = useState(false);
-  const [editError, setEditError] = useState(false);
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
 
   // Bumped whenever the newest message should come into view (first load, own post).
   const [scrollTick, setScrollTick] = useState(0);
@@ -112,8 +111,8 @@ export default function MessagesTab() {
     }
   }, [profile, scope]);
 
-  // Composing or editing pauses the poll so nothing shifts under the writer.
-  const paused = sending || savingEdit || editingId !== null;
+  // Composing or confirming a delete pauses the poll so nothing shifts under the writer.
+  const paused = sending || deleting || confirmingId !== null;
 
   useEffect(() => {
     if (paused) return;
@@ -154,18 +153,19 @@ export default function MessagesTab() {
   // Oldest at the top, newest at the bottom — the board reads like a chat.
   const messages = board?.messages ?? [];
 
-  const upsert = (message: TeamMessage) =>
+  /** A new post is the newest, so it goes last — unless a poll already picked it up. */
+  const append = (message: TeamMessage) =>
     setBoard((current) => {
-      if (!current) return current;
-      // Edits replace in place; a new post is the newest, so it goes last.
-      const known = current.messages.some((m) => m.id === message.id);
-      return {
-        ...current,
-        messages: known
-          ? current.messages.map((m) => (m.id === message.id ? message : m))
-          : [...current.messages, message],
-      };
+      if (!current || current.messages.some((m) => m.id === message.id)) return current;
+      return { ...current, messages: [...current.messages, message] };
     });
+
+  const drop = (messageId: string) =>
+    setBoard((current) =>
+      current
+        ? { ...current, messages: current.messages.filter((m) => m.id !== messageId) }
+        : current,
+    );
 
   const handleSend = async () => {
     const text = draft.trim();
@@ -173,7 +173,7 @@ export default function MessagesTab() {
     setSending(true);
     setSendError(false);
     try {
-      upsert(await postTeamMessage(profile, text, scope));
+      append(await postTeamMessage(profile, text, scope));
       setDraft('');
       setScrollTick((tick) => tick + 1);
     } catch (err) {
@@ -185,33 +185,29 @@ export default function MessagesTab() {
     }
   };
 
-  const startEdit = (message: TeamMessage) => {
-    setEditingId(message.id);
-    setEditedText(message.text);
-    setEditError(false);
+  const startDelete = (message: TeamMessage) => {
+    setConfirmingId(message.id);
+    setDeleteError(false);
   };
 
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditError(false);
+  const cancelDelete = () => {
+    setConfirmingId(null);
+    setDeleteError(false);
   };
 
-  const handleSaveEdit = async (message: TeamMessage) => {
-    const text = editedText.trim();
-    if (!profile || !text || text === message.text) {
-      cancelEdit();
-      return;
-    }
-    setSavingEdit(true);
-    setEditError(false);
+  const handleDelete = async (message: TeamMessage) => {
+    if (!profile) return;
+    setDeleting(true);
+    setDeleteError(false);
     try {
-      upsert(await editTeamMessage(profile, message.id, text, scope));
-      setEditingId(null);
+      await deleteTeamMessage(profile, message.id, scope);
+      drop(message.id);
+      setConfirmingId(null);
     } catch (err) {
-      console.error('Failed to edit message', err);
-      setEditError(true);
+      console.error('Failed to delete message', err);
+      setDeleteError(true);
     } finally {
-      setSavingEdit(false);
+      setDeleting(false);
     }
   };
 
@@ -222,7 +218,7 @@ export default function MessagesTab() {
     setScope(next);
     setBoard(null);
     setDraft('');
-    setEditingId(null);
+    setConfirmingId(null);
     setSendError(false);
   };
 
@@ -260,7 +256,7 @@ export default function MessagesTab() {
 
       {messages.map((m) => {
         const mine = m.senderId === profile?.id;
-        const isEditing = editingId === m.id;
+        const confirming = confirmingId === m.id;
         const role = roleLabel(m.senderRole);
         return (
           <article className="card msg-card" key={m.id}>
@@ -269,50 +265,39 @@ export default function MessagesTab() {
                 <strong>{m.senderName}</strong>
                 {role && <span className="tl-badge">{role}</span>}
               </div>
-              {mine && !isEditing && (
-                <button className="btn-edit" onClick={() => startEdit(m)}>
-                  {t('common.edit')}
+              {mine && !confirming && (
+                <button className="btn-delete" onClick={() => startDelete(m)}>
+                  {t('common.delete')}
                 </button>
               )}
             </div>
 
-            <div className="msg-time">
-              {timeFmt.format(new Date(m.createdAt))}
-              {m.updatedAt && ` · ${t('messages.edited')}`}
-            </div>
+            <div className="msg-time">{timeFmt.format(new Date(m.createdAt))}</div>
 
-            {isEditing ? (
+            <p className="msg-text">{m.text}</p>
+
+            {confirming && (
               <>
-                <textarea
-                  className="msg-textarea"
-                  aria-label={t('messages.composerLabel')}
-                  value={editedText}
-                  maxLength={MAX_LENGTH}
-                  rows={3}
-                  disabled={savingEdit}
-                  onChange={(e) => setEditedText(e.target.value)}
-                  autoFocus
-                />
-                {editError && (
+                <p className="msg-confirm">{t('messages.confirmDelete')}</p>
+                {deleteError && (
                   <p className="error-text" role="alert">
-                    {t('messages.saveFailed')}
+                    {t('messages.deleteFailed')}
                   </p>
                 )}
-                <div className="msg-edit-actions">
+                <div className="msg-actions">
                   <button
-                    className="btn-save"
-                    onClick={() => handleSaveEdit(m)}
-                    disabled={savingEdit}
+                    className="btn-danger"
+                    onClick={() => handleDelete(m)}
+                    disabled={deleting}
+                    autoFocus
                   >
-                    {savingEdit ? t('common.saving') : t('common.save')}
+                    {deleting ? t('messages.deleting') : t('common.delete')}
                   </button>
-                  <button className="btn-cancel" onClick={cancelEdit} disabled={savingEdit}>
+                  <button className="btn-cancel" onClick={cancelDelete} disabled={deleting}>
                     {t('common.cancel')}
                   </button>
                 </div>
               </>
-            ) : (
-              <p className="msg-text">{m.text}</p>
             )}
           </article>
         );

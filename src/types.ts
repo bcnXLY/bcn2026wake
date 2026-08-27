@@ -81,8 +81,6 @@ export interface TeamMessage {
   /** Numeric role code of the sender, shown next to their name. */
   senderRole: number;
   createdAt: string;
-  /** Only present once the author has edited the message. */
-  updatedAt?: string;
 }
 
 /** Which board is being read: the caller's own team, or the event-wide one. */

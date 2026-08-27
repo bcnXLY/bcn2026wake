@@ -137,11 +137,13 @@
   word-break: break-word;
 }
 
-.msg-card .msg-textarea {
-  margin-top: 10px;
+.msg-confirm {
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
-.msg-edit-actions {
+.msg-actions {
   display: flex;
   justify-content: flex-end;
   gap: 8px;

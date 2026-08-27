@@ -1,5 +1,5 @@
 import { config, isDemoMode } from '../config';
-import { demoBoard, demoEditMessage, demoPostMessage } from '../demo';
+import { demoBoard, demoDeleteMessage, demoPostMessage } from '../demo';
 import type { MessageScope, TeamMessage, TeamMessageBoard, UserProfile } from '../types';
 
 /** The caller's team board, or the global one. Rights are resolved server-side. */
@@ -33,21 +33,15 @@ export async function postTeamMessage(
   return data.message as TeamMessage;
 }
 
-/** Edits one of the caller's own messages; the backend rejects anyone else's. */
-export async function editTeamMessage(
+/** Deletes one of the caller's own messages; the backend rejects anyone else's. */
+export async function deleteTeamMessage(
   profile: UserProfile,
   messageId: string,
-  text: string,
   scope: MessageScope = 'team',
-): Promise<TeamMessage> {
-  if (isDemoMode()) return demoEditMessage(profile, messageId, text, scope);
+): Promise<void> {
+  if (isDemoMode()) return demoDeleteMessage(profile, messageId, scope);
 
-  const res = await fetch(`${config.apiBaseUrl}/messages`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: profile.id, messageId, text, scope }),
-  });
+  const query = new URLSearchParams({ id: profile.id, messageId, scope });
+  const res = await fetch(`${config.apiBaseUrl}/messages?${query}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(`Messages API error: ${res.status}`);
-  const data = await res.json();
-  return data.message as TeamMessage;
 }

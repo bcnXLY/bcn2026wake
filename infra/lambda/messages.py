@@ -31,8 +31,8 @@ def lambda_handler(event, context):
             return handle_get(event)
         if method == 'POST':
             return handle_post(event)
-        if method == 'PUT':
-            return handle_put(event)
+        if method == 'DELETE':
+            return handle_delete(event)
         return json_response(405, {'message': 'Method not allowed'})
     except Exception as err:
         print(err)
@@ -101,50 +101,37 @@ def handle_post(event):
     return json_response(201, {'message': to_message(item)})
 
 
-def handle_put(event):
-    body = parse_body(event)
-    if body is None:
-        return json_response(400, {'message': 'Invalid JSON'})
+def handle_delete(event):
+    query_params = event.get('queryStringParameters') or {}
 
-    my_id = (body.get('id') or '').strip()
-    message_id = (body.get('messageId') or '').strip()
+    my_id = (query_params.get('id') or '').strip()
+    message_id = (query_params.get('messageId') or '').strip()
     if not my_id:
         return json_response(401, {'message': 'Unauthorized'})
     if not message_id:
         return json_response(400, {'message': 'Missing messageId'})
 
-    text, error = clean_text(body.get('text'))
-    if error:
-        return json_response(400, {'message': error})
-
     me = fetch_participant(my_id)
     if not me:
         return json_response(404, {'message': 'Participant not found'})
 
-    board_id, may_post = board_for(me, body.get('scope'))
+    board_id, may_post = board_for(me, query_params.get('scope'))
     if not may_post:
         return json_response(403, {'message': 'Forbidden'})
 
     try:
-        res = ddb.Table(MESSAGES_TABLE).update_item(
+        ddb.Table(MESSAGES_TABLE).delete_item(
             Key={'team_id': board_id, 'message_id': message_id},
-            UpdateExpression='set #t = :t, updated_at = :u',
-            # Only the author can edit their own message.
+            # Only the author can delete their own message.
             ConditionExpression='sender_id = :uid',
-            ExpressionAttributeNames={'#t': 'text'},
-            ExpressionAttributeValues={
-                ':t': text,
-                ':u': utc_now(),
-                ':uid': me.get('id'),
-            },
-            ReturnValues='ALL_NEW',
+            ExpressionAttributeValues={':uid': me.get('id')},
         )
     except ClientError as err:
         if err.response['Error']['Code'] == 'ConditionalCheckFailedException':
             return json_response(403, {'message': 'Forbidden'})
         raise
 
-    return json_response(200, {'message': to_message(res.get('Attributes', {}))})
+    return json_response(200, {'messageId': message_id})
 
 
 def parse_body(event):
@@ -203,7 +190,7 @@ def extract_numbers(id_str):
 
 
 def to_message(item):
-    message = {
+    return {
         'id': item.get('message_id'),
         'text': item.get('text', ''),
         'senderId': item.get('sender_id'),
@@ -211,9 +198,6 @@ def to_message(item):
         'senderRole': get_sender_role(item),
         'createdAt': item.get('created_at'),
     }
-    if item.get('updated_at'):
-        message['updatedAt'] = item.get('updated_at')
-    return message
 
 
 def get_sender_role(item):
