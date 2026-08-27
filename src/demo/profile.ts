@@ -25,4 +25,6 @@ export const DEMO_PROFILE: UserProfile = {
     .map((p) => p.name),
   isLeader: person.isLeader,
   isManager: person.isManager,
+  // Staff get both permissions so the demo can exercise the GM and global chat.
+  permissions: person.isManager ? [1, 2] : [],
 };

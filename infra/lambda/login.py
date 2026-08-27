@@ -7,7 +7,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 from boto3.dynamodb.conditions import Key
-from util import json_response
+from util import json_response, permissions_of
 ddb = boto3.resource('dynamodb')
 PARTICIPANTS_TABLE = os.environ.get('ATTENDEES_TABLE', '')
 
@@ -300,4 +300,5 @@ def to_profile(p):
         'isLeader': role == ROLE_LEADER,
         'isManager': role == ROLE_MAINTAINER,
         'role': role,
+        'permissions': sorted(permissions_of(p)),
     }

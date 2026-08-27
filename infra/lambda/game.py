@@ -97,7 +97,7 @@ def handle_award(event):
     me = fetch_participant(my_id)
     if not me:
         return json_response(404, {'message': 'Participant not found'})
-    if gs.get_role(me) != gs.ROLE_GAME_MASTER:
+    if not gs.is_game_master(me):
         return json_response(403, {'message': 'Forbidden'})
 
     award, error = read_award(body)
@@ -233,7 +233,7 @@ def handle_history(event):
     me = fetch_participant(my_id)
     if not me:
         return json_response(404, {'message': 'Participant not found'})
-    if gs.get_role(me) != gs.ROLE_GAME_MASTER:
+    if not gs.is_game_master(me):
         return json_response(403, {'message': 'Forbidden'})
 
     res = ddb.Table(AWARDS_TABLE).query(

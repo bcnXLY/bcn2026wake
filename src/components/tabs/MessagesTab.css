@@ -147,3 +147,43 @@
   gap: 8px;
   margin-top: 10px;
 }
+
+/* Board switcher, pinned to the top-right of the title row. */
+.msg-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.msg-switch {
+  flex-shrink: 0;
+  display: flex;
+  gap: 2px;
+  margin-bottom: 20px;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  box-shadow: var(--nm-in-sm);
+}
+
+.msg-switch-btn {
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  transition:
+    color 0.2s var(--ease),
+    background 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.msg-switch-btn.is-on {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow: var(--nm-out-sm);
+}

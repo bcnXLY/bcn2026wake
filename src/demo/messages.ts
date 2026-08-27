@@ -1,4 +1,5 @@
-import type { TeamMessage, TeamMessageBoard, UserProfile } from '../types';
+import type { MessageScope, TeamMessage, TeamMessageBoard, UserProfile } from '../types';
+import { PERM_GLOBAL_CHAT, hasPermission } from '../utils/permissions';
 import demoData from './data.json';
 
 type Person = (typeof demoData.people)[number];
@@ -13,7 +14,24 @@ const hoursAgo = (hours: number) => new Date(Date.now() - hours * 3_600_000).toI
  */
 const boards = new Map<string, TeamMessage[]>();
 
+const GLOBAL_BOARD = 'global';
+
 function seedBoard(teamCode: string): TeamMessage[] {
+  if (teamCode === GLOBAL_BOARD) {
+    const staff = demoData.people.filter((p) => p.isManager);
+    if (staff.length === 0) return [];
+    return [
+      {
+        id: `${hoursAgo(6)}#demoglob1`,
+        text: '全体注意：晚上 21:00 大堂集合，进行营会总结。',
+        senderId: staff[0].id,
+        senderName: staff[0].name,
+        senderRole: roleOf(staff[0]),
+        createdAt: hoursAgo(6),
+      },
+    ];
+  }
+
   const leaders = demoData.people.filter((p) => p.teamCode === teamCode && p.isLeader);
   if (leaders.length === 0) return [];
 
@@ -57,18 +75,28 @@ const teamOf = (profile: UserProfile) =>
 const canPost = (profile: UserProfile) =>
   Boolean(teamOf(profile)) && (profile.isLeader || profile.isManager);
 
-export function demoBoard(profile: UserProfile): TeamMessageBoard {
-  const teamCode = teamOf(profile);
+const boardOf = (profile: UserProfile, scope: MessageScope) =>
+  scope === 'global' ? GLOBAL_BOARD : teamOf(profile);
+
+const mayPost = (profile: UserProfile, scope: MessageScope) =>
+  scope === 'global' ? hasPermission(profile, PERM_GLOBAL_CHAT) : canPost(profile);
+
+export function demoBoard(profile: UserProfile, scope: MessageScope = 'team'): TeamMessageBoard {
+  const teamCode = boardOf(profile, scope);
   if (!teamCode) return { teamCode: '', canPost: false, messages: [] };
   return {
     teamCode,
-    canPost: canPost(profile),
+    canPost: mayPost(profile, scope),
     messages: [...boardFor(teamCode)],
   };
 }
 
-export function demoPostMessage(profile: UserProfile, text: string): TeamMessage {
-  const teamCode = teamOf(profile);
+export function demoPostMessage(
+  profile: UserProfile,
+  text: string,
+  scope: MessageScope = 'team',
+): TeamMessage {
+  const teamCode = boardOf(profile, scope);
   const createdAt = new Date().toISOString();
   const message: TeamMessage = {
     id: `${createdAt}#${Math.random().toString(16).slice(2, 10)}`,
@@ -86,8 +114,9 @@ export function demoEditMessage(
   profile: UserProfile,
   messageId: string,
   text: string,
+  scope: MessageScope = 'team',
 ): TeamMessage {
-  const messages = boardFor(teamOf(profile));
+  const messages = boardFor(boardOf(profile, scope));
   const message = messages.find((m) => m.id === messageId && m.senderId === profile.id);
   if (!message) throw new Error('Message not found');
   message.text = text;

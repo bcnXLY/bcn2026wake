@@ -10,6 +10,7 @@ export interface UserProfile {
   isLeader: boolean;
   isManager: boolean;
   role?: number;
+  permissions?: number[];
 }
 
 export interface ScheduleItem {
@@ -84,10 +85,12 @@ export interface TeamMessage {
   updatedAt?: string;
 }
 
+/** Which board is being read: the caller's own team, or the event-wide one. */
+export type MessageScope = 'team' | 'global';
+
 /**
- * A team's board as returned by GET /messages. The caller's team and posting
- * rights are derived server-side from their roster record — never trusted from
- * the client.
+ * A board as returned by GET /messages. The caller's team and posting rights are
+ * derived server-side from their roster record — never trusted from the client.
  */
 export interface TeamMessageBoard {
   teamCode: string;

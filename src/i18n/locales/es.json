@@ -99,7 +99,12 @@
     "noTeam": "Todavía no tienes equipo asignado.",
     "loadError": "No se pudieron cargar los avisos.",
     "sendFailed": "No se pudo publicar. Inténtalo de nuevo.",
-    "saveFailed": "No se pudo guardar. Inténtalo de nuevo."
+    "saveFailed": "No se pudo guardar. Inténtalo de nuevo.",
+    "globalHeading": "Mensajes globales",
+    "tabTeam": "Equipo",
+    "tabGlobal": "Global",
+    "globalPlaceholder": "Escribe un mensaje para todos…",
+    "globalEmpty": "Aún no hay mensajes globales."
   },
   "gallery": {
     "title": "Galería",

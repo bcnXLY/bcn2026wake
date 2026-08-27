@@ -127,10 +127,27 @@ class TeamsAndViews(unittest.TestCase):
         self.assertEqual(gs.view_for({'role': 1, 'team_id': 'team_3'}), gs.VIEW_PLAYER)
 
     def test_game_master_view(self):
-        self.assertEqual(gs.view_for({'role': 8, 'team_id': 'team_0'}), gs.VIEW_GM)
+        self.assertEqual(
+            gs.view_for({'role': 0, 'team_id': 'team_0', 'permissions': [2]}), gs.VIEW_GM
+        )
+
+    def test_permission_two_outranks_a_playing_team(self):
+        self.assertEqual(
+            gs.view_for({'role': 1, 'team_id': 'team_3', 'permissions': [1, 2]}),
+            gs.VIEW_GM,
+        )
+
+    def test_role_eight_alone_is_no_longer_a_game_master(self):
+        self.assertEqual(gs.view_for({'role': 8, 'team_id': 'team_0'}), gs.VIEW_SPECTATOR)
+
+    def test_other_permissions_do_not_grant_the_gm_view(self):
+        self.assertEqual(
+            gs.view_for({'role': 8, 'team_id': 'team_0', 'permissions': [1, 3]}),
+            gs.VIEW_SPECTATOR,
+        )
 
     def test_staff_are_spectators(self):
-        for role in (2, 3, 4, 5, 6, 7, 9, 10):
+        for role in (2, 3, 4, 5, 6, 7, 8, 9, 10):
             self.assertEqual(
                 gs.view_for({'role': role, 'team_id': 'team_0'}), gs.VIEW_SPECTATOR
             )
@@ -145,7 +162,24 @@ class TeamsAndViews(unittest.TestCase):
         )
 
     def test_role_stored_as_a_string_still_resolves(self):
-        self.assertEqual(gs.view_for({'role': '8', 'team_id': 'team_0'}), gs.VIEW_GM)
+        self.assertEqual(gs.view_for({'role': '1', 'team_id': 'team_3'}), gs.VIEW_PLAYER)
+
+    def test_permissions_stored_as_strings_or_decimals_still_resolve(self):
+        self.assertEqual(
+            gs.view_for({'role': 0, 'team_id': 'team_0', 'permissions': ['2']}),
+            gs.VIEW_GM,
+        )
+        self.assertEqual(
+            gs.view_for(
+                {'role': 0, 'team_id': 'team_0', 'permissions': [Decimal('2')]}
+            ),
+            gs.VIEW_GM,
+        )
+
+    def test_missing_or_junk_permissions_are_not_game_masters(self):
+        for permissions in (None, [], ['abc'], [{}]):
+            self.assertFalse(gs.is_game_master({'permissions': permissions}))
+        self.assertFalse(gs.is_game_master({}))
 
 
 if __name__ == '__main__':

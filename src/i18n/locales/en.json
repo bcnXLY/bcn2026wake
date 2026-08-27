@@ -99,7 +99,12 @@
     "noTeam": "You are not assigned to a team yet.",
     "loadError": "Could not load notices.",
     "sendFailed": "Could not post. Please try again.",
-    "saveFailed": "Could not save. Please try again."
+    "saveFailed": "Could not save. Please try again.",
+    "globalHeading": "Global messages",
+    "tabTeam": "Team",
+    "tabGlobal": "Global",
+    "globalPlaceholder": "Write a message for everyone…",
+    "globalEmpty": "No global messages yet."
   },
   "gallery": {
     "title": "Gallery",

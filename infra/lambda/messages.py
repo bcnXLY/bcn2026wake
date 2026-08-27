@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
-from util import json_response
+from util import PERM_GLOBAL_CHAT, has_permission, json_response
 
 ddb = boto3.resource('dynamodb')
 PARTICIPANTS_TABLE = os.environ.get('ATTENDEES_TABLE', '')
@@ -19,6 +19,9 @@ ROLE_MEMBER = 0
 NO_TEAM = {'unassigned', ''}
 
 MAX_TEXT_LENGTH = 2000
+
+# The global board shares the table; no team_id can collide with it.
+GLOBAL_TEAM_ID = 'global'
 
 
 def lambda_handler(event, context):
@@ -48,13 +51,14 @@ def handle_get(event):
     if not me:
         return json_response(404, {'message': 'Participant not found'})
 
-    if not has_real_team(me):
+    board_id, may_post = board_for(me, query_params.get('scope'))
+    if not board_id:
         return json_response(200, {'teamCode': '', 'canPost': False, 'messages': []})
 
     return json_response(200, {
-        'teamCode': extract_numbers(me.get('team_id')),
-        'canPost': can_post(me),
-        'messages': fetch_messages(me.get('team_id')),
+        'teamCode': board_id if is_global(query_params.get('scope')) else extract_numbers(board_id),
+        'canPost': may_post,
+        'messages': fetch_messages(board_id),
     })
 
 
@@ -75,14 +79,15 @@ def handle_post(event):
     if not me:
         return json_response(404, {'message': 'Participant not found'})
 
-    # The team is resolved from the roster record — never trusted from the client,
+    # The board is resolved from the roster record — never trusted from the client,
     # so nobody can post onto another team's board.
-    if not can_post(me):
+    board_id, may_post = board_for(me, body.get('scope'))
+    if not may_post:
         return json_response(403, {'message': 'Forbidden'})
 
     now = utc_now()
     item = {
-        'team_id': me.get('team_id'),
+        'team_id': board_id,
         'message_id': f'{now}#{uuid.uuid4().hex[:8]}',
         'text': text,
         'sender_id': me.get('id'),
@@ -116,12 +121,14 @@ def handle_put(event):
     me = fetch_participant(my_id)
     if not me:
         return json_response(404, {'message': 'Participant not found'})
-    if not can_post(me):
+
+    board_id, may_post = board_for(me, body.get('scope'))
+    if not may_post:
         return json_response(403, {'message': 'Forbidden'})
 
     try:
         res = ddb.Table(MESSAGES_TABLE).update_item(
-            Key={'team_id': me.get('team_id'), 'message_id': message_id},
+            Key={'team_id': board_id, 'message_id': message_id},
             UpdateExpression='set #t = :t, updated_at = :u',
             # Only the author can edit their own message.
             ConditionExpression='sender_id = :uid',
@@ -177,6 +184,17 @@ def has_real_team(p):
 def can_post(p):
     """Members (role 0) read their board; everyone else on the team may post."""
     return has_real_team(p) and get_role(p) != ROLE_MEMBER
+
+
+def is_global(scope):
+    return scope == 'global'
+
+
+def board_for(p, scope):
+    """(board id, may post) for the requested board — '' when there is none."""
+    if is_global(scope):
+        return GLOBAL_TEAM_ID, has_permission(p, PERM_GLOBAL_CHAT)
+    return (p.get('team_id'), can_post(p)) if has_real_team(p) else ('', False)
 
 
 def extract_numbers(id_str):

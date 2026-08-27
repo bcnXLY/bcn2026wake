@@ -6,6 +6,7 @@ import type {
   UserProfile,
 } from '../types';
 import demoData from './data.json';
+import { PERM_GAME_MASTER, hasPermission } from '../utils/permissions';
 
 /**
  * A whole game in memory, so the screens can be rehearsed without AWS. Mirrors
@@ -50,7 +51,6 @@ function projectHealth(): number {
 
 function roleOf(profile: UserProfile): number {
   if (profile.role != null) return profile.role;
-  if (profile.isManager) return 8;
   if (profile.isLeader) return 1;
   return 0;
 }
@@ -75,11 +75,12 @@ export async function demoFetchGameState(profile: UserProfile): Promise<GameStat
   const role = roleOf(profile);
   const team = profile.teamCode;
   const isPlayer = (role === 0 || role === 1) && Boolean(team) && scores.has(team);
+  const isGm = hasPermission(profile, PERM_GAME_MASTER);
 
   const state: GameState = {
     status,
     worldHealth: Number(projectHealth().toFixed(1)),
-    view: role === 8 ? 'gm' : isPlayer ? 'player' : 'spectator',
+    view: isGm ? 'gm' : isPlayer ? 'player' : 'spectator',
     leaderboard: leaderboard(),
   };
 

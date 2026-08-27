@@ -7,6 +7,8 @@ the backend.
 import os
 from decimal import Decimal
 
+from util import PERM_GAME_MASTER, has_permission
+
 GAME_ID = 'finite-one'
 
 MAX_HEALTH = Decimal('100')
@@ -19,7 +21,6 @@ STATUS_ENDED = 'ended'
 
 ROLE_MEMBER = 0
 ROLE_LEADER = 1
-ROLE_GAME_MASTER = 8
 PLAYER_ROLES = (ROLE_MEMBER, ROLE_LEADER)
 
 VIEW_PLAYER = 'player'
@@ -86,12 +87,15 @@ def is_team_number(team):
         return False
 
 
+def is_game_master(participant):
+    return has_permission(participant, PERM_GAME_MASTER)
+
+
 def view_for(participant):
     """Which dashboard this person gets. From the roster, never the request."""
-    role = get_role(participant)
-    if role == ROLE_GAME_MASTER:
+    if is_game_master(participant):
         return VIEW_GM
-    if role in PLAYER_ROLES and playing_team_of(participant):
+    if get_role(participant) in PLAYER_ROLES and playing_team_of(participant):
         return VIEW_PLAYER
     return VIEW_SPECTATOR
 

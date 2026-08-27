@@ -99,7 +99,12 @@
     "noTeam": "您还没有分配小组。",
     "loadError": "无法加载公告。",
     "sendFailed": "发布失败，请重试。",
-    "saveFailed": "保存失败，请重试。"
+    "saveFailed": "保存失败，请重试。",
+    "globalHeading": "全体消息",
+    "tabTeam": "小组",
+    "tabGlobal": "全体",
+    "globalPlaceholder": "给全体发布消息…",
+    "globalEmpty": "暂无全体消息。"
   },
   "gallery": {
     "title": "相册",

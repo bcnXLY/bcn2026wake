@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { editTeamMessage, fetchTeamMessages, postTeamMessage } from '../../services/messages';
-import type { TeamMessage, TeamMessageBoard } from '../../types';
+import type { MessageScope, TeamMessage, TeamMessageBoard } from '../../types';
 import './MessagesTab.css';
 
 const MAX_LENGTH = 2000;
@@ -45,6 +45,7 @@ export default function MessagesTab() {
   const { t, i18n } = useTranslation();
   const { profile } = useAuth();
 
+  const [scope, setScope] = useState<MessageScope>('team');
   const [board, setBoard] = useState<TeamMessageBoard | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -69,7 +70,7 @@ export default function MessagesTab() {
     let active = true;
     setLoading(true);
     setError(false);
-    fetchTeamMessages(profile)
+    fetchTeamMessages(profile, scope)
       .then((b) => {
         if (!active) return;
         setBoard(b);
@@ -80,7 +81,7 @@ export default function MessagesTab() {
     return () => {
       active = false;
     };
-  }, [profile]);
+  }, [profile, scope]);
 
   useEffect(() => load(), [load]);
 
@@ -99,7 +100,7 @@ export default function MessagesTab() {
       !scroller || scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop < 80;
 
     try {
-      const next = await fetchTeamMessages(profile);
+      const next = await fetchTeamMessages(profile, scope);
       const grew = next.messages.length > countRef.current;
       setBoard(next);
       setError(false);
@@ -109,7 +110,7 @@ export default function MessagesTab() {
     } finally {
       refreshingRef.current = false;
     }
-  }, [profile]);
+  }, [profile, scope]);
 
   // Composing or editing pauses the poll so nothing shifts under the writer.
   const paused = sending || savingEdit || editingId !== null;
@@ -172,7 +173,7 @@ export default function MessagesTab() {
     setSending(true);
     setSendError(false);
     try {
-      upsert(await postTeamMessage(profile, text));
+      upsert(await postTeamMessage(profile, text, scope));
       setDraft('');
       setScrollTick((tick) => tick + 1);
     } catch (err) {
@@ -204,7 +205,7 @@ export default function MessagesTab() {
     setSavingEdit(true);
     setEditError(false);
     try {
-      upsert(await editTeamMessage(profile, message.id, text));
+      upsert(await editTeamMessage(profile, message.id, text, scope));
       setEditingId(null);
     } catch (err) {
       console.error('Failed to edit message', err);
@@ -216,13 +217,46 @@ export default function MessagesTab() {
 
   const roleLabel = (role: number) => t(`contacts.roles.${role}`, { defaultValue: '' });
 
+  const switchScope = (next: MessageScope) => {
+    if (next === scope) return;
+    setScope(next);
+    setBoard(null);
+    setDraft('');
+    setEditingId(null);
+    setSendError(false);
+  };
+
+  const isGlobal = scope === 'global';
+
   return (
     <section
       ref={sectionRef}
       className={board?.canPost ? 'messages-tab has-composer' : 'messages-tab'}
       role="tabpanel"
     >
-      <h2 className="tab-title">{t('messages.heading')}</h2>
+      <div className="msg-topbar">
+        <h2 className="tab-title">
+          {t(isGlobal ? 'messages.globalHeading' : 'messages.heading')}
+        </h2>
+        <div className="msg-switch" role="tablist" aria-label={t('messages.heading')}>
+          <button
+            role="tab"
+            aria-selected={!isGlobal}
+            className={isGlobal ? 'msg-switch-btn' : 'msg-switch-btn is-on'}
+            onClick={() => switchScope('team')}
+          >
+            {t('messages.tabTeam')}
+          </button>
+          <button
+            role="tab"
+            aria-selected={isGlobal}
+            className={isGlobal ? 'msg-switch-btn is-on' : 'msg-switch-btn'}
+            onClick={() => switchScope('global')}
+          >
+            {t('messages.tabGlobal')}
+          </button>
+        </div>
+      </div>
 
       {messages.map((m) => {
         const mine = m.senderId === profile?.id;
@@ -295,7 +329,11 @@ export default function MessagesTab() {
         </div>
       ) : messages.length === 0 ? (
         <div className="center-state">
-          {board?.teamCode ? t('messages.empty') : t('messages.noTeam')}
+          {isGlobal
+            ? t('messages.globalEmpty')
+            : board?.teamCode
+              ? t('messages.empty')
+              : t('messages.noTeam')}
         </div>
       ) : null}
 
@@ -310,7 +348,7 @@ export default function MessagesTab() {
             <textarea
               className="msg-textarea"
               aria-label={t('messages.composerLabel')}
-              placeholder={t('messages.placeholder')}
+              placeholder={t(isGlobal ? 'messages.globalPlaceholder' : 'messages.placeholder')}
               value={draft}
               maxLength={MAX_LENGTH}
               rows={2}

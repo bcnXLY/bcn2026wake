@@ -23,3 +23,23 @@ def json_response(status_code, body):
         'headers': CORS,
         'body': json.dumps(body, default=_encode)
     }
+
+
+PERM_GLOBAL_CHAT = 1
+PERM_GAME_MASTER = 2
+
+
+def _permission_ints(participant):
+    for value in (participant or {}).get('permissions') or []:
+        try:
+            yield int(value)
+        except (ValueError, TypeError):
+            pass
+
+
+def permissions_of(participant):
+    return set(_permission_ints(participant))
+
+
+def has_permission(participant, permission):
+    return any(value == permission for value in _permission_ints(participant))
