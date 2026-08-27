@@ -14,14 +14,13 @@ MESSAGES_TABLE = os.environ.get('MESSAGES_TABLE', '')
 
 ROLE_MEMBER = 0
 
+GLOBAL_TEAM_ID = 'global'
+
 # Team 0 is the staff team and gets its own board, so `unassigned` is the only
 # team_id that means "no team yet".
-NO_TEAM = {'unassigned', ''}
+NO_TEAM = {'unassigned', '', GLOBAL_TEAM_ID}
 
 MAX_TEXT_LENGTH = 2000
-
-# The global board shares the table; no team_id can collide with it.
-GLOBAL_TEAM_ID = 'global'
 
 
 def lambda_handler(event, context):

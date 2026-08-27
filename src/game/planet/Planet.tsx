@@ -20,6 +20,8 @@ const FRAME_MS = 1000 / 30;
 
 const RADIUS = 1;
 
+const GLITCH_BELOW_HEALTH = 80;
+
 /**
  * The world: a lat/long cage with its continents picked out in points, sitting
  * inside a halo that hardens as the world runs out. three.js is imported
@@ -201,8 +203,12 @@ export default function Planet({
         fogMaterial.uniforms.uColor.value.copy(accent);
         atmosphereMaterial.uniforms.uColor.value.copy(accent);
 
-        const decay = 1 - Math.min(100, Math.max(0, currentHealth)) / 100;
-        const violence = decay * decay;
+        const clamped = Math.min(100, Math.max(0, currentHealth));
+        const decay = 1 - clamped / 100;
+        // Glitch runs on its own ramp, zero until health falls under the
+        // threshold, so a healthy world never tears.
+        const stress = Math.max(0, (GLITCH_BELOW_HEALTH - clamped) / GLITCH_BELOW_HEALTH);
+        const violence = stress * stress;
 
         let opacity = 0.26 + decay * 0.3;
         let halo = 0.9 + decay * 1.5;
@@ -226,13 +232,27 @@ export default function Planet({
           fogMaterial.uniforms.uIntensity.value = 0.85 + decay * 0.5;
         }
 
-        if (!isDead && !reduceMotion) {
+        if (!isDead && !reduceMotion && stress <= 0) {
+          // Healthy: it just turns. Park the scheduler a burst-gap ahead so
+          // crossing the threshold does not fire one instantly.
+          globe.rotation.y += dt * 0.075;
+          burstUntil = 0;
+          nextBurst = now + 900;
+          if (globe.position.x !== 0 || globe.scale.x !== 1) {
+            globe.position.set(0, 0, 0);
+            globe.scale.setScalar(1);
+          }
+          if (wasGlitching) {
+            wasGlitching = false;
+            glitchRef.current?.(false);
+          }
+        } else if (!isDead && !reduceMotion) {
           globe.rotation.y += dt * 0.075;
 
           if (now >= nextBurst) {
-            burstUntil = now + 70 + Math.random() * 160 * (0.4 + violence);
-            // 7s apart at full health, under a second once it is dying.
-            nextBurst = now + (900 + Math.random() * 6500 * (1 - violence * 0.92));
+            // Brief and rare just under the threshold, long and constant at the end.
+            burstUntil = now + 60 + Math.random() * 200 * (0.25 + violence);
+            nextBurst = now + (900 + Math.random() * 9000 * (1 - violence * 0.92));
           }
 
           const glitching = now < burstUntil;

@@ -115,8 +115,13 @@ precision mediump float;
 uniform vec3 uColor;
 uniform float uIntensity;
 varying vec3 vNormal;
+
+const float LIMB_FACING = 0.59;  // sqrt(1 - (0.985/1.22)^2), from the two radii
+const float PEAK = 2.04;         // holds the previous brightness at the core's edge
+
 void main() {
-  float rim = pow(0.66 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.2);
-  gl_FragColor = vec4(uColor, 1.0) * max(rim, 0.0) * uIntensity;
+  float facing = max(-dot(vNormal, vec3(0.0, 0.0, 1.0)), 0.0);
+  float rim = PEAK * pow(min(facing / LIMB_FACING, 1.0), 2.2);
+  gl_FragColor = vec4(uColor, 1.0) * rim * uIntensity;
 }
 `;
