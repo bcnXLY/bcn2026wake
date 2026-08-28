@@ -89,13 +89,20 @@ class Leaderboard(unittest.TestCase):
         ranked = gs.leaderboard({'1': 10, '2': 30, '3': 20})
         self.assertEqual([r['team'] for r in ranked], ['2', '3', '1'])
 
-    def test_never_leaks_points(self):
+    def test_carries_each_team_points(self):
         ranked = gs.leaderboard({'1': 10, '2': 30})
-        self.assertEqual(set(ranked[0].keys()), {'rank', 'team'})
+        self.assertEqual(set(ranked[0].keys()), {'rank', 'team', 'points'})
+        self.assertEqual([r['points'] for r in ranked], [30, 10])
+
+    def test_points_are_plain_ints_not_decimals(self):
+        # DynamoDB hands back Decimals; json_response cannot serialise them.
+        ranked = gs.leaderboard({'1': Decimal('40'), '2': Decimal('12')})
+        self.assertEqual([type(r['points']) for r in ranked], [int, int])
 
     def test_ties_share_a_rank(self):
         ranked = gs.leaderboard({'1': 30, '2': 30, '3': 10})
         self.assertEqual([r['rank'] for r in ranked], [1, 1, 3])
+        self.assertEqual([r['points'] for r in ranked], [30, 30, 10])
 
     def test_tied_teams_order_by_number_not_arbitrarily(self):
         ranked = gs.leaderboard({'10': 5, '2': 5, '7': 5})

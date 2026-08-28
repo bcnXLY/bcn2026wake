@@ -771,6 +771,19 @@
   gap: 9px;
 }
 
+.fo-board-points {
+  margin-left: auto;
+  font-family: var(--fo-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fo-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.fo-board-row.mine .fo-board-points {
+  color: var(--fo-accent, #3fe08a);
+}
+
 .fo-board-you {
   font-family: var(--fo-mono);
   font-size: 9px;

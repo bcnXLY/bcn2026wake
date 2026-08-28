@@ -164,13 +164,13 @@ change.
   "worldHealth": 87.5,
   "view": "player",                                  // player | spectator | gm
   "team": "7",                                       // from the roster
-  "teamPoints": 340,                                 // caller's own team only
-  "leaderboard": [ { "rank": 1, "team": "12" }, … ]  // never any points
+  "teamPoints": 340,                                 // caller's own team
+  "leaderboard": [ { "rank": 1, "team": "12", "points": 480 }, … ]
 }
 ```
 
-No `pace`. No other team's points, for any role — the game master's leaderboard
-is point-free too, per the spec.
+No `pace`. Every team's points are on the board, and every role sees the same
+board — players, spectators and game masters alike.
 
 **`POST /game/award`** — role 8 only. Body: `id`, `awardId`, `team`, `points`,
 `worldPoints`, `source`, `createdAt`.
@@ -299,7 +299,7 @@ src/game/
   FiniteOne.tsx          shell: role routing, dark theme root, tab bar
   useGameState.ts        poll (jittered 20 s, visibility-gated, backoff) + cache
   WorldMeter.tsx         the planet + readout (three.js, see §6.5)
-  Leaderboard.tsx        ranks only; shared ranks on ties (=4)
+  Leaderboard.tsx        rank · team · points; shared ranks on ties (=4)
   player/TeamTab.tsx     team no. · meter · points · QR button
   gm/ScanTab.tsx         camera + manual team + points + world points + submit
   gm/HistoryPage.tsx     queue + sent, status per item, resend where allowed
@@ -408,8 +408,8 @@ master award + history, offline queue, scanner),
   and so the easiest to read in sunlight.
 - Driven in headless Chrome as player, spectator and game master with the clock
   shifted into the field-games window: dark mode engages, the card becomes a
-  door, the meter renders and recolours, standings carry **no points in any
-  row**, an award queues and applies, and an overdraft is refused and shown
+  door, the meter renders and recolours, standings carry **every team's
+  points**, an award queues and applies, and an overdraft is refused and shown
   with no resend button.
 
 ### Still to do before the day

@@ -67,7 +67,7 @@ function leaderboard() {
       sharedRank = index + 1;
       previous = score;
     }
-    return { rank: sharedRank, team };
+    return { rank: sharedRank, team, points: score };
   });
 }
 

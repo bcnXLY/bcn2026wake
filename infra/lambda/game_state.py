@@ -101,7 +101,6 @@ def view_for(participant):
 
 
 def leaderboard(scores):
-    """Ranked team numbers — never the points, for any role."""
     rows = sorted(
         ((team, int(score)) for team, score in (scores or {}).items()),
         key=lambda row: (-row[1], int(row[0])),
@@ -114,5 +113,5 @@ def leaderboard(scores):
         if score != previous_score:
             shared_rank = position
             previous_score = score
-        ranked.append({'rank': shared_rank, 'team': team})
+        ranked.append({'rank': shared_rank, 'team': team, 'points': score})
     return ranked

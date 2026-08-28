@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { LeaderboardEntry } from '../types';
 
-/** Standings without points, for everyone — game masters included. */
 export default function Leaderboard({
   entries,
   highlightTeam,
@@ -32,6 +31,14 @@ export default function Leaderboard({
               {t('game.team', { number: entry.team })}
               {isMine && <span className="fo-board-you">{t('game.leaderboard.you')}</span>}
             </span>
+            {typeof entry.points === 'number' && (
+              <span
+                className="fo-board-points"
+                aria-label={t('game.leaderboard.points', { count: entry.points })}
+              >
+                {entry.points.toLocaleString()}
+              </span>
+            )}
           </li>
         );
       })}

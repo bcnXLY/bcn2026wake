@@ -119,10 +119,10 @@ export type GameStatus = 'idle' | 'running' | 'ended';
 /** Resolved server-side from the caller's roster row. */
 export type GameView = 'player' | 'spectator' | 'gm';
 
-/** Deliberately carries no points. */
 export interface LeaderboardEntry {
   rank: number;
   team: string;
+  points: number;
 }
 
 export interface GameState {
@@ -133,7 +133,6 @@ export interface GameState {
   leaderboard: LeaderboardEntry[];
   /** Players only. */
   team?: string;
-  /** Players only — no other team's points are ever sent. */
   teamPoints?: number;
   /** Game masters only — the teams in play, from the roster. */
   teams?: string[];

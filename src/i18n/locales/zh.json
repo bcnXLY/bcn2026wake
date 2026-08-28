@@ -197,7 +197,8 @@
     "leaderboard": {
       "title": "排名",
       "empty": "暂时还没有排名。",
-      "you": "你"
+      "you": "你",
+      "points": "{{count}} 分"
     },
     "qr": {
       "show": "出示小组二维码",

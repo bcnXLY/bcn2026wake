@@ -197,7 +197,8 @@
     "leaderboard": {
       "title": "Clasificación",
       "empty": "Todavía no hay clasificación.",
-      "you": "Tú"
+      "you": "Tú",
+      "points": "{{count}} puntos"
     },
     "qr": {
       "show": "Mostrar el QR del equipo",

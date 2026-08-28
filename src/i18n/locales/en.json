@@ -197,7 +197,8 @@
     "leaderboard": {
       "title": "Standings",
       "empty": "No standings yet.",
-      "you": "You"
+      "you": "You",
+      "points": "{{count}} points"
     },
     "qr": {
       "show": "Show team QR",
