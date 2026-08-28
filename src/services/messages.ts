@@ -2,7 +2,7 @@ import { config, isDemoMode } from '../config';
 import { demoBoard, demoDeleteMessage, demoPostMessage } from '../demo';
 import type { MessageScope, TeamMessage, TeamMessageBoard, UserProfile } from '../types';
 
-/** The caller's team board, or the global one. Rights are resolved server-side. */
+/** The caller's team board, their room board, or the global one. Rights are resolved server-side. */
 export async function fetchTeamMessages(
   profile: UserProfile,
   scope: MessageScope = 'team',

@@ -83,16 +83,14 @@ export interface TeamMessage {
   createdAt: string;
 }
 
-/** Which board is being read: the caller's own team, or the event-wide one. */
-export type MessageScope = 'team' | 'global';
+export type MessageScope = 'team' | 'global' | 'room';
 
 /**
- * A board as returned by GET /messages. The caller's team and posting rights are
+ * A board as returned by GET /messages. The caller's board and posting rights are
  * derived server-side from their roster record — never trusted from the client.
  */
 export interface TeamMessageBoard {
   teamCode: string;
-  /** Members (role 0) read only; everyone else on the team may post. */
   canPost: boolean;
   messages: TeamMessage[];
 }

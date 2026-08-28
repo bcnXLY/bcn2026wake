@@ -16,8 +16,15 @@ const boards = new Map<string, TeamMessage[]>();
 
 const GLOBAL_BOARD = 'global';
 
-function seedBoard(teamCode: string): TeamMessage[] {
-  if (teamCode === GLOBAL_BOARD) {
+/** Keeps a room board from colliding with the team board of the same number. */
+const ROOM_BOARD_PREFIX = 'room-';
+
+function seedBoard(boardId: string): TeamMessage[] {
+  if (boardId.startsWith(ROOM_BOARD_PREFIX)) {
+    return seedRoomBoard(boardId.slice(ROOM_BOARD_PREFIX.length));
+  }
+
+  if (boardId === GLOBAL_BOARD) {
     const staff = demoData.people.filter((p) => p.isManager);
     if (staff.length === 0) return [];
     return [
@@ -32,7 +39,7 @@ function seedBoard(teamCode: string): TeamMessage[] {
     ];
   }
 
-  const leaders = demoData.people.filter((p) => p.teamCode === teamCode && p.isLeader);
+  const leaders = demoData.people.filter((p) => p.teamCode === boardId && p.isLeader);
   if (leaders.length === 0) return [];
 
   return [
@@ -55,11 +62,35 @@ function seedBoard(teamCode: string): TeamMessage[] {
   ];
 }
 
-function boardFor(teamCode: string): TeamMessage[] {
-  let messages = boards.get(teamCode);
+function seedRoomBoard(roomNumber: string): TeamMessage[] {
+  const roommates = demoData.people.filter((p) => p.roomNumber === roomNumber);
+  if (roommates.length === 0) return [];
+
+  return [
+    {
+      id: `${hoursAgo(4)}#demoroom1`,
+      text: '我把房卡放在门口的桌子上了，先出去一下。',
+      senderId: roommates[0].id,
+      senderName: roommates[0].name,
+      senderRole: roleOf(roommates[0]),
+      createdAt: hoursAgo(4),
+    },
+    {
+      id: `${hoursAgo(1)}#demoroom2`,
+      text: '收到，晚上谁最后回房记得关阳台的窗。',
+      senderId: roommates[roommates.length - 1].id,
+      senderName: roommates[roommates.length - 1].name,
+      senderRole: roleOf(roommates[roommates.length - 1]),
+      createdAt: hoursAgo(1),
+    },
+  ];
+}
+
+function boardFor(boardId: string): TeamMessage[] {
+  let messages = boards.get(boardId);
   if (!messages) {
-    messages = seedBoard(teamCode);
-    boards.set(teamCode, messages);
+    messages = seedBoard(boardId);
+    boards.set(boardId, messages);
   }
   return messages;
 }
@@ -74,19 +105,37 @@ const teamOf = (profile: UserProfile) =>
 const canPost = (profile: UserProfile) =>
   Boolean(teamOf(profile)) && (profile.isLeader || profile.isManager);
 
-const boardOf = (profile: UserProfile, scope: MessageScope) =>
-  scope === 'global' ? GLOBAL_BOARD : teamOf(profile);
+/** Room 0 is the roster's "no room yet" placeholder, so it gets no board. */
+const roomOf = (profile: UserProfile) =>
+  profile.roomNumber && profile.roomNumber !== '0' ? profile.roomNumber : '';
 
-const mayPost = (profile: UserProfile, scope: MessageScope) =>
-  scope === 'global' ? hasPermission(profile, PERM_GLOBAL_CHAT) : canPost(profile);
+const boardOf = (profile: UserProfile, scope: MessageScope) => {
+  if (scope === 'global') return GLOBAL_BOARD;
+  if (scope === 'room') {
+    const room = roomOf(profile);
+    return room ? ROOM_BOARD_PREFIX + room : '';
+  }
+  return teamOf(profile);
+};
+
+/** What the board is called in the UI — the room board answers with its number. */
+const codeOf = (profile: UserProfile, scope: MessageScope) =>
+  scope === 'room' ? roomOf(profile) : boardOf(profile, scope);
+
+const mayPost = (profile: UserProfile, scope: MessageScope) => {
+  if (scope === 'global') return hasPermission(profile, PERM_GLOBAL_CHAT);
+  // Everyone in the room writes on the room board.
+  if (scope === 'room') return Boolean(roomOf(profile));
+  return canPost(profile);
+};
 
 export function demoBoard(profile: UserProfile, scope: MessageScope = 'team'): TeamMessageBoard {
-  const teamCode = boardOf(profile, scope);
-  if (!teamCode) return { teamCode: '', canPost: false, messages: [] };
+  const boardId = boardOf(profile, scope);
+  if (!boardId) return { teamCode: '', canPost: false, messages: [] };
   return {
-    teamCode,
+    teamCode: codeOf(profile, scope),
     canPost: mayPost(profile, scope),
-    messages: [...boardFor(teamCode)],
+    messages: [...boardFor(boardId)],
   };
 }
 
@@ -95,7 +144,7 @@ export function demoPostMessage(
   text: string,
   scope: MessageScope = 'team',
 ): TeamMessage {
-  const teamCode = boardOf(profile, scope);
+  const boardId = boardOf(profile, scope);
   const createdAt = new Date().toISOString();
   const message: TeamMessage = {
     id: `${createdAt}#${Math.random().toString(16).slice(2, 10)}`,
@@ -105,7 +154,7 @@ export function demoPostMessage(
     senderRole: profile.isManager ? 8 : profile.isLeader ? 1 : 0,
     createdAt,
   };
-  boardFor(teamCode).push(message);
+  boardFor(boardId).push(message);
   return message;
 }
 

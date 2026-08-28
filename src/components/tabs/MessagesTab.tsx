@@ -3,11 +3,42 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { deleteTeamMessage, fetchTeamMessages, postTeamMessage } from '../../services/messages';
 import type { MessageScope, TeamMessage, TeamMessageBoard } from '../../types';
+import { linkify } from '../../utils/linkify';
 import './MessagesTab.css';
 
 const MAX_LENGTH = 2000;
 /** How often an open board checks for other people's notices. */
 const POLL_INTERVAL_MS = 25_000;
+
+/** Every board reads the same way; only the audience it names changes. */
+const BOARD_COPY: Record<
+  MessageScope,
+  { heading: string; tab: string; placeholder: string; empty: string; unassigned?: string }
+> = {
+  team: {
+    heading: 'messages.heading',
+    tab: 'messages.tabTeam',
+    placeholder: 'messages.placeholder',
+    empty: 'messages.empty',
+    unassigned: 'messages.noTeam',
+  },
+  room: {
+    heading: 'messages.roomHeading',
+    tab: 'messages.tabRoom',
+    placeholder: 'messages.roomPlaceholder',
+    empty: 'messages.roomEmpty',
+    unassigned: 'messages.noRoom',
+  },
+  global: {
+    heading: 'messages.globalHeading',
+    tab: 'messages.tabGlobal',
+    placeholder: 'messages.globalPlaceholder',
+    empty: 'messages.globalEmpty',
+  },
+};
+
+/** Tab order, narrowest audience first. */
+const SCOPES: MessageScope[] = ['team', 'room', 'global'];
 
 /**
  * The element that actually scrolls the board. Depending on how tall the shell
@@ -222,7 +253,7 @@ export default function MessagesTab() {
     setSendError(false);
   };
 
-  const isGlobal = scope === 'global';
+  const copy = BOARD_COPY[scope];
 
   return (
     <section
@@ -231,26 +262,19 @@ export default function MessagesTab() {
       role="tabpanel"
     >
       <div className="msg-topbar">
-        <h2 className="tab-title">
-          {t(isGlobal ? 'messages.globalHeading' : 'messages.heading')}
-        </h2>
-        <div className="msg-switch" role="tablist" aria-label={t('messages.heading')}>
-          <button
-            role="tab"
-            aria-selected={!isGlobal}
-            className={isGlobal ? 'msg-switch-btn' : 'msg-switch-btn is-on'}
-            onClick={() => switchScope('team')}
-          >
-            {t('messages.tabTeam')}
-          </button>
-          <button
-            role="tab"
-            aria-selected={isGlobal}
-            className={isGlobal ? 'msg-switch-btn is-on' : 'msg-switch-btn'}
-            onClick={() => switchScope('global')}
-          >
-            {t('messages.tabGlobal')}
-          </button>
+        <h2 className="tab-title">{t(copy.heading)}</h2>
+        <div className="msg-switch" role="tablist" aria-label={t('nav.messages')}>
+          {SCOPES.map((key) => (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={scope === key}
+              className={scope === key ? 'msg-switch-btn is-on' : 'msg-switch-btn'}
+              onClick={() => switchScope(key)}
+            >
+              {t(BOARD_COPY[key].tab)}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -274,7 +298,17 @@ export default function MessagesTab() {
 
             <div className="msg-time">{timeFmt.format(new Date(m.createdAt))}</div>
 
-            <p className="msg-text">{m.text}</p>
+            <p className="msg-text">
+              {linkify(m.text).map((part, i) =>
+                part.href ? (
+                  <a key={i} href={part.href} target="_blank" rel="noopener noreferrer">
+                    {part.text}
+                  </a>
+                ) : (
+                  part.text
+                ),
+              )}
+            </p>
 
             {confirming && (
               <>
@@ -314,11 +348,7 @@ export default function MessagesTab() {
         </div>
       ) : messages.length === 0 ? (
         <div className="center-state">
-          {isGlobal
-            ? t('messages.globalEmpty')
-            : board?.teamCode
-              ? t('messages.empty')
-              : t('messages.noTeam')}
+          {board?.teamCode ? t(copy.empty) : t(copy.unassigned ?? copy.empty)}
         </div>
       ) : null}
 
@@ -333,7 +363,7 @@ export default function MessagesTab() {
             <textarea
               className="msg-textarea"
               aria-label={t('messages.composerLabel')}
-              placeholder={t(isGlobal ? 'messages.globalPlaceholder' : 'messages.placeholder')}
+              placeholder={t(copy.placeholder)}
               value={draft}
               maxLength={MAX_LENGTH}
               rows={2}

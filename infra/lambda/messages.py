@@ -19,6 +19,7 @@ GLOBAL_TEAM_ID = 'global'
 # Team 0 is the staff team and gets its own board, so `unassigned` is the only
 # team_id that means "no team yet".
 NO_TEAM = {'unassigned', '', GLOBAL_TEAM_ID}
+NO_ROOM = {'unassigned', '', 'room_0'}
 
 MAX_TEXT_LENGTH = 2000
 
@@ -167,6 +168,11 @@ def has_real_team(p):
     return bool(team_id) and team_id not in NO_TEAM
 
 
+def has_real_room(p):
+    room_id = p.get('room_id')
+    return bool(room_id) and room_id not in NO_ROOM
+
+
 def can_post(p):
     """Members (role 0) read their board; everyone else on the team may post."""
     return has_real_team(p) and get_role(p) != ROLE_MEMBER
@@ -176,10 +182,21 @@ def is_global(scope):
     return scope == 'global'
 
 
+def is_room(scope):
+    return scope == 'room'
+
+
 def board_for(p, scope):
-    """(board id, may post) for the requested board — '' when there is none."""
+    """(board id, may post) for the requested board — '' when there is none.
+
+    Boards share one table, keyed by the id the roster already uses: `team_5`,
+    `room_12`, `global`. The prefixes differ, so the keyspaces cannot collide.
+    """
     if is_global(scope):
         return GLOBAL_TEAM_ID, has_permission(p, PERM_GLOBAL_CHAT)
+    if is_room(scope):
+        # A room board is a conversation, not a notice board: every room-mate posts.
+        return (p.get('room_id'), True) if has_real_room(p) else ('', False)
     return (p.get('team_id'), can_post(p)) if has_real_team(p) else ('', False)
 
 

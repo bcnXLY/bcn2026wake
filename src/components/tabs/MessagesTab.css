@@ -137,6 +137,17 @@
   word-break: break-word;
 }
 
+.msg-text a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+.msg-text a:active {
+  color: var(--accent-strong);
+}
+
 .msg-confirm {
   margin: 12px 0 0;
   font-size: 14px;
@@ -150,16 +161,17 @@
   margin-top: 10px;
 }
 
-/* Board switcher, pinned to the top-right of the title row. */
 .msg-topbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.msg-topbar .tab-title {
+  margin-bottom: 0;
 }
 
 .msg-switch {
-  flex-shrink: 0;
   display: flex;
   gap: 2px;
   margin-bottom: 20px;
@@ -170,13 +182,18 @@
 }
 
 .msg-switch-btn {
+  flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   border-radius: var(--radius-pill);
-  padding: 7px 14px;
+  padding: 7px 10px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--text-dim);
   transition:
     color 0.2s var(--ease),

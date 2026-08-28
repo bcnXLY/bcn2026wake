@@ -105,7 +105,12 @@
     "tabTeam": "Team",
     "tabGlobal": "Global",
     "globalPlaceholder": "Write a message for everyone…",
-    "globalEmpty": "No global messages yet."
+    "globalEmpty": "No global messages yet.",
+    "roomHeading": "Roommates",
+    "tabRoom": "Room",
+    "roomPlaceholder": "Write a message to your roommates…",
+    "roomEmpty": "No messages yet.",
+    "noRoom": "You are not assigned to a room yet."
   },
   "gallery": {
     "title": "Gallery",

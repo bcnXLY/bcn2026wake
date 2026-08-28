@@ -105,7 +105,12 @@
     "tabTeam": "小组",
     "tabGlobal": "全体",
     "globalPlaceholder": "给全体发布消息…",
-    "globalEmpty": "暂无全体消息。"
+    "globalEmpty": "暂无全体消息。",
+    "roomHeading": "室友",
+    "tabRoom": "室友",
+    "roomPlaceholder": "给室友发消息…",
+    "roomEmpty": "暂无消息。",
+    "noRoom": "您还没有分配房间。"
   },
   "gallery": {
     "title": "相册",
