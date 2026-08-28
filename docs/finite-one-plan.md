@@ -12,6 +12,7 @@ away from the opposite choice:
 | Health clamps at **100** | Sacrifices past full are absorbed, not banked | `MAX_HEALTH` in [game_state.py](../infra/lambda/game_state.py) |
 | Zero is **terminal** | The tick sets `status: ended` and a late sacrifice cannot revive the world | `apply_decay()` in [tick.py](../infra/lambda/tick.py) |
 | Game masters get **no early access** | Entry is gated purely on Field Games running, for everyone | `gameLive` in [ScheduleTab.tsx](../src/components/tabs/ScheduleTab.tsx) |
+| A world point costs **10 score points** | Sacrifices are paid for, and the price is exact | `WORLD_POINT_COST` in [game_state.py](../infra/lambda/game_state.py) |
 
 Rehearse in demo mode (`VITE_DEMO_MODE=true`, or the "Enter demo" button) — it
 runs a whole game in memory, including the rejection paths.
@@ -173,7 +174,9 @@ No `pace`. Every team's points are on the board, and every role sees the same
 board — players, spectators and game masters alike.
 
 **`POST /game/award`** — role 8 only. Body: `id`, `awardId`, `team`, `points`,
-`worldPoints`, `source`, `createdAt`.
+`worldPoints`, `source`, `createdAt`. `worldPoints > 0` must be paid for
+exactly: `points == -worldPoints × WORLD_POINT_COST` (§5.2b). The GM's `limits`
+carry the price, so the form and the server never disagree.
 
 **`GET /game/awards?id=…`** — role 8 only, last 50 from the GSI.
 
@@ -242,11 +245,35 @@ apart:
 | Class | Cause | History shows |
 |---|---|---|
 | Transient | offline, network error, 5xx | ⏳ pending — auto-retries, manual resend available |
-| Terminal | insufficient points, game not running, invalid team | ✕ error + reason — **no resend** |
+| Terminal | insufficient points, game not running, invalid team, unpaid world points | ✕ error + reason — **no resend** |
 
 An award queued offline against a team without the points fails at sync time,
 possibly 20 minutes later. That's expected and is exactly what the history page
 is for.
+
+### 5.2b World health is bought, never given
+
+A sacrifice has a price: **1 world point costs the team 10 score points**
+(`WORLD_POINT_COST` in [game_state.py](../infra/lambda/game_state.py), env-
+overridable). `read_award` refuses any submission carrying `worldPoints > 0`
+whose `points` is not exactly `-worldPoints × 10` — reason
+`unpaid_world_points`, terminal, since resending the same body fails the same
+way. The game master's form derives the cost, fills the points field in and
+holds it read-only, so the refusal is a backstop against a hand-made request
+rather than something a GM can trip over.
+
+Payment and sacrifice are atomic: the score decrement is the same transaction
+as the ledger write, and world points reach SQS only after it commits. A team
+that cannot afford the price is refused with `insufficient_points` (§5.2) and
+the world gets nothing.
+
+World points have **no ceiling of their own**. `MAX_POINTS` (1000) is the only
+per-award clamp, and the price turns it into one for sacrifices too:
+`max_world_points()` is `MAX_POINTS // WORLD_POINT_COST` = **100 world points
+per award, for 1000 score**. Anything larger has no payable score to carry and
+is refused as `invalid_points`. The figure is derived, never configured
+separately, so the two clamps cannot drift apart — and it is what `limits`
+sends the game master's form.
 
 ### 5.3 Pace is private
 
@@ -302,6 +329,7 @@ src/game/
   Leaderboard.tsx        rank · team · points; shared ranks on ties (=4)
   player/TeamTab.tsx     team no. · meter · points · QR button
   gm/ScanTab.tsx         camera + manual team + points + world points + submit
+                         (world points fill in and lock the price in points)
   gm/HistoryPage.tsx     queue + sent, status per item, resend where allowed
   awardQueue.ts          localStorage queue, UUIDs, drains on reconnect
 src/game/finite-one.css  scoped dark tokens under .fo-root

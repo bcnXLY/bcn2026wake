@@ -822,6 +822,11 @@
   box-shadow: var(--fo-in);
 }
 
+.fo-field input[readonly] {
+  color: var(--fo-ink-dim);
+  box-shadow: var(--fo-in-sm);
+}
+
 .fo-field input:focus {
   outline: none;
   box-shadow: var(--fo-in), 0 0 0 2px rgba(var(--fo-rgb, 63, 224, 138), 0.45);

@@ -16,6 +16,8 @@ import { PERM_GAME_MASTER, hasPermission } from '../utils/permissions';
 const DEMO_TEAMS = 30;
 const DEMO_PACE = 1.2;
 const MAX_HEALTH = 100;
+const MAX_POINTS = 1000;
+const WORLD_POINT_COST = 10;
 
 const scores = new Map<string, number>(
   Array.from({ length: DEMO_TEAMS }, (_, i) => [
@@ -90,7 +92,11 @@ export async function demoFetchGameState(profile: UserProfile): Promise<GameStat
   }
   if (state.view === 'gm') {
     state.teams = [...scores.keys()].sort((a, b) => Number(a) - Number(b));
-    state.limits = { points: 1000, worldPoints: 25 };
+    state.limits = {
+      points: MAX_POINTS,
+      worldPoints: Math.floor(MAX_POINTS / WORLD_POINT_COST),
+      worldPointCost: WORLD_POINT_COST,
+    };
   }
   return state;
 }
@@ -102,6 +108,11 @@ export async function demoSubmitAward(award: QueuedAward): Promise<AwardResult> 
   if (status !== 'running') {
     record(award, 'rejected', 'not_running');
     return { ok: false, terminal: true, reason: 'not_running' };
+  }
+
+  if (award.worldPoints > 0 && award.points !== -award.worldPoints * WORLD_POINT_COST) {
+    record(award, 'rejected', 'unpaid_world_points');
+    return { ok: false, terminal: true, reason: 'unpaid_world_points' };
   }
 
   const current = scores.get(award.team);

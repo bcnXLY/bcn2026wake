@@ -20,7 +20,11 @@ export default function ScanTab({
 
   const teams = state.teams ?? [];
   const maxPoints = state.limits?.points ?? 1000;
-  const maxWorldPoints = state.limits?.worldPoints ?? 25;
+  const worldPointCost = state.limits?.worldPointCost ?? 10;
+  /** World points have no clamp of their own — what the team can be charged
+      in one award is the whole of it. The backend sends the same figure. */
+  const maxWorldPoints =
+    state.limits?.worldPoints ?? Math.floor(maxPoints / worldPointCost);
   const teamRange = teams.length ? `${teams[0]}–${teams[teams.length - 1]}` : '';
 
   const [scanning, setScanning] = useState(false);
@@ -81,12 +85,16 @@ export default function ScanTab({
 
   const teamNumber = Number(team);
   const teamValid = Number.isInteger(teamNumber) && teams.includes(String(teamNumber));
-  const pointsValue = points.trim() === '' ? 0 : Number(points);
   const worldValue = worldPoints.trim() === '' ? 0 : Number(worldPoints);
-
-  const pointsValid = Number.isInteger(pointsValue) && Math.abs(pointsValue) <= maxPoints;
   const worldValid =
     Number.isInteger(worldValue) && worldValue >= 0 && worldValue <= maxWorldPoints;
+
+  const paying = worldValid && worldValue > 0;
+  const typedPoints = points.trim() === '' ? 0 : Number(points);
+  const pointsValue = paying ? -worldValue * worldPointCost : typedPoints;
+  const pointsShown = paying ? String(pointsValue) : points;
+
+  const pointsValid = Number.isInteger(pointsValue) && Math.abs(pointsValue) <= maxPoints;
   const canSubmit =
     teamValid && pointsValid && worldValid && (pointsValue !== 0 || worldValue !== 0);
 
@@ -161,8 +169,10 @@ export default function ScanTab({
             id="fo-points"
             type="number"
             inputMode="numeric"
-            value={points}
+            value={pointsShown}
             placeholder="0"
+            readOnly={paying}
+            aria-describedby={paying ? 'fo-world-cost' : undefined}
             onChange={(e) => setPoints(e.target.value)}
           />
         </div>
@@ -181,12 +191,17 @@ export default function ScanTab({
         </div>
       </div>
 
-      {points !== '' && !pointsValid && (
+      {pointsShown !== '' && !pointsValid && (
         <p className="fo-error">{t('game.gm.pointsRange', { max: maxPoints })}</p>
       )}
       {worldPoints !== '' && !worldValid && (
         <p className="fo-error">{t('game.gm.worldRange', { max: maxWorldPoints })}</p>
       )}
+      <p className="fo-note" id="fo-world-cost">
+        {paying
+          ? t('game.gm.costPaid', { world: worldValue, points: -pointsValue })
+          : t('game.gm.costNote', { cost: worldPointCost })}
+      </p>
       <p className="fo-note">{t('game.gm.negativeNote')}</p>
 
       <button type="button" className="fo-btn" disabled={!canSubmit} onClick={submit}>

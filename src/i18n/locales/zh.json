@@ -220,6 +220,8 @@
       "worldPoints": "世界点数",
       "pointsRange": "范围 -{{max}} 到 {{max}}。",
       "worldRange": "范围 0 到 {{max}}。",
+      "costNote": "世界点数需要用积分购买：每 1 点世界点数扣 {{cost}} 分。填写世界点数后，积分栏会自动填入代价。",
+      "costPaid": "该小组为 {{world}} 点世界点数支付 {{points}} 分。",
       "negativeNote": "积分可以是负数。小组积分不会低于零——该提交会被拒绝，且无法重发。",
       "submit": "提交",
       "queued": "已加入队列：第 {{number}} 组。",
@@ -244,7 +246,8 @@
         "invalid_team": "没有这个小组",
         "invalid_points": "积分超出范围",
         "invalid_world_points": "世界点数超出范围",
-        "invalid_award_id": "提交格式错误"
+        "invalid_award_id": "提交格式错误",
+        "unpaid_world_points": "世界点数未支付积分"
       }
     }
   }
