@@ -37,4 +37,4 @@ pnpm-debug.log*
 
 # data
 *.csv
-src/demo/data.json
+src/demo/data.json*.tsbuildinfo

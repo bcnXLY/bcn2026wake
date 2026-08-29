@@ -15,8 +15,8 @@ export default defineConfig({
         'logo.png',
       ],
       manifest: {
-        name: 'BCN 2026 Wake — Event Companion',
-        short_name: 'BCN2026',
+        name: 'Awakening ',
+        short_name: 'Awakening',
         description: 'Your personal companion for the event.',
         theme_color: '#e8ecf3',
         background_color: '#e8ecf3',

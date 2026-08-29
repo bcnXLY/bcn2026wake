@@ -1,33 +1,33 @@
 {
   "app": {
-    "name": "BCN 2026 觉醒"
+    "name": "觉醒"
   },
   "login": {
     "idLabel": "参会者 ID",
     "idPlaceholder": "例如 X0000000T",
     "continue": "继续",
     "otpSentSms": "验证码已发送至您注册的手机。",
-    "stepVerify": "第 2 步，共 2 步",
+    "stepVerify": "两步里的第 2 步",
     "otpDigit": "第 {{index}} 位，共 {{total}} 位",
     "noCode": "没有收到验证码？",
     "changeId": "使用其他 ID",
     "codeResent": "新的验证码已发送。",
     "resendCode": "重新发送验证码",
     "resendIn": "{{seconds}} 秒后可重新发送",
-    "unknownId": "名单中没有该 ID。",
+    "unknownId": "名单中没有此 ID。",
     "invalidCode": "验证码无效或已过期。",
-    "noPhoneRegistered": "未注册手机号码，请联系支持人员。",
-    "unauthorized": "未经授权的访问。",
-    "tooManyAttempts": "尝试次数过多，请稍候几分钟后重试。",
+    "noPhoneRegistered": "未注册手机号码，请联系技术人员。",
+    "unauthorized": "未经过授权的访问。",
+    "tooManyAttempts": "尝试次数过多，请几分钟后重试。",
     "smsFailed": "暂时无法发送验证码，请稍后重试。",
-    "genericError": "出现问题，请重试。"
+    "genericError": "有问题出现，请重试。"
   },
   "nav": {
     "profile": "个人",
     "schedule": "日程",
     "messages": "小组公告",
     "gallery": "相册",
-    "contacts": "联系"
+    "contacts": "通讯录"
   },
   "header": {
     "team": "小组",
@@ -42,7 +42,7 @@
     "team": "小组",
     "teamCode": "小组ID",
     "room": "房间",
-    "leaders": "辅导",
+    "leaders": "辅导们",
     "roommates": "室友",
     "leader": "辅导",
     "maintainer": "策划",
@@ -109,17 +109,17 @@
     "globalPlaceholder": "给全体发布消息…",
     "globalEmpty": "暂无全体消息。",
     "roomHeading": "室友",
-    "tabRoom": "室友",
+    "tabRoom": "房间",
     "roomPlaceholder": "给室友发消息…",
     "roomEmpty": "暂无消息。",
-    "noRoom": "您还没有分配房间。"
+    "noRoom": "您还没有被分配房间。"
   },
   "gallery": {
     "title": "相册",
     "albums": "相册集",
     "empty": "暂无照片 — 请稍后再来。",
     "loadError": "无法加载照片。",
-    "openDrive": "在 Google 云端硬盘中打开",
+    "openDrive": "请在 Google 云端硬盘中打开",
     "download": "下载照片"
   },
   "contacts": {
@@ -128,7 +128,7 @@
     "call": "拨打",
     "loadError": "无法加载联系人。",
     "directory": {
-      "leaders": "辅导",
+      "leaders": "辅导们",
       "group": "小组",
       "maintainers": "策划",
       "roommates": "室友"
@@ -141,12 +141,12 @@
       "0": "组员",
       "1": "辅导",
       "2": "同工",
-      "3": "祷告",
+      "3": "祷告组",
       "4": "小卖部",
-      "5": "营服",
-      "6": "医疗",
-      "7": "摄影",
-      "8": "策划",
+      "5": "营会服务",
+      "6": "医疗组",
+      "7": "摄影组",
+      "8": "策划组",
       "9": "行政",
       "10": "大会主席"
     }
@@ -170,8 +170,8 @@
   },
   "game": {
     "title": "The Finite ONE",
-    "loading": "正在连接世界…",
-    "unavailable": "世界没有回应。",
+    "loading": "正在与世界连接…",
+    "unavailable": "未收到世界回应。",
     "offline": "离线",
     "exit": "返回应用",
     "team": "第 {{number}} 组",
@@ -186,7 +186,7 @@
     "meter": {
       "label": "世界稳定度",
       "aria": "世界稳定度为百分之 {{value}}",
-      "collapsed": "已崩塌",
+      "collapsed": "世界已崩塌",
       "collapsedNote": "已经无能为力",
       "severity": {
         "nominal": "稳定",
@@ -203,7 +203,7 @@
       "points": "{{count}} 分"
     },
     "qr": {
-      "show": "出示小组二维码",
+      "show": "请出示小组二维码",
       "close": "关闭",
       "aria": "第 {{number}} 组的二维码"
     },
@@ -216,15 +216,12 @@
         "unavailable": "此设备无法扫描，请手动输入组号。"
       },
       "notAGameCode": "这不是小组二维码。",
-      "team": "组号",
+      "team": "组",
       "teamRange": "该组不在本次游戏中（{{range}}）。",
       "points": "积分",
       "worldPoints": "世界点数",
       "pointsRange": "范围 -{{max}} 到 {{max}}。",
       "worldRange": "范围 0 到 {{max}}。",
-      "costNote": "世界点数需要用积分购买：每 1 点世界点数扣 {{cost}} 分。填写世界点数后，积分栏会自动填入代价。",
-      "costPaid": "该小组为 {{world}} 点世界点数支付 {{points}} 分。",
-      "negativeNote": "积分可以是负数。小组积分不会低于零——该提交会被拒绝，且无法重发。",
       "submit": "提交",
       "queued": "已加入队列：第 {{number}} 组。",
       "history": "提交记录",
@@ -249,7 +246,7 @@
         "invalid_points": "积分超出范围",
         "invalid_world_points": "世界点数超出范围",
         "invalid_award_id": "提交格式错误",
-        "unpaid_world_points": "世界点数未支付积分"
+        "unpaid_world_points": "世界点数未成功支付积分"
       }
     }
   }

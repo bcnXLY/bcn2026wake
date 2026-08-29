@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "BCN 2026 Awakening"
+    "name": "Awakening"
   },
   "login": {
     "idLabel": "ID de asistente",
@@ -222,9 +222,6 @@
       "worldPoints": "Puntos de mundo",
       "pointsRange": "Entre -{{max}} y {{max}}.",
       "worldRange": "Entre 0 y {{max}}.",
-      "costNote": "Los puntos de mundo se compran, no se regalan: {{cost}} puntos de equipo cada uno. Escribe los puntos de mundo y el coste se rellena solo.",
-      "costPaid": "El equipo paga {{points}} puntos por {{world}} puntos de mundo.",
-      "negativeNote": "Los puntos pueden ser negativos. Un equipo nunca baja de cero: ese envío se rechaza y no se puede reenviar.",
       "submit": "Enviar",
       "queued": "En cola para el equipo {{number}}.",
       "history": "Historial de envíos",

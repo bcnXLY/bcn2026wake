@@ -197,13 +197,6 @@ export default function ScanTab({
       {worldPoints !== '' && !worldValid && (
         <p className="fo-error">{t('game.gm.worldRange', { max: maxWorldPoints })}</p>
       )}
-      <p className="fo-note" id="fo-world-cost">
-        {paying
-          ? t('game.gm.costPaid', { world: worldValue, points: -pointsValue })
-          : t('game.gm.costNote', { cost: worldPointCost })}
-      </p>
-      <p className="fo-note">{t('game.gm.negativeNote')}</p>
-
       <button type="button" className="fo-btn" disabled={!canSubmit} onClick={submit}>
         {t('game.gm.submit')}
       </button>

@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "BCN 2026 Awakening"
+    "name": "Awakening"
   },
   "login": {
     "idLabel": "Attendee ID",
@@ -50,7 +50,7 @@
   },
   "schedule": {
     "title": "Schedule",
-    "now": "NOW",
+    "now": "In progress",
     "empty": "No activities scheduled yet.",
     "countdown": {
       "label": "Next up",
@@ -64,11 +64,11 @@
       "devotional": "Devotional",
       "breakfastDevotional": "Breakfast · Devotional",
       "worship": "Worship",
-      "smallGroup": "Small Group",
+      "smallGroup": "Team",
       "lunch": "Lunch",
       "dinner": "Dinner",
-      "groupLunch": "Small Group · Lunch",
-      "groupDinner": "Small Group · Dinner",
+      "groupLunch": "Team · Lunch",
+      "groupDinner": "Team · Dinner",
       "departure": "GOGOGO — We're Off!",
       "anotherView": "Another Landscape",
       "retracing": "Following the Traces",
@@ -81,7 +81,7 @@
       "message5": "Message 5",
       "opening": "Opening Ceremony",
       "closing": "Closing Ceremony",
-      "teamFormation": "Team Formation Games",
+      "teamFormation": "Welcoming Session",
       "finiteOne": "The Finite One",
       "workshops": "Workshops",
       "freeTime": "Free Time",
@@ -129,7 +129,7 @@
     "loadError": "Could not load contacts.",
     "directory": {
       "leaders": "Leaders",
-      "group": "Group",
+      "group": "Team",
       "maintainers": "Maintainers",
       "roommates": "Roommates"
     },
@@ -222,9 +222,6 @@
       "worldPoints": "World points",
       "pointsRange": "Between -{{max}} and {{max}}.",
       "worldRange": "Between 0 and {{max}}.",
-      "costNote": "World points are bought, not given: {{cost}} team points each. Enter world points and the cost fills in the points field.",
-      "costPaid": "Team pays {{points}} points for {{world}} world points.",
-      "negativeNote": "Points may be negative. A team can never go below zero — that submission is refused and cannot be resent.",
       "submit": "Submit",
       "queued": "Queued for team {{number}}.",
       "history": "Submission history",
@@ -243,7 +240,7 @@
         "rejected": "refused"
       },
       "reason": {
-        "insufficient_points": "team has not got the points",
+        "insufficient_points": "team has not insufficient the points",
         "not_running": "the game is not running",
         "invalid_team": "no such team",
         "invalid_points": "points out of range",
