@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
+from push import notify_global_message
 from util import PERM_GLOBAL_CHAT, has_permission, json_response
 
 ddb = boto3.resource('dynamodb')
@@ -98,6 +99,9 @@ def handle_post(event):
         'created_at': now,
     }
     ddb.Table(MESSAGES_TABLE).put_item(Item=item)
+
+    if board_id == GLOBAL_TEAM_ID:
+        notify_global_message(item['sender_name'], text)
 
     return json_response(201, {'message': to_message(item)})
 

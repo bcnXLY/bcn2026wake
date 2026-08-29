@@ -22,8 +22,10 @@ npm install
 npm run dev           # http://localhost:5173
 ```
 
-On the login screen click **“Enter demo”** to load a mock attendee and explore
-every tab. To force demo mode for the entire session (skips the button), set
+Set `VITE_ENABLE_TEST_LOGIN_BUTTON=true` in `.env.local`, then click
+**“Enter demo”** on the login screen to load a mock attendee and explore every
+tab. The button is hidden unless that var is set, so it never ships to prod. To
+force demo mode for the entire session (skips the button), set
 `VITE_DEMO_MODE=true` in `.env`.
 
 ### Scripts
@@ -52,7 +54,7 @@ cp .env.example .env
 | `VITE_GOOGLE_DRIVE_FOLDER_ID` | Public parent folder (albums = subfolders) |
 | `VITE_ONESIGNAL_APP_ID` | OneSignal Web app ID (optional) |
 | `VITE_DEMO_MODE` | `true` to force demo mode |
-| `VITE_ENABLE_TEST_LOGIN_BUTTON` | `false` to hide the “Enter demo” button |
+| `VITE_ENABLE_TEST_LOGIN_BUTTON` | `true` to show the “Enter demo” button (local dev only; hidden unless set) |
 
 Only non-secret, public values are ever exposed to the client bundle (`VITE_*`).
 
@@ -189,7 +191,8 @@ src/
 infra/
   template.yaml            SAM: DynamoDB roster + notice boards + game + Lambda API
   lambda/                  login, contacts, update_profile, messages, util,
-                           game_state (+ tests), game, tick
+                           game_state (+ tests), game, tick,
+                           push (OneSignal fan-out for the global board)
   scripts/                 start_game.py, set_pace.py (talk to DynamoDB directly)
   seed/                    upload_participants.py (roster → DynamoDB),
                            broadcast.mjs (OneSignal push), participants.csv
@@ -224,6 +227,13 @@ ONESIGNAL_APP_ID=xxx ONESIGNAL_REST_API_KEY=xxx \
 
 Edit the roster in `infra/seed/participants.csv`
 (`id,name,sex,phone,church,role,team,room,birthday`).
+
+Posting to the **global board** also sends a web push to every subscriber —
+`MessagesFn` calls OneSignal server-side (`infra/lambda/push.py`), so the REST
+key never reaches the browser. It needs the `ONESIGNAL_APP_ID` and
+`ONESIGNAL_REST_API_KEY` repository secrets; without them the stack still
+deploys and posts still work, they just do not notify. Team and room boards
+never push.
 
 CI/CD lives in `.github/workflows/`: `deploy-frontend.yml` runs on push to `main`
 (build → S3 → CloudFront invalidate); `deploy-backend.yml` is manual. Both use

@@ -23,6 +23,15 @@ Parameters:
     Type: String
     Default: '34'
     Description: Country code prepended to roster numbers stored without one.
+  OneSignalAppId:
+    Type: String
+    Default: ''
+    Description: OneSignal app ID. Leave empty to disable global-board push.
+  OneSignalRestApiKey:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: OneSignal REST API key. Leave empty to disable global-board push.
 
 Globals:
   Function:
@@ -237,6 +246,9 @@ Resources:
         Variables:
           ATTENDEES_TABLE: !Ref ParticipantsTable
           MESSAGES_TABLE: !Ref TeamMessagesTable
+          # A post to the global board fans out as web push; unset = no push.
+          ONESIGNAL_APP_ID: !Ref OneSignalAppId
+          ONESIGNAL_REST_API_KEY: !Ref OneSignalRestApiKey
       Policies:
         - Statement:
             - Effect: Allow
