@@ -38,6 +38,13 @@
   color: var(--text);
 }
 
+/* The honour mark, in the top right corner of the name. */
+.profile-honour {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+}
+
 .profile-badges {
   position: relative;
   display: flex;

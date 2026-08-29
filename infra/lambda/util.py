@@ -28,6 +28,10 @@ def json_response(status_code, body):
 PERM_GLOBAL_CHAT = 1
 PERM_GAME_MASTER = 2
 
+PERM_OBSERVER = 6
+PERM_WINNER = 7
+PERM_PROTECTOR = 8
+
 
 def _permission_ints(participant):
     for value in (participant or {}).get('permissions') or []:

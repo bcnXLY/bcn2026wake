@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
+import HonourMark from '../HonourMark';
 import { updatePhone } from '../../services/auth';
 import { leadersRevealed } from '../../utils/schedule';
 import { useNow } from '../../utils/useNow';
@@ -56,6 +57,7 @@ export default function ProfileTab() {
       <h2 className="sr-only">{t('profile.title')}</h2>
 
       <div className="profile-header-card">
+        <HonourMark profile={profile} className="profile-honour" />
         <span className="profile-eyebrow">{t('profile.name')}</span>
         <h3 className="profile-name">{profile.name}</h3>
         {(profile.isLeader || profile.isManager) && (

@@ -1,0 +1,51 @@
+/* The honour mark — a struck-gold medal or cross, small enough to sit in a
+   corner. The shine is doing the work here: a gradient that runs light → rich
+   → deep → light across the shape, a polished streak clipped to it, and one
+   slow glint. */
+
+.hm-marks {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hm {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  line-height: 0;
+}
+
+.hm-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 2px rgba(110, 78, 10, 0.4));
+}
+
+/* On the dark surface a cast shadow disappears — let it glow instead. */
+:root[data-theme='dark'] .hm-svg {
+  filter: drop-shadow(0 0 5px rgba(245, 200, 90, 0.45));
+}
+
+/* transform-box keeps the star scaling about itself rather than the viewBox
+   origin; the <g> around it owns the placement so this can own the animation. */
+.hm-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hm-twinkle 3.4s ease-in-out infinite;
+}
+
+@keyframes hm-twinkle {
+  0%,
+  62%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.65);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -8,6 +8,22 @@ import demoData from './data.json';
 const person =
   demoData.people.find((p) => p.id === demoData.selectedPersonId) ?? demoData.people[0];
 
+/**
+ * Rehearsal hatch: `?perms=7` previews the app as someone also holding that
+ * permission, so the honour marks can be seen without touching the roster.
+ * Same idea as `bcn2026-demo-health` in demo/game. Staff always get 1 and 2 so
+ * the demo can exercise the GM and global chat.
+ */
+function demoPermissions(): number[] {
+  const granted = person.isManager ? [1, 2] : [];
+  const raw = new URLSearchParams(window.location.search).get('perms');
+  const extra = (raw ?? '')
+    .split(',')
+    .map((value) => Number(value.trim()))
+    .filter((value) => Number.isInteger(value) && value > 0);
+  return [...new Set([...granted, ...extra])].sort((a, b) => a - b);
+}
+
 /** Mock attendee used when the app runs in demo mode (no backend session). */
 export const DEMO_PROFILE: UserProfile = {
   id: person.id,
@@ -25,6 +41,5 @@ export const DEMO_PROFILE: UserProfile = {
     .map((p) => p.name),
   isLeader: person.isLeader,
   isManager: person.isManager,
-  // Staff get both permissions so the demo can exercise the GM and global chat.
-  permissions: person.isManager ? [1, 2] : [],
+  permissions: demoPermissions(),
 };
