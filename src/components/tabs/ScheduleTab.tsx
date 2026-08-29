@@ -7,6 +7,7 @@ import {
   nextActivity,
   roleIdOf,
   scheduleFor,
+  waveOf,
 } from '../../utils/schedule';
 import { useNow } from '../../utils/useNow';
 
@@ -32,8 +33,9 @@ export default function ScheduleTab({ onEnterGame }: { onEnterGame: () => void }
   // the "NOW" marker rides along on the same tick.
   const now = useNow(1_000);
 
-  // Activities restricted to other role groups never reach this screen.
-  const schedule = useMemo(() => scheduleFor(roleIdOf(profile)), [profile]);
+  // Activities for other role groups — and the other half of the meal
+  // rotation — never reach this screen.
+  const schedule = useMemo(() => scheduleFor(roleIdOf(profile), waveOf(profile)), [profile]);
 
   const timeFmt = useMemo(
     () =>

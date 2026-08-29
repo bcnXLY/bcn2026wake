@@ -1,5 +1,5 @@
 import { SCHEDULE } from '../data/eventData';
-import type { ScheduleItem, UserProfile } from '../types';
+import type { MealWave, ScheduleItem, UserProfile } from '../types';
 
 /** Role codes that the app itself reasons about; the rest are staff groups. */
 export const ROLE_MEMBER = 0;
@@ -18,14 +18,28 @@ export function roleIdOf(profile: UserProfile | null | undefined): number {
   return ROLE_MEMBER;
 }
 
-/** An activity with no `roleIds` is for everyone; otherwise it is opt-in. */
-export function isVisibleTo(item: ScheduleItem, roleId: number): boolean {
-  return !item.roleIds?.length || item.roleIds.includes(roleId);
+/**
+ * Which half of the meal rotation the attendee belongs to. Staff and anyone
+ * still unassigned carry an empty `teamCode`, and sit outside the rotation.
+ */
+export function waveOf(profile: UserProfile | null | undefined): MealWave {
+  const team = Number(profile?.teamCode);
+  if (!Number.isInteger(team) || team < 1) return 'none';
+  return team <= 15 ? 'A' : 'B';
 }
 
-/** The activities this role is allowed to see, in chronological order. */
-export function scheduleFor(roleId: number): ScheduleItem[] {
-  return SCHEDULE.filter((item) => isVisibleTo(item, roleId)).sort(
+/**
+ * An activity with no `roleIds` is for everyone; otherwise it is opt-in. The
+ * meal slots additionally belong to one wave, so only that wave's sitting shows.
+ */
+export function isVisibleTo(item: ScheduleItem, roleId: number, wave: MealWave): boolean {
+  if (item.roleIds?.length && !item.roleIds.includes(roleId)) return false;
+  return !item.wave || item.wave === wave;
+}
+
+/** The activities this attendee is allowed to see, in chronological order. */
+export function scheduleFor(roleId: number, wave: MealWave): ScheduleItem[] {
+  return SCHEDULE.filter((item) => isVisibleTo(item, roleId, wave)).sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
   );
 }
@@ -54,7 +68,7 @@ export function nextActivity(items: ScheduleItem[], now: number): ScheduleItem |
 }
 
 /** Opens "The Finite ONE", and only while it is the running activity. */
-export const FIELD_GAMES_EVENT_ID = 's18';
+export const FIELD_GAMES_EVENT_ID = 'd2-finite-one';
 
 export function isFieldGamesNow(now: number): boolean {
   const item = SCHEDULE.find((i) => i.id === FIELD_GAMES_EVENT_ID);
@@ -66,7 +80,7 @@ export function isFieldGamesNow(now: number): boolean {
  * Team leaders are a surprise until this activity is over — until then their
  * names are held back on the profile and contacts tabs.
  */
-export const LEADER_REVEAL_EVENT_ID = 's1';
+export const LEADER_REVEAL_EVENT_ID = 'd1-another-view';
 
 export function leadersRevealed(now: number): boolean {
   const item = SCHEDULE.find((i) => i.id === LEADER_REVEAL_EVENT_ID);

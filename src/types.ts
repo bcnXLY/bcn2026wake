@@ -13,6 +13,13 @@ export interface UserProfile {
   permissions?: number[];
 }
 
+/**
+ * Meals are served in two sittings, so the camp splits into two waves that swap
+ * between eating and small group: 'A' is teams 1-15, 'B' is teams 16-30.
+ * 'none' covers attendees with no team, who sit outside the rotation.
+ */
+export type MealWave = 'A' | 'B' | 'none';
+
 export interface ScheduleItem {
   id: string;
   /** i18n key resolving to the activity title. */
@@ -23,6 +30,8 @@ export interface ScheduleItem {
   start: string;
   end: string;
   roleIds?: number[];
+  /** Set only on the rotating meal slots; unset means the slot is for everyone. */
+  wave?: MealWave;
 }
 
 export interface EmergencyContact {
