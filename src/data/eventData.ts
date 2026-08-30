@@ -79,7 +79,7 @@ const PLENARY: ScheduleItem[] = [
   { id: 'd2-retracing', titleKey: 'schedule.activities.retracing', start: at('2026-09-01', '09:30'), end: at('2026-09-01', '10:30') },
   { id: 'd2-worship-am', titleKey: 'schedule.activities.worship', start: at('2026-09-01', '10:30'), end: at('2026-09-01', '11:00') },
   { id: 'd2-message-am', titleKey: 'schedule.activities.message2', start: at('2026-09-01', '11:00'), end: at('2026-09-01', '12:00') },
-  { id: 'd2-finite-one', titleKey: 'schedule.activities.finiteOne', start: at('2026-09-01', '15:00'), end: at('2026-09-01', '18:00') },
+  { id: 'd2-finite-one', titleKey: 'schedule.activities.finiteOne', start: at('2026-09-30', '15:00'), end: at('2026-09-01', '18:00') },
   { id: 'd2-worship-pm', titleKey: 'schedule.activities.worship', start: at('2026-09-01', '20:00'), end: at('2026-09-01', '20:30') },
   { id: 'd2-message-pm', titleKey: 'schedule.activities.message3', start: at('2026-09-01', '20:30'), end: at('2026-09-01', '21:30') },
   { id: 'd2-what-matters', titleKey: 'schedule.activities.whatMatters', start: at('2026-09-01', '21:30'), end: at('2026-09-01', '22:30') },
