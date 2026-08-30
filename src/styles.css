@@ -1235,6 +1235,7 @@ button.countdown-live:active {
 
 /* ---- Login page ---- */
 .login-wrap {
+  position: relative;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -1243,6 +1244,31 @@ button.countdown-live:active {
   max-width: var(--maxw);
   margin: 0 auto;
   background: var(--bg);
+}
+
+/* The mark, blown up behind the page. Fixed so it stays put while the form
+   scrolls, and faint enough to read straight through. */
+.login-wrap::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url('/logo-mark.png') no-repeat center / contain;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* invert alone would send the gold star blue; the hue-rotate puts it back. */
+:root[data-theme='dark'] .login-wrap::before {
+  filter: invert(1) hue-rotate(180deg);
+  opacity: 0.2;
+}
+
+/* Lift the real content over the watermark. */
+.login-lang,
+.login-head,
+.login-card {
+  position: relative;
 }
 
 .login-lang {
@@ -1255,23 +1281,18 @@ button.countdown-live:active {
   text-align: center;
 }
 
-.login-logo {
-  width: 100px;
-  height: 100px;
+/* Handwritten wordmark — the only mark in the flow now. Black ink on
+   transparency, so dark mode flips it to white. */
+.login-title {
+  display: block;
+  width: 220px;
+  max-width: 70%;
+  height: auto;
   margin: 0 auto 50px;
-  border-radius: 26px;
-  display: grid;
-  place-items: center;
-  background: var(--surface);
-  box-shadow: var(--nm-out);
 }
 
-/* The mark is a tall, narrow line drawing — fit it by height, never crop. */
-.login-logo img {
-  width: 100%;
-  height: 100%;
-  padding: 7px;
-  object-fit: contain;
+:root[data-theme='dark'] .login-title {
+  filter: invert(1);
 }
 
 .login-head h1 {

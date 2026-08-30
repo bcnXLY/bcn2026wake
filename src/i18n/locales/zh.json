@@ -4,7 +4,7 @@
   },
   "login": {
     "idLabel": "参会者 ID",
-    "idPlaceholder": "例如 X0000000T",
+    "idPlaceholder": "例如 X1234567T",
     "continue": "继续",
     "otpSentSms": "验证码已发送至您注册的手机。",
     "stepVerify": "两步里的第 2 步",
@@ -57,7 +57,6 @@
     "team": "小组",
     "teamCode": "小组ID",
     "room": "房间",
-    "leaders": "辅导们",
     "roommates": "室友",
     "leader": "辅导",
     "maintainer": "策划",
@@ -143,7 +142,7 @@
     "call": "拨打",
     "loadError": "无法加载联系人。",
     "directory": {
-      "leaders": "辅导们",
+      "leaders": "辅导",
       "group": "小组",
       "maintainers": "策划",
       "roommates": "室友"

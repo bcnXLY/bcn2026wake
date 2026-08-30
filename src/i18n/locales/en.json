@@ -4,7 +4,7 @@
   },
   "login": {
     "idLabel": "Attendee ID",
-    "idPlaceholder": "e.g. X0000000T",
+    "idPlaceholder": "e.g. X1234567T",
     "continue": "Continue",
     "otpSentSms": "We sent a code to your registered phone.",
     "stepVerify": "Step 2 of 2",
@@ -57,7 +57,6 @@
     "team": "Team",
     "teamCode": "Team code",
     "room": "Room",
-    "leaders": "Leaders",
     "roommates": "Roommates",
     "leader": "Leader",
     "maintainer": "Maintainer",

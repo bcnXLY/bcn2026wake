@@ -4,7 +4,7 @@
   },
   "login": {
     "idLabel": "ID de asistente",
-    "idPlaceholder": "ej. X0000000T",
+    "idPlaceholder": "ej. X1234567",
     "continue": "Continuar",
     "otpSentSms": "Enviamos un código a tu teléfono registrado.",
     "stepVerify": "Paso 2 de 2",
@@ -57,7 +57,6 @@
     "team": "Equipo",
     "teamCode": "Código de equipo",
     "room": "Habitación",
-    "leaders": "Líderes",
     "roommates": "Compañeros de habitación",
     "leader": "Líder",
     "maintainer": "Encargado",

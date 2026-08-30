@@ -108,9 +108,7 @@ export default function Login() {
       </div>
 
       <div className="login-head">
-        <div className="login-logo">
-          <img src="/logo.png" alt={t('app.name')} />
-        </div>
+        <img className="login-title" src="/title.png" alt={t('app.name')} />
       </div>
 
       <div className="login-card">

@@ -150,7 +150,7 @@ export default function ProfileTab() {
           )}
           {profile.leadersName.length > 0 && (
             <div className="row">
-              <span className="label">{t('profile.leaders')}</span>
+              <span className="label">{t('profile.leader')}</span>
               <span className="value">
                 {revealed ? (
                   profile.leadersName.join(', ')
