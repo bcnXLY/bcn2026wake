@@ -82,8 +82,7 @@ def handle_get(event):
         body['teams'] = sorted(scores.keys(), key=int)
         body['limits'] = {
             'points': gs.MAX_POINTS,
-            'worldPoints': gs.max_world_points(),
-            'worldPointCost': gs.WORLD_POINT_COST,
+            'worldPoints': gs.MAX_WORLD_POINTS,
         }
 
     return json_response(200, body)
@@ -286,17 +285,9 @@ def read_award(body):
     if error:
         return None, 'invalid_points'
 
-    # No ceiling of its own: what a sacrifice may be is settled by the price
-    # below and by MAX_POINTS, which the score above was already read against.
-    world_points, error = read_int(body.get('worldPoints'), None)
+    world_points, error = read_int(body.get('worldPoints'), gs.MAX_WORLD_POINTS)
     if error:
         return None, 'invalid_world_points'
-
-    # World health is bought with the team's own score, at a fixed price. A
-    # submission that does not pay exactly is refused, and refused terminally:
-    # resending the same body would fail the same way.
-    if not gs.is_paid_sacrifice(points, world_points):
-        return None, 'unpaid_world_points'
 
     source = body.get('source') if body.get('source') in ('qr', 'manual') else 'manual'
 
@@ -317,7 +308,6 @@ def read_award(body):
 
 
 def read_int(raw, limit, allow_negative=False):
-    """`limit=None` reads a value that has no ceiling of its own."""
     if raw is None or raw == '':
         return 0, None
     try:
@@ -326,7 +316,7 @@ def read_int(raw, limit, allow_negative=False):
         return 0, 'invalid'
     if not allow_negative and value < 0:
         return 0, 'invalid'
-    if limit is not None and abs(value) > limit:
+    if abs(value) > limit:
         return 0, 'invalid'
     return value, None
 

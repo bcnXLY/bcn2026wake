@@ -27,11 +27,8 @@ VIEW_PLAYER = 'player'
 VIEW_SPECTATOR = 'spectator'
 VIEW_GM = 'gm'
 
-# The per-award ceiling, so a slip of the thumb cannot end the game: the score
-# one submission may move. World points have no ceiling of their own — the
-# price below turns this one into theirs.
 MAX_POINTS = int(os.environ.get('MAX_POINTS', '1000'))
-WORLD_POINT_COST = int(os.environ.get('WORLD_POINT_COST', '10'))
+MAX_WORLD_POINTS = int(os.environ.get('MAX_WORLD_POINTS', '100'))
 
 # team_0 is the staff team and does not play.
 NO_TEAM = {'unassigned', 'team_0', ''}
@@ -100,23 +97,6 @@ def view_for(participant):
     if get_role(participant) in PLAYER_ROLES and playing_team_of(participant):
         return VIEW_PLAYER
     return VIEW_SPECTATOR
-
-
-def max_world_points():
-    """The biggest sacrifice one award can pay for. Derived, not configured."""
-    return MAX_POINTS // WORLD_POINT_COST
-
-
-def sacrifice_cost(world_points):
-    """What a team pays for `world_points` of world health. Never positive."""
-    if world_points <= 0:
-        return 0
-    return -int(world_points) * WORLD_POINT_COST
-
-
-def is_paid_sacrifice(points, world_points):
-    """World health is bought, never given, and the price is exact."""
-    return world_points <= 0 or points == sacrifice_cost(world_points)
 
 
 def leaderboard(scores):

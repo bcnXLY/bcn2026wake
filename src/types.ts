@@ -161,7 +161,7 @@ export interface GameState {
   teamPoints?: number;
   /** Game masters only — the teams in play, from the roster. */
   teams?: string[];
-  limits?: { points: number; worldPoints: number; worldPointCost: number };
+  limits?: { points: number; worldPoints: number };
 }
 
 export type AwardSource = 'qr' | 'manual';

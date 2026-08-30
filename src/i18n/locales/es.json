@@ -259,8 +259,7 @@
         "invalid_team": "ese equipo no existe",
         "invalid_points": "puntos fuera de rango",
         "invalid_world_points": "puntos de mundo fuera de rango",
-        "invalid_award_id": "envío mal formado",
-        "unpaid_world_points": "los puntos de mundo no se pagaron"
+        "invalid_award_id": "envío mal formado"
       }
     }
   }

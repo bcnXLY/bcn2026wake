@@ -144,8 +144,10 @@ for the duration. Design notes and the reasoning behind the data model live in
 [docs/finite-one-plan.md](docs/finite-one-plan.md).
 
 World health is life points: a single float the backend owns. Time subtracts
-from it once a minute, sacrificed team points add to it, and the **decay pace is
-private** — it never appears in an API response or the client bundle.
+from it once a minute, world points awarded by a game master add to it — they
+cost the team nothing, so score and world health move independently — and the
+**decay pace is private**: it never appears in an API response or the client
+bundle.
 
 It is shown as a three.js wireframe globe rather than a bar — continents in
 points, fog turning inside it, the percentage over the middle — going emerald →

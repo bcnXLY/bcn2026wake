@@ -259,8 +259,7 @@
         "invalid_team": "no such team",
         "invalid_points": "points out of range",
         "invalid_world_points": "world points out of range",
-        "invalid_award_id": "malformed submission",
-        "unpaid_world_points": "world points were not paid for"
+        "invalid_award_id": "malformed submission"
       }
     }
   }

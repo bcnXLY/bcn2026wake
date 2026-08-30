@@ -259,8 +259,7 @@
         "invalid_team": "没有这个小组",
         "invalid_points": "积分超出范围",
         "invalid_world_points": "世界点数超出范围",
-        "invalid_award_id": "提交格式错误",
-        "unpaid_world_points": "世界点数未成功支付积分"
+        "invalid_award_id": "提交格式错误"
       }
     }
   }

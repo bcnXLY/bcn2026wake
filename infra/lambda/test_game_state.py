@@ -113,46 +113,15 @@ class Leaderboard(unittest.TestCase):
         self.assertEqual(gs.leaderboard(None), [])
 
 
-class SacrificePrice(unittest.TestCase):
-    """World health is bought with score, at WORLD_POINT_COST per point."""
+class AwardCeilings(unittest.TestCase):
+    """Score and world points are separate figures: neither pays for the other."""
 
-    def test_cost_is_negative_and_proportional(self):
-        self.assertEqual(gs.sacrifice_cost(1), -gs.WORLD_POINT_COST)
-        self.assertEqual(gs.sacrifice_cost(3), -3 * gs.WORLD_POINT_COST)
+    def test_one_award_can_carry_the_world_back_to_full(self):
+        self.assertGreaterEqual(gs.MAX_WORLD_POINTS, gs.MAX_HEALTH)
 
-    def test_no_world_points_costs_nothing(self):
-        self.assertEqual(gs.sacrifice_cost(0), 0)
-        self.assertEqual(gs.sacrifice_cost(-5), 0)
-
-    def test_exact_payment_is_accepted(self):
-        self.assertTrue(gs.is_paid_sacrifice(-2 * gs.WORLD_POINT_COST, 2))
-
-    def test_unpaid_or_underpaid_world_points_are_refused(self):
-        for points in (0, 5, -1, -gs.WORLD_POINT_COST):
-            self.assertFalse(gs.is_paid_sacrifice(points, 2))
-
-    def test_overpaying_is_refused_too(self):
-        # The price is exact, so the history reads the same for every sacrifice.
-        self.assertFalse(gs.is_paid_sacrifice(-3 * gs.WORLD_POINT_COST, 2))
-
-    def test_awards_without_world_points_are_unaffected(self):
-        for points in (0, 40, -40):
-            self.assertTrue(gs.is_paid_sacrifice(points, 0))
-
-    def test_the_ceiling_is_derived_from_what_a_team_can_be_charged(self):
-        # World points carry no clamp of their own: MAX_POINTS is the only
-        # per-award ceiling, and the price turns it into one for sacrifices.
-        self.assertEqual(gs.max_world_points(), gs.MAX_POINTS // gs.WORLD_POINT_COST)
-
-    def test_the_biggest_sacrifice_is_payable_within_the_points_clamp(self):
-        cost = gs.sacrifice_cost(gs.max_world_points())
-        self.assertLessEqual(abs(cost), gs.MAX_POINTS)
-
-    def test_one_world_point_past_the_ceiling_cannot_be_paid_for(self):
-        # read_award reads the score against MAX_POINTS before it checks the
-        # price, so an over-large sacrifice has no payable score to carry.
-        cost = gs.sacrifice_cost(gs.max_world_points() + 1)
-        self.assertGreater(abs(cost), gs.MAX_POINTS)
+    def test_the_ceilings_are_positive(self):
+        self.assertGreater(gs.MAX_POINTS, 0)
+        self.assertGreater(gs.MAX_WORLD_POINTS, 0)
 
 
 class TeamsAndViews(unittest.TestCase):

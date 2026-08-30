@@ -20,11 +20,8 @@ export default function ScanTab({
 
   const teams = state.teams ?? [];
   const maxPoints = state.limits?.points ?? 1000;
-  const worldPointCost = state.limits?.worldPointCost ?? 10;
-  /** World points have no clamp of their own — what the team can be charged
-      in one award is the whole of it. The backend sends the same figure. */
-  const maxWorldPoints =
-    state.limits?.worldPoints ?? Math.floor(maxPoints / worldPointCost);
+      The backend sends the same figure. */
+  const maxWorldPoints = state.limits?.worldPoints ?? 100;
   const teamRange = teams.length ? `${teams[0]}–${teams[teams.length - 1]}` : '';
 
   const [scanning, setScanning] = useState(false);
@@ -89,10 +86,7 @@ export default function ScanTab({
   const worldValid =
     Number.isInteger(worldValue) && worldValue >= 0 && worldValue <= maxWorldPoints;
 
-  const paying = worldValid && worldValue > 0;
-  const typedPoints = points.trim() === '' ? 0 : Number(points);
-  const pointsValue = paying ? -worldValue * worldPointCost : typedPoints;
-  const pointsShown = paying ? String(pointsValue) : points;
+  const pointsValue = points.trim() === '' ? 0 : Number(points);
 
   const pointsValid = Number.isInteger(pointsValue) && Math.abs(pointsValue) <= maxPoints;
   const canSubmit =
@@ -169,10 +163,8 @@ export default function ScanTab({
             id="fo-points"
             type="number"
             inputMode="numeric"
-            value={pointsShown}
+            value={points}
             placeholder="0"
-            readOnly={paying}
-            aria-describedby={paying ? 'fo-world-cost' : undefined}
             onChange={(e) => setPoints(e.target.value)}
           />
         </div>
@@ -191,7 +183,7 @@ export default function ScanTab({
         </div>
       </div>
 
-      {pointsShown !== '' && !pointsValid && (
+      {points !== '' && !pointsValid && (
         <p className="fo-error">{t('game.gm.pointsRange', { max: maxPoints })}</p>
       )}
       {worldPoints !== '' && !worldValid && (
