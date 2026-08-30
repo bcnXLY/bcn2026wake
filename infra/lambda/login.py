@@ -304,6 +304,5 @@ def to_profile(p):
         'isManager': role == ROLE_MAINTAINER,
         'role': role,
         'permissions': sorted(permissions_of(p)),
-        # Which ID card details the roster still lacks — never the values.
         'missingDocumentFields': missing_document_fields(p),
     }
