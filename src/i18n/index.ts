@@ -23,7 +23,7 @@ i18n
       es: { translation: es },
       zh: { translation: zh },
     },
-    fallbackLng: 'en',
+    fallbackLng: 'zh',
     supportedLngs: SUPPORTED_LANGUAGES.map((l) => l.code),
     interpolation: { escapeValue: false },
     detection: {

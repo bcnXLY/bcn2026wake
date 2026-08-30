@@ -43,6 +43,15 @@ def parse_permissions(value):
     return sorted(codes)
 
 
+def parse_magic_numbers(value):
+    numbers = []
+    for part in (value or '').split(','):
+        number = parse_int(part)
+        if number is not None and number not in numbers:
+            numbers.append(number)
+    return ', '.join(str(number) for number in numbers)
+
+
 def clean_and_prepare_data(file_path):
     print(f"Reading data from {file_path}...")
 
@@ -99,11 +108,10 @@ def clean_and_prepare_data(file_path):
             if permissions:
                 item['permissions'] = permissions
 
-            # Only write the ID card details the CSV actually has: a blank cell
-            # must leave the attribute absent, which is what makes the app ask
-            # the attendee for it. Note that this is a put_item — re-seeding
-            # with a stale CSV overwrites details attendees filled in, so
-            # re-export the table into the CSV before re-running.
+            magic_number = parse_magic_numbers(row.get('magic_numbers'))
+            if magic_number:
+                item['magic_number'] = magic_number
+
             for column in DOCUMENT_COLUMNS:
                 value = (row.get(column) or '').strip()
                 if value:

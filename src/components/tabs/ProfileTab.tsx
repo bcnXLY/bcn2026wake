@@ -45,7 +45,6 @@ export default function ProfileTab() {
       setIsEditingPhone(false);
     } catch (err) {
       console.error('Failed to update phone', err);
-      // Keep the field open with the typed value so the edit isn't lost.
       setSaveError(true);
     } finally {
       setSavingPhone(false);
