@@ -47,3 +47,25 @@ def permissions_of(participant):
 
 def has_permission(participant, permission):
     return any(value == permission for value in _permission_ints(participant))
+
+
+# ---- Spanish ID card details -------------------------------------------
+# Support number + issue/expiry dates. The roster is missing them for part of
+# the camp, so the app gates itself until the attendee fills them in. They are
+# for the organisers only: nothing ever sends the values back to the client,
+# only which of them are still blank.
+DOCUMENT_FIELDS = (
+    ('supportNumber', 'support_number'),
+    ('emisionDate', 'emision_date'),
+    ('expirationDate', 'expiration_date'),
+)
+
+
+def missing_document_fields(participant):
+    """The document fields with no value on this roster row, in form order."""
+    item = participant or {}
+    return [
+        api_name
+        for api_name, attr_name in DOCUMENT_FIELDS
+        if not str(item.get(attr_name) or '').strip()
+    ]

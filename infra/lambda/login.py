@@ -7,7 +7,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 from boto3.dynamodb.conditions import Key
-from util import json_response, permissions_of
+from util import json_response, missing_document_fields, permissions_of
 ddb = boto3.resource('dynamodb')
 PARTICIPANTS_TABLE = os.environ.get('ATTENDEES_TABLE', '')
 
@@ -304,4 +304,6 @@ def to_profile(p):
         'isManager': role == ROLE_MAINTAINER,
         'role': role,
         'permissions': sorted(permissions_of(p)),
+        # Which ID card details the roster still lacks — never the values.
+        'missingDocumentFields': missing_document_fields(p),
     }

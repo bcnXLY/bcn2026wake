@@ -79,6 +79,36 @@ code (Twilio Verify):
 
 ---
 
+## ID card details (organiser-only)
+
+The roster carries three Spanish ID card fields — `support_number`,
+`emision_date`, `expiration_date` — and is missing some of them for part of the
+camp. Rather than chase people, **the app asks the attendee**: a session whose
+roster row lacks any of the three gets a form instead of the app, and nothing
+else, until it is filled in.
+
+- The values are for the organisers. They are never rendered anywhere in the
+  app and never sent to the client — a profile carries only
+  `missingDocumentFields`, the *names* of the fields still blank. The form
+  therefore asks only for what is missing, and never shows back what is on file.
+- `GET /profile?id=...` returns the same list on its own. The app re-checks it on
+  every start, so sessions that logged in before the form existed are gated too.
+  A failed check keeps whatever the stored session said — a flaky network must
+  not lock anyone out.
+- `PUT /profile` takes `{ id, supportNumber?, emisionDate?, expirationDate? }`
+  (and still `{ id, phone }` for the profile tab). Only the fields present in
+  the body are written, and it answers with what is *still* missing, which is
+  what lifts the gate. Support numbers are uppercased and stripped of spaces;
+  dates are accepted as `YYYY-MM-DD` or `DD/MM/YYYY` and stored as `DD/MM/YYYY`
+  to match the roster.
+- To rehearse it in demo mode: `?docs=all`, or `?docs=emisionDate,expirationDate`
+  for the partial case.
+
+Like the rest of this API there is no password behind it: knowing an attendee ID
+is enough to answer for that attendee, which is the same trust model as login.
+
+---
+
 ## Team notices (小组公告)
 
 Each team has one notice board, stored in the `TeamMessages` table (`team_id`
@@ -164,11 +194,13 @@ vite.config.ts             PWA manifest + Workbox runtime caching
 src/
   config.ts                Runtime config + demo-mode toggle (VITE_* env)
   types.ts                 Shared domain types
-  main.tsx / App.tsx       Bootstrap + auth-gated routing (Login | Dashboard)
+  main.tsx / App.tsx       Bootstrap + auth-gated routing (Login | ID card
+                           gate | Dashboard)
   context/AuthContext.tsx  Session state (profile in localStorage), demo profile
   pages/                   Login (attendee id), Dashboard (tab shell)
   components/
     Header, BottomNav, LanguageSelector, PushBanner, Lightbox
+    DocumentGate.tsx       Blocks the app until the ID card details are given
     tabs/                  Profile, Schedule (live "NOW"), Messages (team
                            notice board), Gallery, Contacts
   game/                    "The Finite ONE" — full-screen field-games mini-app
@@ -179,7 +211,8 @@ src/
     awardQueue.ts          Game master outbox: localStorage, ids, replay
     player/ gm/            Team + QR · scanner, award form, history
   services/
-    auth.ts                ID-based login client (GET /login)
+    auth.ts                ID-based login client (GET /login), profile +
+                           ID card details (GET/PUT /profile)
     contacts.ts            Role-based directory (GET /contacts) + demo data
     messages.ts            Team notice board (GET/POST/PUT /messages)
     game.ts                Field games (GET /game, POST /game/award)
@@ -225,8 +258,13 @@ ONESIGNAL_APP_ID=xxx ONESIGNAL_REST_API_KEY=xxx \
   npm run broadcast -- "Keynote in 10 min" "Auditorium A"
 ```
 
-Edit the roster in `infra/seed/participants.csv`
-(`id,name,sex,phone,church,role,team,room,birthday`).
+Edit the roster CSV (`name,id,birthday,sex,phone,church,team,role,room,`
+`permissions,magic_numbers,support_ number,emision_date,expiration_date`) and
+point the loader at it: `python upload_participants.py --csv ../../src/data/participants.csv`.
+The last three columns are the ID card details above; blank cells are left
+unset, which is exactly what makes the app ask that attendee for them. The
+loader writes whole rows, so **re-export the table into the CSV before
+re-seeding** or a stale file will wipe details attendees have filled in.
 
 Posting to the **global board** also sends a web push to every subscriber —
 `MessagesFn` calls OneSignal server-side (`infra/lambda/push.py`), so the REST

@@ -23,6 +23,16 @@ def parse_int(value):
         return None
 
 
+# Spanish ID card details, kept for the organisers only — the app never shows
+# them back, it only asks for the ones a row is missing.
+DOCUMENT_COLUMNS = ('support_number', 'emision_date', 'expiration_date')
+
+
+def normalize_headers(row):
+    """The roster is hand-edited, so header cells arrive with stray spaces."""
+    return {(key or '').strip().replace(' ', '').lower(): value for key, value in row.items()}
+
+
 def parse_permissions(value):
     """The permissions column is a comma-separated list, e.g. "1, 2"."""
     codes = []
@@ -38,7 +48,8 @@ def clean_and_prepare_data(file_path):
 
     records = []
     with open(file_path, newline='', encoding='utf-8-sig') as f:
-        for row in csv.DictReader(f):
+        for raw_row in csv.DictReader(f):
+            row = normalize_headers(raw_row)
             participant_id = (row.get('id') or '').strip()
             if not participant_id:
                 continue
@@ -87,6 +98,16 @@ def clean_and_prepare_data(file_path):
             permissions = parse_permissions(row.get('permissions'))
             if permissions:
                 item['permissions'] = permissions
+
+            # Only write the ID card details the CSV actually has: a blank cell
+            # must leave the attribute absent, which is what makes the app ask
+            # the attendee for it. Note that this is a put_item — re-seeding
+            # with a stale CSV overwrites details attendees filled in, so
+            # re-export the table into the CSV before re-running.
+            for column in DOCUMENT_COLUMNS:
+                value = (row.get(column) or '').strip()
+                if value:
+                    item[column] = value
 
             records.append(item)
 

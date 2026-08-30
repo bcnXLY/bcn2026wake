@@ -22,6 +22,22 @@
     "smsFailed": "We could not send your code right now. Please try again shortly.",
     "genericError": "Something went wrong. Please try again."
   },
+  "documents": {
+    "title": "One last step",
+    "intro": "We're missing a few details from your ID card. Fill them in to continue.",
+    "fields": {
+      "supportNumber": "Support number",
+      "supportNumberHint": "The NÚM. SOPORTE / IDESP on the front of your TIE or DNI, e.g. E25594850.",
+      "emisionDate": "Issue date",
+      "expirationDate": "Expiry date"
+    },
+    "submit": "Save and continue",
+    "required": "Please fill this in.",
+    "invalidSupportNumber": "Check this number — 5 to 12 letters or digits.",
+    "saveFailed": "Could not save. Please try again.",
+    "privacyNote": "Only the organisers see this — it is never shown in the app.",
+    "signOut": "Not you? Sign out"
+  },
   "nav": {
     "profile": "Profile",
     "schedule": "Schedule",

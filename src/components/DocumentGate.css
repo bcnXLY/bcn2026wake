@@ -1,0 +1,67 @@
+/* The ID card gate — the login screen's soft-UI language, one screen deep. */
+
+.docgate {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 24px 40px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  background: var(--bg);
+}
+
+.docgate-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 36px;
+}
+
+.docgate-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.docgate-head h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.docgate-name {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.docgate-intro {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.docgate-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  box-shadow: var(--nm-out);
+}
+
+/* The hint sits under its input, so it needs the gap the label owns above. */
+.docgate-hint {
+  margin: 8px 2px 0;
+}
+
+.docgate-privacy {
+  margin: 16px 2px 0;
+  text-align: center;
+}
+
+.docgate-signout {
+  align-self: center;
+  margin-top: 20px;
+}

@@ -22,6 +22,22 @@
     "smsFailed": "暂时无法发送验证码，请稍后重试。",
     "genericError": "有问题出现，请重试。"
   },
+  "documents": {
+    "title": "还差一步",
+    "intro": "我们还缺少你证件上的几项信息，填写后即可进入。",
+    "fields": {
+      "supportNumber": "证件支持号码",
+      "supportNumberHint": "证件正面的 NÚM. SOPORTE / IDESP，例如 E25594850。",
+      "emisionDate": "签发日期",
+      "expirationDate": "有效期至"
+    },
+    "submit": "保存并继续",
+    "required": "请填写此项。",
+    "invalidSupportNumber": "请检查这个号码：5 至 12 位字母或数字。",
+    "saveFailed": "保存失败，请重试。",
+    "privacyNote": "这些信息只有主办方能看到，不会显示在应用里。",
+    "signOut": "不是你？退出登录"
+  },
   "nav": {
     "profile": "个人",
     "schedule": "日程",

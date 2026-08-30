@@ -1,10 +1,13 @@
-import { config } from '../config';
-import type { UserProfile } from '../types';
+import { config, isDemoMode } from '../config';
+import { DEMO_PROFILE } from '../demo';
+import type { DocumentField, UserProfile } from '../types';
 
 export class AuthError extends Error {
   constructor(
     public code: string,
     message?: string,
+    /** Set on a rejected ID card value, so the form can point at it. */
+    public field?: DocumentField,
   ) {
     super(message ?? code);
     this.name = 'AuthError';
@@ -51,4 +54,40 @@ export async function updatePhone(id: string, phone: string): Promise<void> {
     body: JSON.stringify({ id, phone })
   });
   if (!res.ok) throw new AuthError('genericError');
+}
+
+/**
+ * Which ID card details the roster still lacks for this attendee. Only the list
+ * of field names comes back — never the values already on file.
+ */
+export async function fetchMissingDocumentFields(id: string): Promise<DocumentField[]> {
+  if (isDemoMode()) return DEMO_PROFILE.missingDocumentFields ?? [];
+
+  const res = await fetch(`${config.apiBaseUrl}/profile?id=${encodeURIComponent(id)}`);
+  if (!res.ok) throw new AuthError(res.status === 404 ? 'unknownId' : 'genericError');
+  const data = await res.json();
+  return (data.missingDocumentFields ?? []) as DocumentField[];
+}
+
+/** Saves the details the attendee typed. Returns whatever is still missing after. */
+export async function submitDocumentFields(
+  id: string,
+  values: Partial<Record<DocumentField, string>>,
+): Promise<DocumentField[]> {
+  if (isDemoMode()) return [];
+
+  const res = await fetch(`${config.apiBaseUrl}/profile`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, ...values }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}) as { code?: string; field?: DocumentField });
+    if (data.code === 'invalidDocument') throw new AuthError('invalidDocument', undefined, data.field);
+    throw new AuthError('genericError');
+  }
+
+  const data = await res.json();
+  return (data.missingDocumentFields ?? []) as DocumentField[];
 }

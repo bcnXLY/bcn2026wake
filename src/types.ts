@@ -1,3 +1,16 @@
+/**
+ * The Spanish ID card details the organisers collect. The app never displays
+ * them back — a profile only carries which of them the roster is still missing,
+ * and the app gates itself on that until the attendee fills the form in.
+ */
+export type DocumentField = 'supportNumber' | 'emisionDate' | 'expirationDate';
+
+export const DOCUMENT_FIELDS: DocumentField[] = [
+  'supportNumber',
+  'emisionDate',
+  'expirationDate',
+];
+
 export interface UserProfile {
   id: string; // attendee ID (roster / participant ID)
   name: string;
@@ -12,6 +25,8 @@ export interface UserProfile {
   isManager: boolean;
   role?: number;
   permissions?: number[];
+  /** Empty (or absent) means the attendee owes nothing and the app opens. */
+  missingDocumentFields?: DocumentField[];
 }
 
 /**

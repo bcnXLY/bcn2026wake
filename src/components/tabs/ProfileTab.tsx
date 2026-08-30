@@ -107,7 +107,7 @@ export default function ProfileTab() {
               </div>
             )}
           </span>
-        </div>  
+        </div>
 
         {saveError && (
           <p className="error-text" role="alert">
@@ -121,16 +121,27 @@ export default function ProfileTab() {
             <span className="value">{profile.churchName}</span>
           </div>
         )}
-
-        {profile.magicNumber && (
-          <div className="row">
-            <span className="label">{t('profile.magicNumber')}</span>
-            <span className="value">{profile.magicNumber}</span>
-          </div>
-        )}
       </div>
 
-      {(profile.teamCode || profile.roomNumber) && (
+      {(profile.roomNumber || profile.roommatesName) && (
+        <div className="card">
+          {profile.roomNumber && (
+            <div className="row">
+              <span className="label">{t('profile.room')}</span>
+              <span className="value">{profile.roomNumber}</span>
+          </div>
+          )}
+          {profile.roommatesName.length > 0 && (
+            <div className="row">
+              <span className="label">{t('profile.roommates')}</span>
+              <span className="value">{profile.roommatesName.join(', ')}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      
+      {(profile.teamCode || profile.leadersName.length > 0) && (
         <div className="card">
           {profile.teamCode && (
             <div className="row">
@@ -138,17 +149,6 @@ export default function ProfileTab() {
               <span className="value">{profile.teamCode}</span>
             </div>
           )}
-          {profile.roomNumber && (
-            <div className="row">
-              <span className="label">{t('profile.room')}</span>
-              <span className="value">{profile.roomNumber}</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      {(profile.leadersName.length > 0 || profile.roommatesName.length > 0) && (
-        <div className="card">
           {profile.leadersName.length > 0 && (
             <div className="row">
               <span className="label">{t('profile.leaders')}</span>
@@ -165,14 +165,26 @@ export default function ProfileTab() {
               </span>
             </div>
           )}
-          {profile.roommatesName.length > 0 && (
-            <div className="row">
-              <span className="label">{t('profile.roommates')}</span>
-              <span className="value">{profile.roommatesName.join(', ')}</span>
-            </div>
-          )}
         </div>
       )}
+      <div className="card">
+        {profile.magicNumber && (
+          <div className="row">
+            <span className="label">{t('profile.magicNumber')}</span>
+            <span className="value">
+              {revealed ? (
+                profile.magicNumber
+              ) : (
+                <span className="value-locked">
+                  <span className="value-blurred" aria-hidden="true">
+                    {profile.magicNumber}
+                  </span>
+                </span>
+              )}
+            </span>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

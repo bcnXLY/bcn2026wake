@@ -1,4 +1,4 @@
-import type { UserProfile } from '../types';
+import { DOCUMENT_FIELDS, type DocumentField, type UserProfile } from '../types';
 import demoData from './data.json';
 
 /**
@@ -24,6 +24,19 @@ function demoPermissions(): number[] {
   return [...new Set([...granted, ...extra])].sort((a, b) => a - b);
 }
 
+/**
+ * Rehearsal hatch for the ID card gate: `?docs=all` asks for all three,
+ * `?docs=supportNumber,expirationDate` for just those. Demo mode is complete
+ * by default, so the gate stays out of the way of everything else.
+ */
+function demoMissingDocuments(): DocumentField[] {
+  const raw = new URLSearchParams(window.location.search).get('docs');
+  if (!raw) return [];
+  if (raw === 'all') return [...DOCUMENT_FIELDS];
+  const asked = new Set(raw.split(',').map((value) => value.trim()));
+  return DOCUMENT_FIELDS.filter((field) => asked.has(field));
+}
+
 /** Mock attendee used when the app runs in demo mode (no backend session). */
 export const DEMO_PROFILE: UserProfile = {
   id: person.id,
@@ -42,4 +55,5 @@ export const DEMO_PROFILE: UserProfile = {
   isLeader: person.isLeader,
   isManager: person.isManager,
   permissions: demoPermissions(),
+  missingDocumentFields: demoMissingDocuments(),
 };

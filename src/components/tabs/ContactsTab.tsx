@@ -119,15 +119,6 @@ export default function ContactsTab() {
 
   const groups = useMemo<Group[]>(() => {
     const list: Group[] = [];
-    const emergencyContacts = directory?.emergencyContacts ?? [];
-    if (emergencyContacts.length > 0) {
-      list.push({
-        id: 'emergency',
-        title: t('contacts.title'),
-        count: emergencyContacts.length,
-        render: () => emergencyContacts.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
-      });
-    }
     const roommates = directory?.roommates ?? [];
     if (roommates.length > 0) {
       list.push({
@@ -135,6 +126,15 @@ export default function ContactsTab() {
         title: t('contacts.directory.roommates'),
         count: roommates.length,
         render: () => roommates.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
+      });
+    }
+    const emergencyContacts = directory?.emergencyContacts ?? [];
+    if (emergencyContacts.length > 0) {
+      list.push({
+        id: 'emergency',
+        title: t('contacts.title'),
+        count: emergencyContacts.length,
+        render: () => emergencyContacts.map((p) => <PersonRow key={p.id} person={p} subtitle={roomOf(p)} />),
       });
     }
 

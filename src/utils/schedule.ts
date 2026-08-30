@@ -67,7 +67,6 @@ export function nextActivity(items: ScheduleItem[], now: number): ScheduleItem |
   return soonest;
 }
 
-/** Opens "The Finite ONE", and only while it is the running activity. */
 export const FIELD_GAMES_EVENT_ID = 'd2-finite-one';
 
 export function isFieldGamesNow(now: number): boolean {
@@ -76,10 +75,6 @@ export function isFieldGamesNow(now: number): boolean {
   return now >= new Date(item.start).getTime() && now < new Date(item.end).getTime();
 }
 
-/**
- * Team leaders are a surprise until this activity is over — until then their
- * names are held back on the profile and contacts tabs.
- */
 export const LEADER_REVEAL_EVENT_ID = 'd1-another-view';
 
 export function leadersRevealed(now: number): boolean {

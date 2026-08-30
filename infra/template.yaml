@@ -226,6 +226,7 @@ Resources:
         - Statement:
             - Effect: Allow
               Action:
+                - dynamodb:GetItem
                 - dynamodb:UpdateItem
               Resource:
                 - !GetAtt ParticipantsTable.Arn
@@ -236,6 +237,12 @@ Resources:
             RestApiId: !Ref Api
             Path: /profile
             Method: put
+        GetProfileStatus:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /profile
+            Method: get
 
   MessagesFn:
     Type: AWS::Serverless::Function
