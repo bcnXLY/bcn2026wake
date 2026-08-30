@@ -275,6 +275,8 @@ def to_profile(p):
     phone = p.get('phone')
     phone_str = str(phone) if phone is not None else ""
 
+    magic_number = str(p.get('magic_number') or '').strip()
+
     team_code = extract_numbers(p.get('team_id')) if has_real_team(p) else ""
     room_number = extract_numbers(p.get('room_id')) if has_real_room(p) else ""
 
@@ -293,6 +295,7 @@ def to_profile(p):
         'name': p.get('name', ''),
         'phone': phone_str,
         'churchName': p.get('church') or p.get('church_name') or '',
+        'magicNumber': magic_number,
         'teamCode': team_code,
         'roomNumber': room_number,
         'leadersName': leadersName,

@@ -3,6 +3,7 @@ export interface UserProfile {
   name: string;
   phone: string;
   churchName: string;
+  magicNumber?: string;
   teamCode: string;
   roomNumber: string;
   leadersName: string[];

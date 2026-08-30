@@ -39,6 +39,7 @@
     "name": "Nombre",
     "phone": "Teléfono",
     "church": "Iglesia",
+    "magicNumber": "Número misterioso",
     "team": "Equipo",
     "teamCode": "Código de equipo",
     "room": "Habitación",

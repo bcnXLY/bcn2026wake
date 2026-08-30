@@ -39,6 +39,7 @@
     "name": "姓名",
     "phone": "电话",
     "church": "教会",
+    "magicNumber": "神密号码",
     "team": "小组",
     "teamCode": "小组ID",
     "room": "房间",

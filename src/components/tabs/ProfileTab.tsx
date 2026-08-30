@@ -121,6 +121,13 @@ export default function ProfileTab() {
             <span className="value">{profile.churchName}</span>
           </div>
         )}
+
+        {profile.magicNumber && (
+          <div className="row">
+            <span className="label">{t('profile.magicNumber')}</span>
+            <span className="value">{profile.magicNumber}</span>
+          </div>
+        )}
       </div>
 
       {(profile.teamCode || profile.roomNumber) && (
