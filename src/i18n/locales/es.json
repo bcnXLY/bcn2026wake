@@ -27,7 +27,6 @@
     "intro": "Nos faltan algunos datos de tu documento de identidad. Complétalos para continuar.",
     "fields": {
       "supportNumber": "Número de soporte",
-      "supportNumberHint": "El NÚM. SOPORTE / IDESP del anverso de tu TIE o DNI, p. ej. E25594850.",
       "emisionDate": "Fecha de emisión",
       "expirationDate": "Fecha de caducidad"
     },
@@ -35,7 +34,6 @@
     "required": "Rellena este campo.",
     "invalidSupportNumber": "Revisa este número: de 5 a 12 letras o dígitos.",
     "saveFailed": "No se pudo guardar. Inténtalo de nuevo.",
-    "privacyNote": "Solo lo ve la organización; nunca se muestra en la app.",
     "signOut": "¿No eres tú? Cerrar sesión"
   },
   "nav": {

@@ -89,7 +89,6 @@ export default function DocumentGate({ profile }: { profile: UserProfile }) {
 
       <div className="docgate-head">
         <h1>{t('documents.title')}</h1>
-        <p className="docgate-name">{profile.name}</p>
         <p className="docgate-intro">{t('documents.intro')}</p>
       </div>
 
@@ -112,11 +111,6 @@ export default function DocumentGate({ profile }: { profile: UserProfile }) {
               aria-describedby={field === 'supportNumber' ? 'doc-supportNumber-hint' : undefined}
               onChange={(e) => setValue(field, e.target.value)}
             />
-            {field === 'supportNumber' && (
-              <p className="hint-text docgate-hint" id="doc-supportNumber-hint">
-                {t('documents.fields.supportNumberHint')}
-              </p>
-            )}
             {fieldErrors[field] && (
               <p className="error-text" role="alert">
                 {t(`documents.${fieldErrors[field]}`)}
@@ -134,8 +128,6 @@ export default function DocumentGate({ profile }: { profile: UserProfile }) {
         <button className="btn" style={{ marginTop: 18 }} disabled={saving}>
           {saving ? t('common.saving') : t('documents.submit')}
         </button>
-
-        <p className="hint-text docgate-privacy">{t('documents.privacyNote')}</p>
       </form>
 
       <button type="button" className="link-btn docgate-signout" onClick={signOut}>
