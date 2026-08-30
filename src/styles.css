@@ -1253,14 +1253,15 @@ button.countdown-live:active {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: url('/logo-mark.png') no-repeat center / contain;
+  background: url('/logo-mark.svg') no-repeat center / contain;
   opacity: 0.18;
   pointer-events: none;
 }
 
-/* invert alone would send the gold star blue; the hue-rotate puts it back. */
+/* A light-ink copy rather than an invert filter, which would drag the gold
+   star to brown. */
 :root[data-theme='dark'] .login-wrap::before {
-  filter: invert(1) hue-rotate(180deg);
+  background-image: url('/logo-mark-dark.svg');
   opacity: 0.2;
 }
 
