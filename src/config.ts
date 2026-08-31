@@ -17,6 +17,8 @@ export const config = {
   enableTestLoginButton: import.meta.env.VITE_ENABLE_TEST_LOGIN_BUTTON === 'true',
 } as const;
 
+export const LOGOUT = false;
+
 let runtimeDemo = config.demoMode;
 
 export function isDemoMode(): boolean {
