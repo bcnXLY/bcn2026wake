@@ -3,7 +3,6 @@ import { fetchGameState } from '../services/game';
 import type { GameState, UserProfile } from '../types';
 
 const POLL_INTERVAL_MS = 20_000;
-/** Spreads 300 phones out so they don't all land on the same second. */
 const JITTER_RATIO = 0.25;
 const MAX_BACKOFF_MS = 160_000;
 const CACHE_KEY = 'bcn2026-game-state';

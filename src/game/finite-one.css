@@ -838,6 +838,40 @@
   gap: 12px;
 }
 
+/* Points are entered as a magnitude; this toggle says award (+) or deduct (−),
+   so a minus can never be typed by accident. Colours match the history deltas. */
+.fo-sign-field {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 8px;
+}
+
+.fo-sign-toggle {
+  border: none;
+  border-radius: var(--fo-radius-sm);
+  background: var(--fo-surface);
+  color: #3fe08a;
+  font-family: var(--fo-mono);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: var(--fo-out-sm);
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.fo-sign-toggle.is-minus {
+  color: #ff7a7a;
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-sign-toggle:active {
+  box-shadow: var(--fo-in-sm);
+}
+
+.fo-sign-field input {
+  padding-inline: 12px;
+}
+
 .fo-scanner {
   position: relative;
   display: flex;

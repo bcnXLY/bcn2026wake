@@ -20,13 +20,13 @@ export default function ScanTab({
 
   const teams = state.teams ?? [];
   const maxPoints = state.limits?.points ?? 1000;
-      The backend sends the same figure. */
   const maxWorldPoints = state.limits?.worldPoints ?? 100;
   const teamRange = teams.length ? `${teams[0]}–${teams[teams.length - 1]}` : '';
 
   const [scanning, setScanning] = useState(false);
   const [team, setTeam] = useState('');
   const [points, setPoints] = useState('');
+  const [sign, setSign] = useState<1 | -1>(1);
   const [worldPoints, setWorldPoints] = useState('');
   const [source, setSource] = useState<QueuedAward['source']>('manual');
   const [flash, setFlash] = useState<Flash>(null);
@@ -86,9 +86,13 @@ export default function ScanTab({
   const worldValid =
     Number.isInteger(worldValue) && worldValue >= 0 && worldValue <= maxWorldPoints;
 
-  const pointsValue = points.trim() === '' ? 0 : Number(points);
-
-  const pointsValid = Number.isInteger(pointsValue) && Math.abs(pointsValue) <= maxPoints;
+  /* The field holds a magnitude; the toggle beside it decides award or deduct. */
+  const pointsMagnitude = points.trim() === '' ? 0 : Number(points);
+  const pointsValid =
+    Number.isInteger(pointsMagnitude) &&
+    pointsMagnitude >= 0 &&
+    pointsMagnitude <= maxPoints;
+  const pointsValue = sign * pointsMagnitude;
   const canSubmit =
     teamValid && pointsValid && worldValid && (pointsValue !== 0 || worldValue !== 0);
 
@@ -105,6 +109,7 @@ export default function ScanTab({
 
     setTeam('');
     setPoints('');
+    setSign(1);
     setWorldPoints('');
     setSource('manual');
     void drain(profile);
@@ -159,14 +164,27 @@ export default function ScanTab({
       <div className="fo-field-row">
         <div className="fo-field">
           <label htmlFor="fo-points">{t('game.gm.points')}</label>
-          <input
-            id="fo-points"
-            type="number"
-            inputMode="numeric"
-            value={points}
-            placeholder="0"
-            onChange={(e) => setPoints(e.target.value)}
-          />
+          <div className="fo-sign-field">
+            <button
+              type="button"
+              className={sign < 0 ? 'fo-sign-toggle is-minus' : 'fo-sign-toggle'}
+              aria-pressed={sign < 0}
+              aria-label={t(sign < 0 ? 'game.gm.signSubtract' : 'game.gm.signAdd')}
+              onClick={() => setSign((current) => (current === 1 ? -1 : 1))}
+            >
+              {sign < 0 ? '\u2212' : '+'}
+            </button>
+            <input
+              id="fo-points"
+              type="number"
+              inputMode="numeric"
+              min={0}
+              max={maxPoints}
+              value={points}
+              placeholder="0"
+              onChange={(e) => setPoints(e.target.value)}
+            />
+          </div>
         </div>
         <div className="fo-field">
           <label htmlFor="fo-world">{t('game.gm.worldPoints')}</label>
