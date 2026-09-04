@@ -13,6 +13,8 @@ export default function GalleryTab() {
   const [selected, setSelected] = useState<GalleryAlbum | null>(null);
   const [images, setImages] = useState<GalleryImage[] | null>(null);
   const [imagesError, setImagesError] = useState(false);
+  const [nextPageToken, setNextPageToken] = useState<string | undefined>();
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -30,15 +32,32 @@ export default function GalleryTab() {
     setSelected(album);
     setImages(null);
     setImagesError(false);
+    setNextPageToken(undefined);
     fetchGalleryImages(album.id)
-      .then(setImages)
+      .then((res) => {
+        setImages(res.images);
+        setNextPageToken(res.nextPageToken);
+      })
       .catch(() => setImagesError(true));
+  };
+
+  const loadMoreImages = () => {
+    if (!selected || !nextPageToken || loadingMore) return;
+    setLoadingMore(true);
+    fetchGalleryImages(selected.id, nextPageToken)
+      .then((res) => {
+        setImages((prev) => (prev ? [...prev, ...res.images] : res.images));
+        setNextPageToken(res.nextPageToken);
+        setLoadingMore(false);
+      })
+      .catch(() => setLoadingMore(false));
   };
 
   const closeAlbum = () => {
     setSelected(null);
     setImages(null);
     setLightboxIndex(null);
+    setNextPageToken(undefined);
   };
 
   // ---- Album (photo grid) view ----
@@ -72,23 +91,36 @@ export default function GalleryTab() {
         )}
 
         {!imagesError && images && images.length > 0 && (
-          <div className="gallery-grid">
-            {images.map((img, i) => (
-              <button
-                key={img.id}
-                type="button"
-                onClick={() => setLightboxIndex(i)}
-                aria-label={img.name}
-              >
-                <img
-                  src={img.thumbnailUrl}
-                  alt={img.name}
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              </button>
-            ))}
-          </div>
+          <>
+            <div className="gallery-grid">
+              {images.map((img, i) => (
+                <button
+                  key={img.id}
+                  type="button"
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={img.name}
+                >
+                  <img
+                    src={img.thumbnailUrl}
+                    alt={img.name}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                  />
+                </button>
+              ))}
+            </div>
+            {nextPageToken && (
+              <div className="center-state" style={{ marginTop: '2rem' }}>
+                <button
+                  className="btn ghost"
+                  onClick={loadMoreImages}
+                  disabled={loadingMore}
+                >
+                  {loadingMore ? t('common.loading') : t('gallery.loadMore', 'Load More')}
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         {lightboxIndex !== null && images && (

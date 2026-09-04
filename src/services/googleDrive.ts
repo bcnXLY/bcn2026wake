@@ -29,18 +29,21 @@ function toImage(f: DriveFile): GalleryImage {
   };
 }
 
-async function listFiles(query: string, extraFields = ''): Promise<DriveFile[]> {
+async function listFiles(query: string, extraFields = '', pageToken?: string): Promise<{ files: DriveFile[], nextPageToken?: string }> {
   const params = new URLSearchParams({
     q: query,
     key: config.googleDrive.apiKey,
-    fields: `files(id,name,mimeType${extraFields})`,
+    fields: `nextPageToken, files(id,name,mimeType${extraFields})`,
     orderBy: 'name',
     pageSize: '200',
   });
+  if (pageToken) {
+    params.set('pageToken', pageToken);
+  }
   const res = await fetch(`${DRIVE_LIST}?${params.toString()}`);
   if (!res.ok) throw new Error(`Drive API error: ${res.status}`);
-  const data = (await res.json()) as { files?: DriveFile[] };
-  return data.files ?? [];
+  const data = (await res.json()) as { files?: DriveFile[], nextPageToken?: string };
+  return { files: data.files ?? [], nextPageToken: data.nextPageToken };
 }
 
 /**
@@ -54,7 +57,7 @@ export async function fetchAlbums(): Promise<GalleryAlbum[]> {
     return demoAlbums();
   }
 
-  const folders = await listFiles(
+  const { files: folders } = await listFiles(
     `'${config.googleDrive.folderId}' in parents and ` +
       `mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
   );
@@ -63,7 +66,7 @@ export async function fetchAlbums(): Promise<GalleryAlbum[]> {
     folders.map(async (folder) => {
       let coverUrl: string | undefined;
       try {
-        const [cover] = await listFiles(
+        const { files: [cover] } = await listFiles(
           `'${folder.id}' in parents and mimeType contains 'image/' and trashed = false`,
           ',thumbnailLink',
         );
@@ -76,21 +79,27 @@ export async function fetchAlbums(): Promise<GalleryAlbum[]> {
   );
 }
 
+export interface PaginatedGallery {
+  images: GalleryImage[];
+  nextPageToken?: string;
+}
+
 /**
  * Fetches image files from a Drive folder (an album). Defaults to the parent
  * folder when no album id is supplied (flat-gallery fallback). Image bytes are
  * served by Google's CDN and do not count against the Drive API quota.
  */
-export async function fetchGalleryImages(folderId?: string): Promise<GalleryImage[]> {
+export async function fetchGalleryImages(folderId?: string, pageToken?: string): Promise<PaginatedGallery> {
   const target = folderId ?? config.googleDrive.folderId;
 
   if (isDemoMode()) {
-    return demoGalleryImages(target);
+    return { images: demoGalleryImages(target) };
   }
 
-  const files = await listFiles(
+  const { files, nextPageToken } = await listFiles(
     `'${target}' in parents and mimeType contains 'image/' and trashed = false`,
     ',thumbnailLink',
+    pageToken,
   );
-  return files.map(toImage);
+  return { images: files.map(toImage), nextPageToken };
 }

@@ -87,21 +87,28 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
   const download = async () => {
     if (downloading) return;
     setDownloading(true);
+    // Safari iOS blocks async window.open. Open a tab synchronously first.
+    const newTab = window.open('', '_blank');
     try {
       const res = await fetch(img.fullUrl, { mode: 'cors', credentials: 'omit' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const blob = await res.blob();
       saveBlob(blob, fileNameFor(img, blob.type));
+      if (newTab) newTab.close();
     } catch {
-      window.open(img.downloadUrl, '_blank', 'noopener,noreferrer');
+      if (newTab) {
+        newTab.location.href = img.downloadUrl;
+      } else {
+        window.open(img.downloadUrl, '_blank', 'noopener,noreferrer');
+      }
     } finally {
       setDownloading(false);
     }
   };
 
   return (
-    <div className="lightbox" role="dialog" aria-modal="true" onClick={onClose}>
-      <div className="lb-topbar" onClick={(e) => e.stopPropagation()}>
+    <div className="lightbox" role="dialog" aria-modal="true" onClick={onClose} style={{ cursor: 'pointer' }}>
+      <div className="lb-topbar" onClick={(e) => e.stopPropagation()} style={{ cursor: 'default' }}>
         <button
           className="lb-btn"
           onClick={download}
