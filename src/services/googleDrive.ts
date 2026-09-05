@@ -80,11 +80,6 @@ export interface PaginatedGallery {
   nextPageToken?: string;
 }
 
-/**
- * Fetches image files from a Drive folder (an album). Defaults to the parent
- * folder when no album id is supplied (flat-gallery fallback). Image bytes are
- * served by Google's CDN and do not count against the Drive API quota.
- */
 export async function fetchGalleryImages(folderId?: string, pageToken?: string): Promise<PaginatedGallery> {
   const target = folderId ?? config.googleDrive.folderId;
 

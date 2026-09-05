@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import type { GalleryImage } from '../types';
 
@@ -106,7 +107,7 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
     }
   };
 
-  return (
+  return createPortal(
     <div className="lightbox" role="dialog" aria-modal="true" onClick={onClose} style={{ cursor: 'pointer' }}>
       <div className="lb-topbar" onClick={(e) => e.stopPropagation()} style={{ cursor: 'default' }}>
         <button
@@ -182,6 +183,7 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
           {t('gallery.openDrive')}
         </a>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
