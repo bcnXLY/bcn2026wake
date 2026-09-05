@@ -1,5 +1,4 @@
-import { config, isDemoMode } from '../config';
-import { demoAlbums, demoGalleryImages } from '../demo';
+import { config } from '../config';
 import type { GalleryImage, GalleryAlbum } from '../types';
 
 interface DriveFile {
@@ -53,9 +52,6 @@ async function listFiles(query: string, extraFields = '', pageToken?: string): P
  * (one lightweight call each) for a nicer preview.
  */
 export async function fetchAlbums(): Promise<GalleryAlbum[]> {
-  if (isDemoMode()) {
-    return demoAlbums();
-  }
 
   const { files: folders } = await listFiles(
     `'${config.googleDrive.folderId}' in parents and ` +
@@ -91,10 +87,6 @@ export interface PaginatedGallery {
  */
 export async function fetchGalleryImages(folderId?: string, pageToken?: string): Promise<PaginatedGallery> {
   const target = folderId ?? config.googleDrive.folderId;
-
-  if (isDemoMode()) {
-    return { images: demoGalleryImages(target) };
-  }
 
   const { files, nextPageToken } = await listFiles(
     `'${target}' in parents and mimeType contains 'image/' and trashed = false`,

@@ -7,8 +7,6 @@ import {
   type ReactNode,
 } from 'react';
 import { identifyPushUser, logoutPush } from '../services/push';
-import { enableDemoMode } from '../config';
-import { DEMO_PROFILE } from '../demo';
 import { fetchMissingDocumentFields } from '../services/auth';
 import { applyAccentFor } from '../utils/nameColor';
 import type { DocumentField, UserProfile } from '../types';
@@ -17,7 +15,6 @@ interface AuthContextValue {
   profile: UserProfile | null;
   loading: boolean;
   enterWithProfile: (profile: UserProfile) => void;
-  enterDemo: () => void;
   signOut: () => void;
 }
 
@@ -85,10 +82,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
         setProfile(profile);
         identifyPushUser(profile.id);
-      },
-      enterDemo: () => {
-        enableDemoMode();
-        setProfile(DEMO_PROFILE);
       },
       signOut: () => {
         localStorage.removeItem(PROFILE_KEY);

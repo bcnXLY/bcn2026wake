@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../components/LanguageSelector';
 import OtpInput from '../components/OtpInput';
 import { useAuth } from '../context/AuthContext';
-import { config, isDemoMode } from '../config';
 import { AuthError, login } from '../services/auth';
 
 const RESEND_COOLDOWN_SECONDS = 30;
@@ -13,7 +12,7 @@ type Step = 'id' | 'code';
 
 export default function Login() {
   const { t } = useTranslation();
-  const { enterWithProfile, enterDemo } = useAuth();
+  const { enterWithProfile } = useAuth();
 
   const [step, setStep] = useState<Step>('id');
   const [busy, setBusy] = useState(false);
@@ -33,7 +32,6 @@ export default function Login() {
 
   const requestCode = async ({ resend = false } = {}) => {
     if (busy || !id.trim()) return;
-    if (isDemoMode()) return enterDemo();
     setBusy(true);
     setError(null);
     setNotice(null);
@@ -182,12 +180,6 @@ export default function Login() {
                 {t('login.changeId')}
               </button>
             </>
-          )}
-
-          {config.enableTestLoginButton && step === 'id' && (
-            <button type="button" className="btn ghost" onClick={enterDemo}>
-              Enter demo
-            </button>
           )}
         </form>
       </div>

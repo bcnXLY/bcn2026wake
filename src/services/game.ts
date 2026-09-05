@@ -1,5 +1,4 @@
-import { config, isDemoMode } from '../config';
-import { demoFetchGameState, demoHistory, demoSubmitAward } from '../demo';
+import { config } from '../config';
 import type {
   AwardResult,
   GameState,
@@ -9,8 +8,6 @@ import type {
 } from '../types';
 
 export async function fetchGameState(profile: UserProfile): Promise<GameState> {
-  if (isDemoMode()) return demoFetchGameState(profile);
-
   const res = await fetch(`${config.apiBaseUrl}/game?id=${encodeURIComponent(profile.id)}`);
   if (!res.ok) throw new Error(`Game API error: ${res.status}`);
   return res.json();
@@ -24,8 +21,6 @@ export async function submitAward(
   profile: UserProfile,
   award: QueuedAward,
 ): Promise<AwardResult> {
-  if (isDemoMode()) return demoSubmitAward(award);
-
   let res: Response;
   try {
     res = await fetch(`${config.apiBaseUrl}/game/award`, {
@@ -59,8 +54,6 @@ export async function submitAward(
 }
 
 export async function fetchAwardHistory(profile: UserProfile): Promise<ServerAward[]> {
-  if (isDemoMode()) return demoHistory();
-
   const res = await fetch(
     `${config.apiBaseUrl}/game/awards?id=${encodeURIComponent(profile.id)}`,
   );

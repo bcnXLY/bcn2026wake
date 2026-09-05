@@ -1,5 +1,4 @@
-import { config, isDemoMode } from '../config';
-import { DEMO_PROFILE } from '../demo';
+import { config } from '../config';
 import type { DocumentField, UserProfile } from '../types';
 
 export class AuthError extends Error {
@@ -61,8 +60,6 @@ export async function updatePhone(id: string, phone: string): Promise<void> {
  * of field names comes back — never the values already on file.
  */
 export async function fetchMissingDocumentFields(id: string): Promise<DocumentField[]> {
-  if (isDemoMode()) return DEMO_PROFILE.missingDocumentFields ?? [];
-
   const res = await fetch(`${config.apiBaseUrl}/profile?id=${encodeURIComponent(id)}`);
   if (!res.ok) throw new AuthError(res.status === 404 ? 'unknownId' : 'genericError');
   const data = await res.json();
@@ -74,8 +71,6 @@ export async function submitDocumentFields(
   id: string,
   values: Partial<Record<DocumentField, string>>,
 ): Promise<DocumentField[]> {
-  if (isDemoMode()) return [];
-
   const res = await fetch(`${config.apiBaseUrl}/profile`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

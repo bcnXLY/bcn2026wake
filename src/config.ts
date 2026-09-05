@@ -11,20 +11,6 @@ export const config = {
     folderId: import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_ID,
   },
   oneSignalAppId: import.meta.env.VITE_ONESIGNAL_APP_ID,
-  // Offline preview: bypasses the backend/Drive with mock data. Never true in prod.
-  demoMode: import.meta.env.VITE_DEMO_MODE === 'false',
-  // Local-only demo entry point: opt in explicitly, never on by default.
-  enableTestLoginButton: import.meta.env.VITE_ENABLE_TEST_LOGIN_BUTTON === 'true',
 } as const;
 
 export const LOGOUT = false;
-
-let runtimeDemo = config.demoMode;
-
-export function isDemoMode(): boolean {
-  return runtimeDemo;
-}
-
-export function enableDemoMode(): void {
-  runtimeDemo = true;
-}

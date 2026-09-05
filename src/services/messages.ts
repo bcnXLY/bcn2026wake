@@ -1,5 +1,4 @@
-import { config, isDemoMode } from '../config';
-import { demoBoard, demoDeleteMessage, demoPostMessage } from '../demo';
+import { config } from '../config';
 import type { MessageScope, TeamMessage, TeamMessageBoard, UserProfile } from '../types';
 
 /** The caller's team board, their room board, or the global one. Rights are resolved server-side. */
@@ -7,8 +6,6 @@ export async function fetchTeamMessages(
   profile: UserProfile,
   scope: MessageScope = 'team',
 ): Promise<TeamMessageBoard> {
-  if (isDemoMode()) return demoBoard(profile, scope);
-
   const res = await fetch(
     `${config.apiBaseUrl}/messages?id=${encodeURIComponent(profile.id)}&scope=${scope}`,
   );
@@ -21,8 +18,6 @@ export async function postTeamMessage(
   text: string,
   scope: MessageScope = 'team',
 ): Promise<TeamMessage> {
-  if (isDemoMode()) return demoPostMessage(profile, text, scope);
-
   const res = await fetch(`${config.apiBaseUrl}/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -39,8 +34,6 @@ export async function deleteTeamMessage(
   messageId: string,
   scope: MessageScope = 'team',
 ): Promise<void> {
-  if (isDemoMode()) return demoDeleteMessage(profile, messageId, scope);
-
   const query = new URLSearchParams({ id: profile.id, messageId, scope });
   const res = await fetch(`${config.apiBaseUrl}/messages?${query}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(`Messages API error: ${res.status}`);
